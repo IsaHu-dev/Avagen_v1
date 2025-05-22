@@ -14,9 +14,4 @@ class Migration(migrations.Migration):
             name='category',
             options={'verbose_name_plural': 'Categories'},
         ),
-        migrations.AddField(
-            model_name='product',
-            name='has_sizes',
-            field=models.BooleanField(blank=True, default=False, null=True),
-        ),
     ]
