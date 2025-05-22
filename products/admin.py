@@ -6,7 +6,7 @@ from .models import Product, Category, Review
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-
+        'sku',
         'name',
         'category',
         'price',
@@ -22,15 +22,19 @@ class CategoryAdmin(admin.ModelAdmin):
         'name',
     )
 class CategoryCreatorAdmin(admin.ModelAdmin):
-    list_display = ('friendly_name', 'name')
+    list_display = ('friendly_name', 'name', 'is_creator')
+    list_editable = ('is_creator',)
+    list_filter = ('is_creator',)
 
 class ReviewAdmin(admin.ModelAdmin):
     list_display = (
         'product',
         'name',
+        'rating',
         'created_at',
     )
 
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Review, ReviewAdmin)
