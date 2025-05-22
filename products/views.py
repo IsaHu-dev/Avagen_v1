@@ -75,3 +75,31 @@ def all_products(request):
     }
 
     return render(request, 'products/products.html', context)
+
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    reviews = product.reviews.all().order_by('-created_at')
+
+    if request.method == 'POST':
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.product = product
+            review.save()
+            messages.success(request, 'Thank you for your review!')
+            return redirect(reverse('product_detail', args=[product_id]))
+    else:
+        review_form = ReviewForm()
+
+    # Calculate average rating, defaulting to 0 if no ratings exist
+    avg_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+
+    context = {
+        'product': product,
+        'reviews': reviews,
+        'review_form': review_form,
+        'avg_rating': avg_rating,
+    }
+
+    return render(request, 'products/product_detail.html', context)
