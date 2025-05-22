@@ -13,7 +13,11 @@ class Category(models.Model):
     
     # Optional user-friendly display name for the category
     friendly_name = models.CharField(max_length=254, null=True, blank=True)
-
+    
+    # Category for superuser to add new categories dynamically
+    is_creator = models.BooleanField(default=False)
+    
+    # Category for superuser to add new categories dynamically
     parent = models.ForeignKey(
         'self',
         null=True,
@@ -34,18 +38,12 @@ class Category(models.Model):
 class Product(models.Model):
     # Link each product to a category (optional, set to null if the category is deleted)
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
-    
-    # Optional Stock Keeping Unit code
-    sku = models.CharField(max_length=254, null=True, blank=True)
-    
+
     # Name of the product (required)
     name = models.CharField(max_length=254)
     
     # Text description of the product (required)
     description = models.TextField()
-    
-    # Indicates whether the product has size variations
-    has_sizes = models.BooleanField(default=False, null=True, blank=True)
     
     # Product price with two decimal places (e.g., 9999.99 max if max_digits=6)
     price = models.DecimalField(max_digits=6, decimal_places=2)
