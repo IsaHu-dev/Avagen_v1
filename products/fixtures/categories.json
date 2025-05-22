@@ -1,0 +1,14 @@
+[
+    { "pk": 1, "model": "products.category", "fields": { "name": "professional", "friendly_name": "Professional" } },
+    { "pk": 2, "model": "products.category", "fields": { "name": "social", "friendly_name": "Social" } },
+    { "pk": 3, "model": "products.category", "fields": { "name": "formal", "friendly_name": "Formal Events" } },
+    { "pk": 4, "model": "products.category", "fields": { "name": "sports", "friendly_name": "Sports" } },
+    { "pk": 5, "model": "products.category", "fields": { "name": "personalized", "friendly_name": "Personalized Avatars" } },
+    { "pk": 6, "model": "products.category", "fields": { "name": "themed", "friendly_name": "Themed Avatars" } },
+    { "pk": 7, "model": "products.category", "fields": { "name": "seasonal", "friendly_name": "Seasonal Avatars" } },
+    { "pk": 8, "model": "products.category", "fields": { "name": "special_events", "friendly_name": "Special Events" } },
+    { "pk": 9, "model": "products.category", "fields": { "name": "new_arrivals", "friendly_name": "New Arrivals" } },
+    { "pk": 10, "model": "products.category", "fields": { "name": "box_sets", "friendly_name": "Box Sets" } },
+    { "pk": 11, "model": "products.category", "fields": { "name": "sales", "friendly_name": "Sales" } },
+    { "pk": 12, "model": "products.category", "fields": { "name": "contact", "friendly_name": "Contact Us" } }
+] 
