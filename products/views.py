@@ -1,77 +1,67 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from django.db.models import Q, Avg, Count
-from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from .models import Product, Category
+from django.db.models import Q, Avg
+from django.db.models.functions import Lower
+from django.db import models
 
-# Create your views here.
+from .models import Product, Category
+from .forms import ProductForm, ReviewForm
+
 
 def all_products(request):
-    """
-    View to display all products with filtering, sorting, and search functionality
-    """
+    """ A view to show all products, including sorting and search queries """
+
     products = Product.objects.all()
-    categories = Category.objects.all()
     query = None
-    current_category = None
-    current_sorting = None
+    categories = None
+    sort = None
+    direction = None
 
-    # Handle search query
-    if 'q' in request.GET:
-        query = request.GET['q'].strip()
-        if query:
-            search_queries = Q(name__icontains=query) | Q(description__icontains=query)
-            products = products.filter(search_queries)
-        else:
-            messages.warning(request, "Please enter a search term.")
-            return redirect(reverse('products'))
+    if request.GET:
+        if 'sort' in request.GET:
+            sortkey = request.GET['sort']
+            sort = sortkey
 
-    # Handle category filtering
-    if 'category' in request.GET:
-        category_name = request.GET['category']
-        try:
-            current_category = Category.objects.get(friendly_name=category_name)
-            products = products.filter(category=current_category)
-        except Category.DoesNotExist:
-            messages.error(request, f"Category '{category_name}' not found.")
-            return redirect(reverse('products'))
+            if sortkey == 'name':
+                sortkey = 'lower_name'
+                products = products.annotate(lower_name=Lower('name'))
 
-    # Handle sorting
-    if 'sort' in request.GET and 'direction' in request.GET:
-        sort = request.GET['sort']
-        direction = request.GET['direction']
-        current_sorting = f"{sort}_{direction}"
+            elif sortkey == 'category':
+                sortkey = 'category__name'
 
-        if sort == 'price':
-            products = products.order_by(f"{'-' if direction == 'desc' else ''}price")
-        elif sort == 'rating':
-            products = products.annotate(avg_rating=Avg('rating')).order_by(
-                f"{'-' if direction == 'desc' else ''}avg_rating"
-            )
-        elif sort == 'name':
-            products = products.order_by(f"{'-' if direction == 'desc' else ''}name")
-        else:
-            messages.error(request, "Invalid sorting option.")
-            return redirect(reverse('products'))
+            elif sortkey == 'rating':
+                sortkey = 'avg_rating'
+                products = products.annotate(avg_rating=Avg('reviews__rating'))
 
-    # Add rating and review count to products
-    products = products.annotate(
-        avg_rating=Avg('rating'),
-        review_count=Count('rating')
-    )
+            if 'direction' in request.GET:
+                direction = request.GET['direction']
+                if direction == 'desc':
+                    sortkey = f'-{sortkey}'
 
-    # Pagination
-    paginator = Paginator(products, 12)  # Show 12 products per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+            products = products.order_by(sortkey)
+
+        if 'category' in request.GET:
+            categories = request.GET['category'].split(',')
+            products = products.filter(category__name__in=categories)
+            categories = Category.objects.filter(name__in=categories)
+
+        if 'q' in request.GET:
+            query = request.GET['q']
+            if not query:
+                messages.error(request, "You didn't enter any search criteria!")
+                return redirect(reverse('products'))
+
+            queries = Q(name__icontains=query) | Q(description__icontains=query)
+            products = products.filter(queries)
+
+    current_sorting = f'{sort}_{direction}'
 
     context = {
-        'products': page_obj,
-        'categories': categories,
-        'current_category': current_category,
-        'current_sorting': current_sorting,
+        'products': products,
         'search_term': query,
+        'current_categories': categories,
+        'current_sorting': current_sorting,
     }
 
     return render(request, 'products/products.html', context)
@@ -92,8 +82,7 @@ def product_detail(request, product_id):
     else:
         review_form = ReviewForm()
 
-    # Calculate average rating, defaulting to 0 if no ratings exist
-    avg_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+    avg_rating = reviews.aggregate(models.Avg('rating'))['rating__avg']
 
     context = {
         'product': product,
@@ -129,6 +118,7 @@ def add_product(request):
     }
 
     return render(request, template, context)
+
 
 @login_required
 def edit_product(request, product_id):
