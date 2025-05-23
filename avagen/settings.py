@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'home',
     'products',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -95,6 +96,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 'products.context_processors.categories_context',
+                'cart.inventory.cart_contents',
             ],
             'builtins': [
                 'crispy_forms.templatetags.crispy_forms_tags',
@@ -188,5 +190,9 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Delivery settings
+FREE_DELIVERY_THRESHOLD = 50  # Free delivery for orders over $50
+STANDARD_DELIVERY_PERCENTAGE = 10  # 10% delivery charge for orders under threshold
 
 
