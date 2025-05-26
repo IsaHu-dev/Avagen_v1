@@ -59,7 +59,7 @@
           </div>
         </form>
 
-        <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link mx-2" href="">
+        <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link mx-2" href="{% url 'view_cart' %}">
           <i class="fas fa-shopping-cart fa-lg"></i>
         </a>
 
@@ -115,7 +115,7 @@
 
   {% block postloadjs %}
   <script type="text/javascript">
-    $('.popup').popup('show');
+    £('.popup').popup('show');
   </script>
   {% endblock %}
 
