@@ -16,25 +16,17 @@
             <div class="col text-center mt-3">
                 <h2 class="logo-font">Products</h2>
      
-
         <div class="row">
             <!-- Sidebar - Takes up 3 columns on medium+ screens, full width on mobile -->
             <div class="col-12 col-md-3 mb-3">
-                <!-- Card container with subtle shadow for visual depth -->
                 <div class="card shadow-sm">
-                    <!-- Card header with white background and bold text -->
                     <div class="card-header bg-white font-weight-bold">
                         Categories
                     </div>
-                    <!-- List group for category links with no borders between items -->
                     <div class="list-group list-group-flush">
-                        <!-- Loop through all available categories -->
                         {% for category in categories %}
-                            <!-- Each category is a clickable link that filters products -->
-                            <!-- 'active' class is added if category is currently selected -->
                             <a href="{% url 'products' %}?category={{ category.name }}"
                                class="list-group-item list-group-item-action {% if category in current_categories %}active{% endif %}">
-                                <!-- Display friendly name if available, otherwise use category name -->
                                 {{ category.get_friendly_name|default:category.name }}
                             </a>
                         {% endfor %}
@@ -54,7 +46,7 @@
                                 <option value="rating_asc" {% if current_sorting == 'rating_asc' %}selected{% endif %}>Rating (low to high)</option>
                                 <option value="rating_desc" {% if current_sorting == 'rating_desc' %}selected{% endif %}>Rating (high to low)</option>
                                 <option value="name_asc" {% if current_sorting == 'name_asc' %}selected{% endif %}>Name (A-Z)</option>
-                                <option value="name_desc" {% if current_sorting == 'name_desc' %}selected{% endif %}>Name (Z-A)</option>
+                                <option value="name_desc" {% if current_sorting == 'name_desc' %}selected{% endif %}>Name (A-Z)</option>
                                 <option value="category_asc" {% if current_sorting == 'category_asc' %}selected{% endif %}>Category (A-Z)</option>
                                 <option value="category_desc" {% if current_sorting == 'category_desc' %}selected{% endif %}>Category (A-Z)</option>
                             </select>
@@ -94,6 +86,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
+
                                             {% if product.category %}
                                             <p class="small mt-1 mb-0">
                                                 <a class="text-muted" href="{% url 'products' %}?category={{ product.category.name }}">
@@ -101,11 +94,13 @@
                                                 </a>
                                             </p>
                                             {% endif %}
+
                                             {% if product.rating %}
                                                 <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
                                             {% else %}
                                                 <small class="text-muted">No Rating</small>
                                             {% endif %}
+
                                             {% if request.user.is_superuser %}
                                                 <small class="ml-3">
                                                     <a href="{% url 'edit_product' product.id %}">Edit</a> | 

@@ -13,8 +13,10 @@ class ProductAdmin(admin.ModelAdmin):
         'category',    # Associated category
         'price',       # Product price
         'image',       # Product image
+        'license_number', # Product license number
     )
-
+    search_fields = ('name', 'category__name', 'license_number')
+    
 
 # Admin configuration for the Category model
 class CategoryAdmin(admin.ModelAdmin):
