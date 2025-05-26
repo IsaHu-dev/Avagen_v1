@@ -192,7 +192,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Delivery settings
-FREE_DELIVERY_THRESHOLD = 50  # Free delivery for orders over $50
+FREE_DELIVERY_THRESHOLD = 50  # Free delivery for orders over £50
 STANDARD_DELIVERY_PERCENTAGE = 10  # 10% delivery charge for orders under threshold
 
 
