@@ -1,81 +1,120 @@
-import uuid
-
-from django.db import models
+from django.contrib import admin
+from django.utils.html import format_html
+from django.urls import reverse
 from django.db.models import Sum
-from django.conf import settings
-
-from django_countries.fields import CountryField
-
-from products.models import Product
-from profiles.models import UserProfile
+from .models import Order, OrderLineItem
 
 
-class Order(models.Model):
-    order_number = models.CharField(max_length=32, null=False, editable=False)
-    user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
-                                     null=True, blank=True, related_name='orders')
-    full_name = models.CharField(max_length=50, null=False, blank=False)
-    email = models.EmailField(max_length=254, null=False, blank=False)
-    phone_number = models.CharField(max_length=20, null=False, blank=False)
-    country = CountryField(blank_label='Country *', null=False, blank=False)
-    postcode = models.CharField(max_length=20, null=True, blank=True)
-    town_or_city = models.CharField(max_length=40, null=False, blank=False)
-    street_address1 = models.CharField(max_length=80, null=False, blank=False)
-    street_address2 = models.CharField(max_length=80, null=True, blank=True)
-    county = models.CharField(max_length=80, null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
-    delivery_cost = models.DecimalField(max_digits=6, decimal_places=2, null=False, default=0)
-    order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
-    grand_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
-    original_bag = models.TextField(null=False, blank=False, default='')
-    stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='')
+class OrderLineItemAdminInline(admin.TabularInline):
+    """Inline admin for OrderLineItem model"""
+    model = OrderLineItem
+    readonly_fields = ('lineitem_total',)
+    extra = 0
+    can_delete = False
 
-    def _generate_order_number(self):
-        """
-        Generate a random, unique order number using UUID
-        """
-        return uuid.uuid4().hex.upper()
-    
-    def update_total(self):
-        """
-        Update grand total each time a line item is added,
-        accounting for delivery costs.
-        """
-        self.order_total = self.lineitems.aggregate(Sum('lineitem_total'))['lineitem_total__sum'] or 0
-        if self.order_total < settings.FREE_DELIVERY_THRESHOLD:
-            self.delivery_cost = self.order_total * settings.STANDARD_DELIVERY_PERCENTAGE / 100
-        else:
-            self.delivery_cost = 0
-        self.grand_total = self.order_total + self.delivery_cost
-        self.save()
-    
-    def save(self, *args, **kwargs):
-        """
-        Override the original save method to set the order number
-        if it hasn't been set already.
-        """
-        if not self.order_number:
-            self.order_number = self._generate_order_number()
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.order_number
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
-class OrderLineItem(models.Model):
-    order = models.ForeignKey(Order, null=False, blank=False, on_delete=models.CASCADE, related_name='lineitems')
-    product = models.ForeignKey(Product, null=False, blank=False, on_delete=models.CASCADE)
-    product_size = models.CharField(max_length=2, null=True, blank=True) # XS, S, M, L, XL
-    quantity = models.IntegerField(null=False, blank=False, default=0)
-    lineitem_total = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    """Admin interface for Order model"""
+    inlines = (OrderLineItemAdminInline,)
 
-    def save(self, *args, **kwargs):
-        """
-        Override the original save method to set the lineitem total
-        and update the order total.
-        """
-        self.lineitem_total = self.product.price * self.quantity
-        super().save(*args, **kwargs)
+    readonly_fields = (
+        'order_number', 'date', 'delivery_cost',
+        'order_total', 'grand_total', 'original_cart',
+        'stripe_pid'
+    )
 
-    def __str__(self):
-        return f'SKU {self.product.sku} on order {self.order.order_number}'
+    fields = (
+        'order_number', 'user', 'date', 'full_name',
+        'email', 'phone_number', 'country', 'postcode',
+        'town_or_city', 'street_address1', 'street_address2',
+        'county', 'delivery_cost', 'order_total', 'grand_total',
+        'original_cart', 'stripe_pid'
+    )
+
+    list_display = (
+        'order_number', 'date', 'full_name',
+        'order_total', 'delivery_cost', 'grand_total',
+        'status_badge', 'total_items'
+    )
+
+    list_filter = ('date', 'country',)
+    search_fields = ('order_number', 'full_name', 'email',)
+    date_hierarchy = 'date'
+    ordering = ('-date',)
+
+    def status_badge(self, obj):
+        """Display order status with a colored badge"""
+        if obj.stripe_pid:
+            return format_html(
+                '<span style="color: green; font-weight: bold;">✓ Paid</span>'
+            )
+        return format_html(
+            '<span style="color: red; font-weight: bold;">✗ Unpaid</span>'
+        )
+    status_badge.short_description = 'Payment Status'
+
+    def get_queryset(self, request):
+        """Add total items count to queryset"""
+        qs = super().get_queryset(request)
+        return qs.annotate(
+            total_items=Sum('lineitems__quantity')
+        )
+
+    def total_items(self, obj):
+        """Display total items in order"""
+        return obj.total_items
+    total_items.short_description = 'Total Items'
+
+    def has_delete_permission(self, request, obj=None):
+        """Prevent deletion of orders"""
+        return False
+
+    def has_add_permission(self, request):
+        """Prevent manual order creation"""
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        """Allow viewing but not editing orders"""
+        return request.user.has_perm('checkout.view_order')
+
+    class Media:
+        css = {
+            'all': ('admin/css/order_admin.css',)
+        }
+
+
+@admin.register(OrderLineItem)
+class OrderLineItemAdmin(admin.ModelAdmin):
+    """Admin interface for OrderLineItem model"""
+    list_display = (
+        'order_link', 'product_link', 'quantity',
+        'lineitem_total'
+    )
+    list_filter = ('order__date',)
+    search_fields = (
+        'order__order_number', 'product__name',
+        'product__license_number'
+    )
+    readonly_fields = ('lineitem_total',)
+
+    def order_link(self, obj):
+        """Create a link to the order"""
+        url = reverse('admin:checkout_order_change', args=[obj.order.id])
+        return format_html('<a href="{}">{}</a>', url, obj.order.order_number)
+    order_link.short_description = 'Order'
+
+    def product_link(self, obj):
+        """Create a link to the product"""
+        url = reverse('admin:products_product_change', args=[obj.product.id])
+        return format_html('<a href="{}">{}</a>', url, obj.product.name)
+    product_link.short_description = 'Product'
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
