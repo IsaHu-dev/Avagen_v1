@@ -1,3 +1,9 @@
+"""
+This code here was adapted from the boutique-ado project.
+Handles signals for order updates when line items are created,
+updated, or deleted.
+"""
+
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
