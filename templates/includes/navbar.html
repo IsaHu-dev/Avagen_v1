@@ -1,17 +1,16 @@
 <div class="collapse navbar-collapse" id="main-nav">
     <ul class="navbar-nav w-auto mx-auto">
         <li class="nav-item dropdown">
-            <a class="logo-font nav-link text-black mr-5" href="#" id="all-avatars-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                All Avatars
+            <a class="logo-font nav-link text-black mr-5" href="#" id="avatar-themes-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Avatar Themes
             </a>
-            <div class="dropdown-menu border-0" aria-labelledby="all-avatars-link">
-                <a href="{% url 'products' %}?sort=price&direction=asc" class="dropdown-item">By Price</a>
-                <a href="{% url 'products' %}?sort=rating&direction=desc" class="dropdown-item">By Rating</a>
-                <a href="{% url 'products' %}?sort=category&direction=asc" class="dropdown-item">By Category</a>
-                <a href="{% url 'products' %}" class="dropdown-item">All Avatars</a>
+            <div class="dropdown-menu border-0" aria-labelledby="avatar-themes-link">
+                <a href="{% url 'products' %}?category=personalized" class="dropdown-item">Personalized</a>
+                <a href="{% url 'products' %}?category=themed" class="dropdown-item">Artistic</a>
+                <a href="{% url 'products' %}?category=seasonal" class="dropdown-item">Seasonal</a>
+                <a href="{% url 'products' %}?category=special_events" class="dropdown-item">Special Events</a>
             </div>
         </li>
-
         <li class="nav-item dropdown">
             <a class="logo-font nav-link text-black mr-5" href="#" id="sector-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sector
@@ -25,19 +24,6 @@
 
             </div>
         </li>
-
-        <li class="nav-item dropdown">
-            <a class="logo-font nav-link text-black mr-5" href="#" id="avatar-themes-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Avatar Themes
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="avatar-themes-link">
-                <a href="{% url 'products' %}?category=personalized" class="dropdown-item">Personalized</a>
-                <a href="{% url 'products' %}?category=themed" class="dropdown-item">Artistic</a>
-                <a href="{% url 'products' %}?category=seasonal" class="dropdown-item">Seasonal</a>
-                <a href="{% url 'products' %}?category=special_events" class="dropdown-item">Special Events</a>
-            </div>
-        </li>
-
         <li class="nav-item dropdown">
             <a class="logo-font nav-link text-black" href="#" id="specials-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Special Offers
@@ -49,6 +35,17 @@
                 <a href="{% url 'products' %}?category=contact" class="dropdown-item">Contact Us</a>
             </div>
         </li>
+        <li class="nav-item dropdown">
+            <a class="logo-font nav-link text-black mr-5" href="#" id="all-avatars-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                All Avatars
+            </a>
+            <div class="dropdown-menu border-0" aria-labelledby="all-avatars-link">
+                <a href="{% url 'products' %}?sort=price&direction=asc" class="dropdown-item">By Price</a>
+                <a href="{% url 'products' %}?sort=rating&direction=desc" class="dropdown-item">By Rating</a>
+                <a href="{% url 'products' %}?sort=category&direction=asc" class="dropdown-item">By Category</a>
+                <a href="{% url 'products' %}" class="dropdown-item">All Avatars</a>
+            </div>
+        </li>
         <li class="nav-item">
             <a class="logo-font nav-link text-black mr-5 font-weight-bold" id="faq-link" href="">FAQ</a>
         </li>
@@ -57,7 +54,7 @@
 
 <!-- Custom dropdown for creator-specific or "New Releases" categories -->
 <span class="nav-item dropdown">
-    <a class="logo-font font-weight-bold nav-link text-black" href="#" id="category-creator-link"
+    <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="category-creator-link"
        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         New Releases
     </a>
