@@ -1,17 +1,16 @@
 """
 Custom checkout form implementation for Avagen.
-Handles customer information collection with enhanced validation and styling.
+Handles customer information collection with enhanced validation.
 """
 
 from django import forms
 from django.core.validators import RegexValidator
-from .models import Order
+from .models import Order, CartItem
 
 
 class OrderForm(forms.ModelForm):
     """
-    Enhanced order form with custom validation.
-    Features:
+    The form has the following features:
     - Custom field validation
     - Smart placeholder system
     - Field-specific error messages
@@ -52,7 +51,6 @@ class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """
-    
         Features:
         - Dynamic placeholder system
         """
@@ -70,7 +68,6 @@ class OrderForm(forms.ModelForm):
             'county': '🏘️ County, State or Locality',
         }
 
-        # Field-specific styling classes
         style_classes = {
             'full_name': 'form-control name-input',
             'email': 'form-control email-input',
@@ -83,18 +80,16 @@ class OrderForm(forms.ModelForm):
             'country': 'form-control country-select'
         }
 
-        # Set autofocus and initial styling
         self.fields['full_name'].widget.attrs.update({
             'autofocus': True,
             'class': f'{style_classes["full_name"]} focus-ring',
             'data-validate': 'required'
         })
-
-        # Apply enhanced styling and validation to all fields
+        
         for field in self.fields:
             # Skip country field special handling
             if field != 'country':
-                # Enhanced placeholder with required indicator
+                # Placeholder with required indicator
                 if self.fields[field].required:
                     placeholder = f'{placeholders[field]} *'
                 else:
@@ -114,18 +109,60 @@ class OrderForm(forms.ModelForm):
                     'data-validate': 'required'
                 })
             
-            # Remove default labels as we're using enhanced placeholders
+            # Remove default labels as we're using placeholders
             self.fields[field].label = False
 
-    def clean_phone_number(self):
-        """Custom phone number validation"""
-        phone = self.cleaned_data.get('phone_number')
-        if phone and not phone.startswith('+'):
-            phone = '+' + phone
-        return phone
+   def clean_phone_number(self):
+    """Custom phone number validation"""
+
+    phone = self.cleaned_data.get('phone_number')
+    
+    # If a phone number was entered and it doesn't start with '+'
+    if phone and not phone.startswith('+'):
+        # Add '+' at the beginning to match international format
+        phone = '+' + phone
+
+    # Return the cleaned and possibly modified phone number
+    return phone
+
+
+def clean(self):
+    """Form-wide validation"""
+
+    # Run default validation from the parent class and collect the cleaned data
+    cleaned_data = super().clean()
+    # (Optional) Add custom validation logic that involves multiple fields here
+    # For example: if country == "US" and postcode is not 5 digits, raise error
+
+    # Return the cleaned and validated data for further processing or saving
+    return cleaned_data
+
+
+class QuantityForm(forms.ModelForm):
+    class Meta:
+        model = CartItem
+        fields = ['quantity']
+        widgets = {
+            'quantity': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '1',
+                'max': '99',
+                'style': 'width: 80px;'
+            })
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['quantity'].label = ''
 
     def clean(self):
-        """Form-wide validation"""
         cleaned_data = super().clean()
-        # Add any cross-field validation here if needed
-        return cleaned_data 
+        quantity = cleaned_data.get('quantity')
+        
+        if quantity is not None:
+            if quantity < 1:
+                raise forms.ValidationError('Quantity must be at least 1')
+            if quantity > 99:
+                raise forms.ValidationError('Quantity cannot exceed 99')
+        
+        return cleaned_data
