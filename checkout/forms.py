@@ -1,18 +1,17 @@
 """Custom checkout form implementation for Avagen.
 """
-
 from django import forms
 from django.core.validators import RegexValidator
 from .models import Order
+from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
 
 
 class OrderForm(forms.ModelForm):
-    """
-    The form has the following features:
-    - Custom field validation
-    - Smart placeholder system
-    - Field-specific error messages
-    """
+    country = forms.ChoiceField(  
+    choices=list(CountryField().choices),
+    widget=CountrySelectWidget(layout='{widget}')  # Disable stripe's flag icon
+    )
     # Custom field validators
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
@@ -94,12 +93,13 @@ class OrderForm(forms.ModelForm):
                     placeholder = placeholders[field]
                 
                 # Apply field-specific styling and attributes
-                self.fields[field].widget.attrs.update({
+                attrs = {
                     'placeholder': placeholder,
                     'class': f'{style_classes[field]} stripe-style-input',
                     'data-validate': 'required' if self.fields[field].required else '',
                     'aria-label': placeholders[field].replace(' *', '')
-                })
+                }
+                self.fields[field].widget.attrs.update(attrs)
             else:
                 # Special handling for country field
                 self.fields[field].widget.attrs.update({
@@ -110,58 +110,6 @@ class OrderForm(forms.ModelForm):
             # Remove default labels as we're using placeholders
             self.fields[field].label = False
 
-    def clean_phone_number(self):
-        """Custom phone number validation"""
-
-        phone = self.cleaned_data.get('phone_number')
-        
-        # If a phone number was entered and it doesn't start with '+'
-        if phone and not phone.startswith('+'):
-            # Add '+' at the beginning to match international format
-            phone = '+' + phone
-
-        # Return the cleaned and possibly modified phone number
-        return phone
-
-    def clean(self):
-        """Form-wide validation"""
-
-        # Run default validation from the parent class and collect the cleaned data
-        cleaned_data = super().clean()
-        # (Optional) Add custom validation logic that involves multiple fields here
-        # For example: if country == "US" and postcode is not 5 digits,
-        # raise error
-
-        # Return the cleaned and validated data for further processing
-        # or saving
-        return cleaned_data
-
-
-class QuantityForm(forms.Form):
-    """Form for handling quantity updates in the cart"""
-    quantity = forms.IntegerField(
-        min_value=1,
-        max_value=99,
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'min': '1',
-            'max': '99',
-            'style': 'width: 80px;'
-        })
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['quantity'].label = ''
-
-    def clean(self):
-        cleaned_data = super().clean()
-        quantity = cleaned_data.get('quantity')
-        
-        if quantity is not None:
-            if quantity < 1:
-                raise forms.ValidationError('Quantity must be at least 1')
-            if quantity > 99:
-                raise forms.ValidationError('Quantity cannot exceed 99')
-        
-        return cleaned_data
+        self.fields['country'].widget.attrs['class'] = 'stripe-style-input'
+        self.fields['country'].label = 'Country'
+        self.fields['country'].required = True
