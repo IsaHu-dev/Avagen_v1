@@ -18,11 +18,11 @@ class ProductForm(forms.ModelForm):
 
         self.fields['category'].choices = friendly_names
 
-        # add license_number field for superusers or staff
+        # add model_number field for superusers or staff
         if user and (user.is_superuser or user.is_staff):
-            self.fields['license_number'] = forms.CharField(required=False)
+            self.fields['model_number'] = forms.CharField(required=False)
         else:
-            self.fields.pop('license_number', None)
+            self.fields.pop('model_number', None)
 
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-black rounded-0'
