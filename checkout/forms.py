@@ -1,11 +1,9 @@
-"""
-Custom checkout form implementation for Avagen.
-Handles customer information collection with enhanced validation.
+"""Custom checkout form implementation for Avagen.
 """
 
 from django import forms
 from django.core.validators import RegexValidator
-from .models import Order, CartItem
+from .models import Order
 
 
 class OrderForm(forms.ModelForm):
@@ -112,44 +110,45 @@ class OrderForm(forms.ModelForm):
             # Remove default labels as we're using placeholders
             self.fields[field].label = False
 
-   def clean_phone_number(self):
-    """Custom phone number validation"""
+    def clean_phone_number(self):
+        """Custom phone number validation"""
 
-    phone = self.cleaned_data.get('phone_number')
-    
-    # If a phone number was entered and it doesn't start with '+'
-    if phone and not phone.startswith('+'):
-        # Add '+' at the beginning to match international format
-        phone = '+' + phone
+        phone = self.cleaned_data.get('phone_number')
+        
+        # If a phone number was entered and it doesn't start with '+'
+        if phone and not phone.startswith('+'):
+            # Add '+' at the beginning to match international format
+            phone = '+' + phone
 
-    # Return the cleaned and possibly modified phone number
-    return phone
+        # Return the cleaned and possibly modified phone number
+        return phone
+
+    def clean(self):
+        """Form-wide validation"""
+
+        # Run default validation from the parent class and collect the cleaned data
+        cleaned_data = super().clean()
+        # (Optional) Add custom validation logic that involves multiple fields here
+        # For example: if country == "US" and postcode is not 5 digits,
+        # raise error
+
+        # Return the cleaned and validated data for further processing
+        # or saving
+        return cleaned_data
 
 
-def clean(self):
-    """Form-wide validation"""
-
-    # Run default validation from the parent class and collect the cleaned data
-    cleaned_data = super().clean()
-    # (Optional) Add custom validation logic that involves multiple fields here
-    # For example: if country == "US" and postcode is not 5 digits, raise error
-
-    # Return the cleaned and validated data for further processing or saving
-    return cleaned_data
-
-
-class QuantityForm(forms.ModelForm):
-    class Meta:
-        model = CartItem
-        fields = ['quantity']
-        widgets = {
-            'quantity': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'min': '1',
-                'max': '99',
-                'style': 'width: 80px;'
-            })
-        }
+class QuantityForm(forms.Form):
+    """Form for handling quantity updates in the cart"""
+    quantity = forms.IntegerField(
+        min_value=1,
+        max_value=99,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'min': '1',
+            'max': '99',
+            'style': 'width: 80px;'
+        })
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
