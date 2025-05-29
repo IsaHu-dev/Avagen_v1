@@ -54,8 +54,8 @@ class Product(models.Model):
     # Optional field for uploading an image file
     image = models.ImageField(null=True, blank=True)
     
-    # Optional field for storing a license number
-    license_number = models.CharField(max_length=50, null=True, blank=True)
+    # Optional field for storing a model number
+    model_number = models.CharField(max_length=50, null=True, blank=True)
 
     # String representation of the product
     def __str__(self):
