@@ -11,21 +11,14 @@ def view_cart(request):
 
 
 def add_to_cart(request, item_id):
-    """Add an item (and size if applicable) to the cart stored in session."""
+    """Add an item to the cart stored in session."""
     product = get_object_or_404(Product, pk=item_id)
     quantity = int(request.POST.get('quantity'))
     redirect_url = request.POST.get('redirect_url')
-    size = request.POST.get('product_size', None)
     cart = request.session.get('cart', {})
 
-    if size:
-        item = cart.get(item_id, {'items_by_size': {}})
-        item['items_by_size'][size] = item['items_by_size'].get(size, 0) + quantity
-        cart[item_id] = item
-        messages.success(request, f"Added {quantity} of size {size.upper()} {product.name} to your cart.")
-    else:
-        cart[item_id] = cart.get(item_id, 0) + quantity
-        messages.success(request, f"Added {quantity} of {product.name} to your cart.")
+    cart[item_id] = cart.get(item_id, 0) + quantity
+    messages.success(request, f"Added {quantity} of {product.name} to your cart.")
 
     request.session['cart'] = cart
     return redirect(redirect_url)
@@ -60,7 +53,7 @@ def adjust_cart(request, item_id):
 
 
 def remove_from_cart(request, item_id):
-    """Remove a product (or a specific size) from the cart."""
+    """Remove a product (or a specific size) from the cart, then redirect to product detail page."""
     try:
         product = get_object_or_404(Product, pk=item_id)
         size = request.POST.get('product_size', None)
@@ -72,11 +65,11 @@ def remove_from_cart(request, item_id):
                 cart.pop(item_id)
             messages.success(request, f"Removed {product.name} in size {size.upper()} from your cart.")
         else:
-            cart.pop(item_id)
+            cart.pop(item_id, None)
             messages.success(request, f"{product.name} has been removed from your cart.")
 
         request.session['cart'] = cart
-        return HttpResponse(status=200)
+        return redirect(f'/products/{item_id}/')  # Redirect to product detail page
     except Exception as error:
         messages.error(request, f"Could not remove item: {error}")
-        return HttpResponse(status=500)
+        return redirect(f'/products/{item_id}/')  # Redirect even on failure for user experience

@@ -27,9 +27,16 @@ class Order(models.Model):
         max_length=254, null=False, blank=False, default='')
 
     def _generate_order_number(self):
-        """Generate a random, unique order number using UUID"""
+        """Generate a random, unique order number using timestamp and random characters"""
         import uuid
-        return uuid.uuid4().hex.upper()
+        from datetime import datetime
+        
+        # Get current timestamp and format it
+        timestamp = datetime.now().strftime('%y%m%d')
+        # Get first 4 characters of a UUID
+        unique_id = uuid.uuid4().hex[:4].upper()
+        
+        return f"{timestamp}-{unique_id}"
 
     def save(self, *args, **kwargs):
         """Override the original save method to set the order number"""
