@@ -60,9 +60,12 @@
     </a>
     <div class="dropdown-menu border-0" aria-labelledby="category-creator-link">
         {% for category in categories %}
+
+        {% if category.is_creator %}
             <a href="{% url 'products' %}?category={{ category.name }}" class="dropdown-item">
                 {{ category.get_friendly_name|default:category.name }}
             </a>
+            {% endif %}
         {% endfor %}
     </div>
 </span>

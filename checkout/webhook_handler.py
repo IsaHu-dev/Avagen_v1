@@ -1,4 +1,4 @@
-# Adapted from the Boutique-Ado project by Code Institute
+# This handler is adapted from the Boutique-Ado project by Code Institute
 
 # Import necessary Django modules and models
 from django.http import HttpResponse
