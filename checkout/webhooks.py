@@ -1,4 +1,4 @@
-# Adapted from the Boutique-Ado project by Code Institute
+# Webhooks is adapted from the Boutique-Ado project by Code Institute
 from django.http import HttpResponse
 from django.conf import settings
 from django.views.decorators.http import require_POST
