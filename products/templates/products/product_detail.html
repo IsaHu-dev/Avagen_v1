@@ -94,9 +94,12 @@
 
     <div class="row mt-5">
         <div class="col-12 col-lg-8 offset-lg-2">
+            {# Review Section - Code by Isa Hu #}
             <h4 class="mt-4">Customer Reviews</h4>
+            {# Loop through all reviews for this product #}
             {% for review in reviews %}
             <div class="border p-3 mb-2">
+                {# Display reviewer name and star rating #}
                 <strong>{{ review.name }}</strong>
                 <span class="text-warning">
                     {% for i in "12345" %}
@@ -107,6 +110,7 @@
                         {% endif %}
                     {% endfor %}
                 </span>
+                {# Display review comment and date #}
                 <p class="mb-1">{{ review.comment }}</p>
                 <small class="text-muted">{{ review.created_at|date:"F j, Y" }}</small>
             </div>
@@ -114,15 +118,18 @@
             <p>No reviews yet.</p>
             {% endfor %}
 
+            {# Review Form Section - Original code by Isa Hu #}
             <h4 class="mt-5">Leave a Review</h4>
 
             <form method="POST">
                 {% csrf_token %}
             
+                {# Review comment field #}
                 <div class="form-group">
                     {{ review_form.comment }}
                 </div>
             
+                {# Star rating selection #}
                 <div class="form-group">
                     <label><strong>Rate your experience in stars:</strong></label><br>
                     <div class="star-rating">
@@ -133,6 +140,7 @@
                     </div>
                 </div>
             
+                {# Reviewer name field #}
                 <div class="form-group">
                     <label for="id_name">Your Name</label>
                     {{ review_form.name }}
