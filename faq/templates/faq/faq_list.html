@@ -13,17 +13,17 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+                <h1 class="text-center mb-4 text-white">FAQs</h1>
                 <div class="faq-list">
                     {% for faq in faqs %}
-                        <div class="card mb-3">
+                        <div class="card mb-3 bg-dark">
                             <div class="card-body">
-                                <h5 class="card-title">{{ faq.question }}</h5>
-                                <p class="card-text">{{ faq.answer }}</p>
+                                <h5 class="card-title text-white">{{ faq.question }}</h5>
+                                <p class="card-text text-white">{{ faq.answer }}</p>
                             </div>
                         </div>
                     {% empty %}
-                        <p class="text-center">No FAQs available yet.</p>
+                        <p class="text-center text-white">No FAQs available yet.</p>
                     {% endfor %}
                 </div>
             </div>
