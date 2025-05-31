@@ -1,9 +1,32 @@
-<h1>Frequently Asked Questions</h1>
-<ul>
-  {% for faq in faqs %}
-    <li>
-      <strong>{{ faq.question }}</strong><br>
-      {{ faq.answer }}
-    </li>
-  {% endfor %}
-</ul>
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+                <div class="faq-list">
+                    {% for faq in faqs %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ faq.question }}</h5>
+                                <p class="card-text">{{ faq.answer }}</p>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-center">No FAQs available yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
