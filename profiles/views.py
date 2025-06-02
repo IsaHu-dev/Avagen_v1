@@ -40,3 +40,25 @@ def profile(request):
     }
 
     return render(request, template, context)
+
+def order_history(request, order_number):
+    """
+    Display a past order confirmation page from the user's order history.
+    """
+    # Safely fetch the Order by its number or return 404 if not found
+    order = get_object_or_404(Order, order_number=order_number)
+
+    # Notify the user that this is a historical confirmation (not a new order)
+    messages.info(request, (
+        f'This is a past confirmation for order number {order_number}. '
+        'A confirmation email was sent on the order date.'
+    ))
+
+    # Render the same template used for a successful checkout, but indicate this came from the profile
+    template = 'checkout/checkout_success.html'
+    context = {
+        'order': order,
+        'from_profile': True  # This flag can help modify display in the template (e.g., hide "continue shopping" links)
+    }
+
+    return render(request, template, context)
