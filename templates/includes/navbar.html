@@ -21,7 +21,6 @@
                 <a href="{% url 'products' %}?category=formal" class="dropdown-item">Formal Events</a>
                 <a href="{% url 'products' %}?category=sports" class="dropdown-item">Fitness</a>
                 <a href="{% url 'products' %}?category=sports" class="dropdown-item">Games</a>
-
             </div>
         </li>
         <li class="nav-item dropdown">
@@ -46,26 +45,23 @@
                 <a href="{% url 'products' %}" class="dropdown-item">All Avatars</a>
             </div>
         </li>
+        <li class="nav-item dropdown">
+            <a class="logo-font nav-link text-black mr-5 font-weight-bold" href="#" id="category-creator-link"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                New Releases
+            </a>
+            <div class="dropdown-menu border-0" aria-labelledby="category-creator-link">
+                {% for category in categories %}
+                    {% if category.is_creator %}
+                        <a href="{% url 'products' %}?category={{ category.name }}" class="dropdown-item">
+                            {{ category.get_friendly_name|default:category.name }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </li>
         <li class="nav-item">
             <a class="logo-font nav-link text-black mr-5 font-weight-bold" id="faq-link" href="{% url 'faq_list' %}">FAQ</a>
         </li>
     </ul>
 </div>
-
-<!-- Custom dropdown for creator-specific or "New Releases" categories -->
-<span class="nav-item dropdown">
-    <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="category-creator-link"
-       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        New Releases
-    </a>
-    <div class="dropdown-menu border-0" aria-labelledby="category-creator-link">
-        {% for category in categories %}
-
-        {% if category.is_creator %}
-            <a href="{% url 'products' %}?category={{ category.name }}" class="dropdown-item">
-                {{ category.get_friendly_name|default:category.name }}
-            </a>
-            {% endif %}
-        {% endfor %}
-    </div>
-</span>
