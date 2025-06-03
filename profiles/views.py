@@ -1,9 +1,13 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib import messages
+# Importing necessary Django utilities
+from django.shortcuts import render, get_object_or_404  # Used to render templates and safely fetch objects
+from django.contrib import messages  # Used to pass one-time messages to templates (like success notifications)
 from django.contrib.auth.decorators import login_required
-
+# Importing the UserProfile model and associated form
 from .models import UserProfile
 from .forms import UserProfileForm
+
+# Importing the Order model from the checkout app
+from checkout.models import Order
 
 @login_required
 def profile(request):
@@ -40,6 +44,7 @@ def profile(request):
     }
 
     return render(request, template, context)
+
 
 def order_history(request, order_number):
     """
