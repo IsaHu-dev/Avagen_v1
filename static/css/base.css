@@ -337,14 +337,18 @@ input[name='q']::placeholder {
     height: 90px;
     width: auto;
     object-fit: contain;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
 }
 
 .navbar-nav .nav-link {
     text-transform: uppercase;
     font-weight: 500;
+    font-size: 18px;
 }
 
 .dropdown-menu .dropdown-item {
     text-transform: none;
     font-weight: 400;
+    font-size: 16px;
 }
