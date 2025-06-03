@@ -332,3 +332,9 @@ input[name='q']::placeholder {
 .products-home-link {
     color: #d72660 !important; /* Fuschia */
 }
+
+.logo-img {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+}
