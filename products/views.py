@@ -8,64 +8,61 @@ from django.db import models
 from .models import Product, Category
 from .forms import ProductForm, ReviewForm
 
-
 def all_products(request):
-    """ A view to show all products, including sorting and search queries """
+    """ Display all products, with support for sorting, category filtering, and search. """
 
-    products = Product.objects.all()
-    query = None
-    categories = None
-    sort = None
-    direction = None
+    items = Product.objects.all()
+    active_query = None
+    selected_categories = None
+    sort_option = request.GET.get('sort', '')
+    sorting_identifier = 'None_None'
 
-    if request.GET:
-        if 'sort' in request.GET:
-            sortkey = request.GET['sort']
-            sort = sortkey
+    # Handle sorting logic
+    if sort_option:
+        sorting_identifier = sort_option
 
-            if sortkey == 'name':
-                sortkey = 'lower_name'
-                products = products.annotate(lower_name=Lower('name'))
+        match sort_option:
+            case 'price_asc':
+                items = items.order_by('price')
+            case 'price_desc':
+                items = items.order_by('-price')
+            case 'name_az':
+                items = items.annotate(lower_name=Lower('name')).order_by('lower_name')
+            case 'name_za':
+                items = items.annotate(lower_name=Lower('name')).order_by('-lower_name')
+            case 'cat_az':
+                items = items.order_by('category__name')
+            case 'cat_za':
+                items = items.order_by('-category__name')
+            case 'rating_high':
+                items = items.annotate(avg_score=Avg('reviews__rating')).order_by('-avg_score')
+            case 'rating_low':
+                items = items.annotate(avg_score=Avg('reviews__rating')).order_by('avg_score')
 
-            elif sortkey == 'category':
-                sortkey = 'category__name'
+    # Category filter
+    if 'category' in request.GET:
+        category_names = request.GET['category'].split(',')
+        items = items.filter(category__name__in=category_names)
+        selected_categories = Category.objects.filter(name__in=category_names)
 
-            elif sortkey == 'rating':
-                sortkey = 'avg_rating'
-                products = products.annotate(avg_rating=Avg('reviews__rating'))
+    # Search query
+    if 'q' in request.GET:
+        active_query = request.GET['q']
+        if not active_query.strip():
+            messages.error(request, "Please enter a valid search term.")
+            return redirect(reverse('products'))
 
-            if 'direction' in request.GET:
-                direction = request.GET['direction']
-                if direction == 'desc':
-                    sortkey = f'-{sortkey}'
-
-            products = products.order_by(sortkey)
-
-        if 'category' in request.GET:
-            categories = request.GET['category'].split(',')
-            products = products.filter(category__name__in=categories)
-            categories = Category.objects.filter(name__in=categories)
-
-        if 'q' in request.GET:
-            query = request.GET['q']
-            if not query:
-                messages.error(request, "You didn't enter any search criteria!")
-                return redirect(reverse('products'))
-
-            queries = Q(name__icontains=query) | Q(description__icontains=query)
-            products = products.filter(queries)
-
-    current_sorting = f'{sort}_{direction}'
+        lookup = Q(name__icontains=active_query) | Q(description__icontains=active_query)
+        items = items.filter(lookup)
 
     context = {
-        'products': products,
-        'search_term': query,
-        'current_categories': categories,
-        'current_sorting': current_sorting,
+        'products': items,
+        'search_term': active_query,
+        'current_categories': selected_categories,
+        'current_sorting': sorting_identifier,
     }
 
     return render(request, 'products/products.html', context)
-
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
