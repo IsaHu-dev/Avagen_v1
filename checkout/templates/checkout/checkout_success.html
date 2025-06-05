@@ -205,14 +205,28 @@
                         <span class="text-uppercase">Back to Profile</span>
                     </a>
                 {% else %}
-                    <a href="{% url 'products' %}?category=new_arrivals,deals,clearance" class="btn btn-warning rounded-0 my-2">
+                    <a href="{% url 'products' %}" class="btn btn-black rounded-0 my-2">
                         <span class="icon mr-2">
                             <i class="fas fa-gifts"></i>
                         </span>
-                        <span class="text-uppercase">Keep Browsing</span>
+                        <span class="text-uppercase">Now check out the latest deals!</span>
                     </a>
                 {% endif %}
 			</div>
 		</div>
+        <div class="row mt-4">
+            <div class="col-12 col-lg-7">
+                <h3 class="text-muted">Leave a Review</h3>
+                <p class="text-black">We'd love to hear your thoughts on your purchase!</p>
+                {% for item in order.lineitems.all %}
+                    <a href="{% url 'add_review' item.product.id %}" class="btn btn-outline-black rounded-0 my-2">
+                        <span class="icon mr-2">
+                            <i class="fas fa-star"></i>
+                        </span>
+                        <span class="text-uppercase">Review {{ item.product.name }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}
