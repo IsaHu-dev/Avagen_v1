@@ -6,7 +6,8 @@ from django.db.models.functions import Lower
 from django.db import models
 
 from .models import Product, Category
-from .forms import ProductForm, ReviewForm
+from .forms import ProductForm
+from reviews.forms import ReviewForm
 
 def all_products(request):
     """ Display all products, with support for sorting, category filtering, and search. """

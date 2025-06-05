@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Review
+from .models import Product, Category
 
 # Register your models here.
 
@@ -30,17 +30,6 @@ class CategoryCreatorAdmin(admin.ModelAdmin):
     # Add filter options in the admin sidebar for 'is_creator'
     list_filter = ('is_creator',)
 
-# Admin configuration for the Review model
-class ReviewAdmin(admin.ModelAdmin):
-    # Display fields for reviews in the admin list view
-    list_display = (
-        'product',
-        'name',
-        'rating',
-        'created_at',
-    )
-
 # Register the models with their respective admin configurations
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Review, ReviewAdmin)

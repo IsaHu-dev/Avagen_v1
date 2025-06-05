@@ -2,12 +2,15 @@
     Stripe integration with separated card inputs (no embedded ZIP field)
 */
 
+// Get Stripe public key and client secret from hidden HTML elements
 const stripePublicKey = JSON.parse(document.getElementById('id_stripe_public_key').textContent);
 const clientSecret = JSON.parse(document.getElementById('id_client_secret').textContent);
 
+// Initialize Stripe with the public key
 const stripe = Stripe(stripePublicKey);
 const elements = stripe.elements();
 
+// Define style for the card elements
 const style = {
     base: {
         color: '#000',
@@ -15,16 +18,16 @@ const style = {
         fontSmoothing: 'antialiased',
         fontSize: '16px',
         '::placeholder': {
-            color: '#aab7c4'
+            color: '#aab7c4' // Placeholder text color
         }
     },
     invalid: {
-        color: '#dc3545',
-        iconColor: '#dc3545'
+        color: '#dc3545', // Error text color
+        iconColor: '#dc3545' // Error icon color
     }
 };
 
-// Create separate elements
+// Create and mount the individual card input fields
 const cardNumber = elements.create('cardNumber', { style });
 cardNumber.mount('#card-number-element');
 
@@ -34,7 +37,7 @@ cardExpiry.mount('#card-expiry-element');
 const cardCvc = elements.create('cardCvc', { style });
 cardCvc.mount('#card-cvc-element');
 
-// Display Stripe validation errors
+// Function to show Stripe validation errors
 function showError(errorMessage) {
     const errorDiv = document.getElementById('card-errors');
     errorDiv.innerHTML = `
@@ -45,22 +48,25 @@ function showError(errorMessage) {
     `;
 }
 
-// Handle real-time validation
+// Set up real-time validation error handling for each card field
 [cardNumber, cardExpiry, cardCvc].forEach(el => {
     el.on('change', event => {
         if (event.error) {
-            showError(event.error.message);
+            showError(event.error.message); // Show validation message
         } else {
-            document.getElementById('card-errors').textContent = '';
+            document.getElementById('card-errors').textContent = ''; // Clear previous errors
         }
     });
 });
 
+// Get the payment form element
 const form = document.getElementById('payment-form');
 
+// Add form submission handler
 form.addEventListener('submit', function (ev) {
-    ev.preventDefault();
+    ev.preventDefault(); // Stop normal form submission
 
+    // Validate UK postcode input manually
     const postcodeInput = document.getElementById('manual-postcode');
     const postcode = $.trim(postcodeInput.value);
     const postcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
@@ -70,14 +76,17 @@ form.addEventListener('submit', function (ev) {
         return;
     }
 
+    // Disable input fields and button to prevent duplicate submissions
     cardNumber.update({ disabled: true });
     cardExpiry.update({ disabled: true });
     cardCvc.update({ disabled: true });
     document.getElementById('submit-button').disabled = true;
 
+    // Show loading overlay and hide form
     $('#payment-form').fadeToggle(100);
     $('#loading-overlay').fadeToggle(100);
 
+    // Gather data to be cached in the backend
     const saveInfo = $('#id-save-info').prop('checked');
     const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
@@ -89,7 +98,9 @@ form.addEventListener('submit', function (ev) {
 
     const url = '/checkout/cache_checkout_data/';
 
+    // Send cached data to the backend
     $.post(url, postData).done(function () {
+        // Confirm the payment with Stripe
         stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: cardNumber,
@@ -121,6 +132,7 @@ form.addEventListener('submit', function (ev) {
             }
         }).then(function (result) {
             if (result.error) {
+                // Show Stripe error and re-enable form elements
                 showError(result.error.message);
                 $('#payment-form').fadeToggle(100);
                 $('#loading-overlay').fadeToggle(100);
@@ -129,12 +141,14 @@ form.addEventListener('submit', function (ev) {
                 cardCvc.update({ disabled: false });
                 document.getElementById('submit-button').disabled = false;
             } else {
+                // Payment succeeded, submit form to complete process
                 if (result.paymentIntent.status === 'succeeded') {
                     form.submit();
                 }
             }
         });
     }).fail(function () {
+        // Reload page on failure to post cached data
         location.reload();
     });
 });
