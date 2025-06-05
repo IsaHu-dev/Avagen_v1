@@ -2,7 +2,7 @@
     { "pk": 1, "model": "products.category", "fields": { "name": "professional", "friendly_name": "Professional" } },
     { "pk": 2, "model": "products.category", "fields": { "name": "social", "friendly_name": "Social" } },
     { "pk": 3, "model": "products.category", "fields": { "name": "formal", "friendly_name": "Formal Events" } },
-    { "pk": 4, "model": "products.category", "fields": { "name": "sports", "friendly_name": "Sports" } },
+    { "pk": 4, "model": "products.category", "fields": { "name": "fitness", "friendly_name": "Fitness" } },
     { "pk": 5, "model": "products.category", "fields": { "name": "personalized", "friendly_name": "Personalized Avatars" } },
     { "pk": 6, "model": "products.category", "fields": { "name": "themed", "friendly_name": "Themed Avatars" } },
     { "pk": 7, "model": "products.category", "fields": { "name": "seasonal", "friendly_name": "Seasonal Avatars" } },
