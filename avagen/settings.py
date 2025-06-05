@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import dj_database_url
 from pathlib import Path
-from google.oauth2 import service_account
+import google.auth
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,8 +29,8 @@ cloudinary.config(
     api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
 )
 GS_BUCKET_NAME = 'avagen-downloads'
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, 'gcs-service-key.json')
+GS_CREDENTIALS, _ = google.auth.load_credentials_from_file(
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
 )
 
 # Quick-start development settings - unsuitable for production
