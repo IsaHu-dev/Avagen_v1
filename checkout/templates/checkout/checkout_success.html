@@ -208,9 +208,9 @@
                             <span class="text-uppercase">Review {{ item.product.name }}</span>
                         </a>
         
-                        {% if item.product.download %}
-                        <a href="{% url 'download_avatar' item.product.id %}" class="btn btn-success rounded-0 my-2 ml-2">
-                            <span class="icon mr-2">
+                        {% if item.product.digital_download %}
+                        <a href="{% url 'catalogue:download_avatar' item.product.id %}" class="btn btn-success rounded-0 my-2 ml-2">
+                            <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>
                             <span class="text-uppercase">Download Avatar</span>

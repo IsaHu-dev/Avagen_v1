@@ -8,7 +8,7 @@ body {
     height: calc(100vh - 164px);
     color: #555;
     font-family: 'Poppins', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 /* from Bulma */
@@ -21,9 +21,16 @@ body {
 }
 
 .logo-font {
-    text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.5px;
+}
+
+.display-4.logo-font {
+    font-size: 24px;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
 }
 
 .main-logo-link {
@@ -289,7 +296,6 @@ input[name='q']::placeholder {
 }
 /* Container for the star rating component */
 .star-rating {
-    direction: rtl; /* Right-to-left text direction to allow stars to fill from right to left */
     font-size: 1.8rem; /* Size of the stars */
     unicode-bidi: bidi-override; /* The star characters display in the correct visual order */
     display: inline-flex; /* Arrange the stars horizontally */
@@ -324,4 +330,40 @@ input[name='q']::placeholder {
 /* Fuschia color for Products Home link */
 .products-home-link {
     color: #d72660 !important; /* Fuschia */
+}
+
+.logo-img {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.dropdown-menu .dropdown-item {
+    text-transform: none;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.card-img-top {
+    max-width: 380px;
+    max-height: 380px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-detail-img {
+    max-width: 456px;  /* 380px * 1.2 */
+    max-height: 456px; /* 380px * 1.2 */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }

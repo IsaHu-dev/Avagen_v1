@@ -1,17 +1,16 @@
 /*
-    Core logic/payment flow from Stripe docs:
-    https://stripe.com/docs/payments/accept-a-payment
+    Stripe integration with separated card inputs (no embedded ZIP field)
 */
 
-// Get Stripe public key and client secret from hidden HTML elements and parse them from JSON
+// Get Stripe public key and client secret from hidden HTML elements
 const stripePublicKey = JSON.parse(document.getElementById('id_stripe_public_key').textContent);
 const clientSecret = JSON.parse(document.getElementById('id_client_secret').textContent);
 
-// Initialize Stripe and set up Elements
+// Initialize Stripe with the public key
 const stripe = Stripe(stripePublicKey);
 const elements = stripe.elements();
 
-// Define the style for the card input
+// Define style for the card elements
 const style = {
     base: {
         color: '#000',
@@ -19,56 +18,78 @@ const style = {
         fontSmoothing: 'antialiased',
         fontSize: '16px',
         '::placeholder': {
-            color: '#aab7c4'  // Light grey placeholder
+            color: '#aab7c4' // Placeholder text color
         }
     },
     invalid: {
-        color: '#dc3545',       // Red text for invalid input
-        iconColor: '#dc3545'    // Red icon color
+        color: '#dc3545', // Error text color
+        iconColor: '#dc3545' // Error icon color
     }
 };
 
-// Create the card element using defined style and mount it to the DOM
-const card = elements.create('card', { style: style });
-card.mount('#card-element');
+// Create and mount the individual card input fields
+const cardNumber = elements.create('cardNumber', { style });
+cardNumber.mount('#card-number-element');
 
-// Handle real-time validation errors from Stripe Elements
-card.addEventListener('change', function (event) {
+const cardExpiry = elements.create('cardExpiry', { style });
+cardExpiry.mount('#card-expiry-element');
+
+const cardCvc = elements.create('cardCvc', { style });
+cardCvc.mount('#card-cvc-element');
+
+// Function to show Stripe validation errors
+function showError(errorMessage) {
     const errorDiv = document.getElementById('card-errors');
-    if (event.error) {
-        // Display error message with icon
-        const html = `
-            <span class="icon" role="alert">
-                <i class="fas fa-times"></i>
-            </span>
-            <span>${event.error.message}</span>
-        `;
-        errorDiv.innerHTML = html;
-    } else {
-        // Clear error message
-        errorDiv.textContent = '';
-    }
+    errorDiv.innerHTML = `
+        <span class="icon" role="alert">
+            <i class="fas fa-times"></i>
+        </span>
+        <span>${errorMessage}</span>
+    `;
+}
+
+// Set up real-time validation error handling for each card field
+[cardNumber, cardExpiry, cardCvc].forEach(el => {
+    el.on('change', event => {
+        if (event.error) {
+            showError(event.error.message); // Show validation message
+        } else {
+            document.getElementById('card-errors').textContent = ''; // Clear previous errors
+        }
+    });
 });
 
-// Handle the payment form submission
+// Get the payment form element
 const form = document.getElementById('payment-form');
 
+// Add form submission handler
 form.addEventListener('submit', function (ev) {
-    ev.preventDefault();  // Prevent default form submission
+    ev.preventDefault(); // Stop normal form submission
 
-    // Disable card input and button to prevent multiple submissions
-    card.update({ disabled: true });
+    // Validate UK postcode input manually
+    const postcodeInput = document.getElementById('manual-postcode');
+    const postcode = $.trim(postcodeInput.value);
+    const postcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
+
+    if (!postcodeRegex.test(postcode)) {
+        showError('Enter a valid UK postcode (e.g. W1A 1AA).');
+        return;
+    }
+
+    // Disable input fields and button to prevent duplicate submissions
+    cardNumber.update({ disabled: true });
+    cardExpiry.update({ disabled: true });
+    cardCvc.update({ disabled: true });
     document.getElementById('submit-button').disabled = true;
 
-    // Toggle UI to show loading spinner
+    // Show loading overlay and hide form
     $('#payment-form').fadeToggle(100);
     $('#loading-overlay').fadeToggle(100);
 
-    // Get user preference to save info and CSRF token
+    // Gather data to be cached in the backend
     const saveInfo = $('#id-save-info').prop('checked');
     const csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
-    // Data to cache checkout info in the session before confirming payment
     const postData = {
         csrfmiddlewaretoken: csrfToken,
         client_secret: clientSecret,
@@ -77,12 +98,12 @@ form.addEventListener('submit', function (ev) {
 
     const url = '/checkout/cache_checkout_data/';
 
-    // Post data to Django view to cache user checkout info
+    // Send cached data to the backend
     $.post(url, postData).done(function () {
-        // After successful caching, confirm the card payment
+        // Confirm the payment with Stripe
         stripe.confirmCardPayment(clientSecret, {
             payment_method: {
-                card: card,
+                card: cardNumber,
                 billing_details: {
                     name: $.trim(form.full_name.value),
                     phone: $.trim(form.phone_number.value),
@@ -91,8 +112,9 @@ form.addEventListener('submit', function (ev) {
                         line1: $.trim(form.street_address1.value),
                         line2: $.trim(form.street_address2.value),
                         city: $.trim(form.town_or_city.value),
-                        country: $.trim(form.country.value),
                         state: $.trim(form.county.value),
+                        country: $.trim(form.country.value),
+                        postal_code: postcode
                     }
                 }
             },
@@ -103,35 +125,30 @@ form.addEventListener('submit', function (ev) {
                     line1: $.trim(form.street_address1.value),
                     line2: $.trim(form.street_address2.value),
                     city: $.trim(form.town_or_city.value),
-                    country: $.trim(form.country.value),
-                    postal_code: $.trim(form.postcode.value),
                     state: $.trim(form.county.value),
+                    country: $.trim(form.country.value),
+                    postal_code: postcode
                 }
-            },
+            }
         }).then(function (result) {
-            // If there is an error, show it and re-enable the form
             if (result.error) {
-                const errorDiv = document.getElementById('card-errors');
-                const html = `
-                    <span class="icon" role="alert">
-                        <i class="fas fa-times"></i>
-                    </span>
-                    <span>${result.error.message}</span>
-                `;
-                errorDiv.innerHTML = html;
+                // Show Stripe error and re-enable form elements
+                showError(result.error.message);
                 $('#payment-form').fadeToggle(100);
                 $('#loading-overlay').fadeToggle(100);
-                card.update({ disabled: false });
+                cardNumber.update({ disabled: false });
+                cardExpiry.update({ disabled: false });
+                cardCvc.update({ disabled: false });
                 document.getElementById('submit-button').disabled = false;
             } else {
-                // If payment was successful, submit the form
+                // Payment succeeded, submit form to complete process
                 if (result.paymentIntent.status === 'succeeded') {
                     form.submit();
                 }
             }
         });
     }).fail(function () {
-        // If the POST to cache data fails, reload the page to trigger Django error messages
+        // Reload page on failure to post cached data
         location.reload();
     });
 });
