@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    
     # Other
     'crispy_forms',
     'home',
@@ -66,6 +67,7 @@ INSTALLED_APPS = [
     'checkout',
     'faq',
     'profiles',
+    'reviews',
 ]
 
 MIDDLEWARE = [
