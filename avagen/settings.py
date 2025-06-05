@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import dj_database_url
 from pathlib import Path
+from google.oauth2 import service_account
 
 if os.path.isfile('env.py'):
     # flake8 will throw an error here, but it is necessary to import env.py
@@ -23,6 +24,12 @@ cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
     api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+)
+
+GS_BUCKET_NAME = 'avagen-downloads'
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, 'gcs-service-key.json')
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -195,6 +202,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+DIGITAL_DOWNLOAD_STORAGE = 'yourapp.storage_backends.GoogleCloudZipStorage'
 # Stripe
 FREE_DELIVERY_THRESHOLD = 50
 STANDARD_DELIVERY_PERCENTAGE = 10
