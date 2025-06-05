@@ -296,7 +296,6 @@ input[name='q']::placeholder {
 }
 /* Container for the star rating component */
 .star-rating {
-    direction: rtl; /* Right-to-left text direction to allow stars to fill from right to left */
     font-size: 1.8rem; /* Size of the stars */
     unicode-bidi: bidi-override; /* The star characters display in the correct visual order */
     display: inline-flex; /* Arrange the stars horizontally */

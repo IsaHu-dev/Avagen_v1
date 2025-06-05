@@ -43,7 +43,8 @@ class Product(models.Model):
     name = models.CharField(max_length=254)
     
     # Text description of the product (required)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
+
     
     # Product price with two decimal places (e.g., 9999.99 max if max_digits=6)
     price = models.DecimalField(max_digits=6, decimal_places=2)
