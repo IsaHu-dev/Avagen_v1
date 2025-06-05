@@ -13,6 +13,7 @@ class Review(models.Model):
         choices=[(i, str(i)) for i in range(1, 6)]
     )  # 1–5 stars
     comment = models.TextField(blank=True)
+    description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
