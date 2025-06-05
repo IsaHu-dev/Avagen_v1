@@ -15,7 +15,7 @@ def add_review(request, product_id):
         if form.is_valid():
             review = form.save(commit=False)
             review.name = request.POST.get('name')
-            review.description = request.POST.get('description')
+            #review.description = request.POST.get('description')
             review.product = product
             review.name = request.user.username
             review.save()

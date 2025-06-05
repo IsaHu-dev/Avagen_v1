@@ -53,12 +53,12 @@
 
     <div class="row mt-1">
         <div class="col-12 col-lg-8 offset-lg-2">
-           
+            <h4 class="mt-5">Leave a Review</h4>
 
-            {% if review_form.errors %}
+            {% if form.errors %}
                 <div class="alert alert-danger">
                     <ul>
-                        {% for field in review_form %}
+                        {% for field in form %}
                             {% for error in field.errors %}
                                 <li>{{ error }}</li>
                             {% endfor %}
@@ -67,26 +67,33 @@
                 </div>
             {% endif %}
 
-            <form method="POST" action="{% url 'product_detail' product.id %}">
+            <form method="POST" action="{% url 'add_review' product.id %}">
                 {% csrf_token %}
 
                 <div class="form-group">
-                    {{ review_form.comment.label_tag }}
-                    {{ review_form.comment }}
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
                 </div>
 
                 <div class="form-group">
-                    {{ review_form.rating.label_tag }}
-                    {{ review_form.rating }}
+                    {{ form.comment.label_tag }}
+                    {{ form.comment }}
                 </div>
 
                 <div class="form-group">
-                    {{ review_form.name.label_tag }}
-                    {{ review_form.name }}
+                    <label for="star-rating"><strong>Rate this product:</strong></label><br>
+                    <div id="star-rating" class="star-rating">
+                        {% for i in "12345" %}
+                            <i class="far fa-star" data-value="{{ forloop.counter }}"></i>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="rating" id="rating" value="">
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-outline-warning text-dark border-4">Leave a Review</button>
+                    <button type="submit" class="btn btn-outline-warning text-dark border-4">
+                        Leave a Review
+                    </button>
                 </div>
             </form>
         </div>
@@ -97,4 +104,37 @@
 {% block postloadjs %}
 {{ block.super }}
 {% include 'products/includes/record_quantity.html' %}
+
+<script>
+    // Custom star rating selection
+    const stars = document.querySelectorAll('#star-rating i');
+    const ratingInput = document.getElementById('rating');
+
+    stars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+            const rating = index + 1;
+            ratingInput.value = rating;
+
+            stars.forEach((s, i) => {
+                s.classList.toggle('fas', i < rating);
+                s.classList.toggle('far', i >= rating);
+            });
+        });
+
+        star.addEventListener('mouseover', () => {
+            stars.forEach((s, i) => {
+                s.classList.toggle('fas', i <= index);
+                s.classList.toggle('far', i > index);
+            });
+        });
+
+        star.addEventListener('mouseout', () => {
+            const current = parseInt(ratingInput.value) || 0;
+            stars.forEach((s, i) => {
+                s.classList.toggle('fas', i < current);
+                s.classList.toggle('far', i >= current);
+            });
+        });
+    });
+</script>
 {% endblock %}
