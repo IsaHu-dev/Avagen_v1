@@ -8,7 +8,6 @@ from django.conf import settings
 from .forms import OrderForm
 from .models import Order, OrderLineItem
 from products.models import Product
-from cart.inventory import cart_contents
 
 import stripe
 import json
@@ -38,9 +37,34 @@ def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
-    if request.method == 'POST':
-        cart = request.session.get('cart', {})
+    cart = request.session.get('cart', {})
+    if not cart:
+        messages.error(request, "There's nothing in your cart at the moment")
+        return redirect(reverse('products'))
 
+    cart_items = []
+    total = 0
+
+    for item_id, item_data in cart.items():
+        product = get_object_or_404(Product, pk=item_id)
+        license_type = item_data['license']
+        price = product.get_price_for_license(license_type)
+        total += price
+        cart_items.append({
+            'product': product,
+            'price': price,
+            'license': license_type,
+        })
+
+    grand_total = total
+    stripe_total = round(grand_total * 100)
+    stripe.api_key = stripe_secret_key
+    intent = stripe.PaymentIntent.create(
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
+    )
+
+    if request.method == 'POST':
         form_data = {
             'full_name': request.POST['full_name'],
             'email': request.POST['email'],
@@ -58,95 +82,38 @@ def checkout(request):
             if request.user.is_authenticated:
                 order.user = request.user
             order.save()
-            
-            for item_id, item_data in cart.items():
-                try:
-                    product = Product.objects.get(id=item_id)
-                    if isinstance(item_data, int):
-                        order_line_item = OrderLineItem(
-                            order=order,
-                            product=product,
-                            quantity=item_data,
-                        )
-                        order_line_item.save()
-                    else:
-                        for size, quantity in item_data['items_by_size'].items():
-                            order_line_item = OrderLineItem(
-                                order=order,
-                                product=product,
-                                quantity=quantity,
-                                product_size=size,
-                            )
-                            order_line_item.save()
-                except Product.DoesNotExist:
-                    messages.error(
-                        request,
-                        "One of the products in your cart wasn't found in our "
-                        "database. Please call us for assistance!"
-                    )
-                    order.delete()
-                    return redirect(reverse('view_cart'))
+
+            for item in cart_items:
+                OrderLineItem.objects.create(
+                    order=order,
+                    product=item['product'],
+                    quantity=1,
+                    license_type=item['license'],
+                )
 
             request.session['save_info'] = 'save-info' in request.POST
-            return redirect(
-                reverse('checkout_success', args=[order.order_number])
-            )
+            return redirect(reverse('checkout_success', args=[order.order_number]))
         else:
             messages.error(
                 request,
                 'There was an error with your form. '
                 'Please double check your information.'
             )
-            # Return the form with errors
-            current_cart = cart_contents(request)
-            total = current_cart['grand_total']
-            stripe_total = round(total * 100)
-            stripe.api_key = stripe_secret_key
-            intent = stripe.PaymentIntent.create(
-                amount=stripe_total,
-                currency=settings.STRIPE_CURRENCY,
-            )
-            return render(request, 'checkout/checkout.html', {
-                'order_form': order_form,
-                'stripe_public_key': stripe_public_key,
-                'client_secret': intent.client_secret,
-            })
+
     else:
-        cart = request.session.get('cart', {})
-        if not cart:
-            messages.error(
-                request,
-                "There's nothing in your cart at the moment"
-            )
-            return redirect(reverse('products'))
-
-        current_cart = cart_contents(request)
-        total = current_cart['grand_total']
-        stripe_total = round(total * 100)
-        stripe.api_key = stripe_secret_key
-        intent = stripe.PaymentIntent.create(
-            amount=stripe_total,
-            currency=settings.STRIPE_CURRENCY,
-        )
-
-        # Simplified form initialization without UserProfile
         order_form = OrderForm()
 
-        if not stripe_public_key:
-            messages.warning(
-                request,
-                'Stripe public key is missing. '
-                'Did you forget to set it in your environment?'
-            )
+    context = {
+        'order_form': order_form,
+        'cart_items': cart_items,
+        'product_count': len(cart_items),
+        'total': total,
+        'grand_total': grand_total,
+        'stripe_public_key': stripe_public_key,
+        'client_secret': intent.client_secret,
+    }
 
-        template = 'checkout/checkout.html'
-        context = {
-            'order_form': order_form,
-            'stripe_public_key': stripe_public_key,
-            'client_secret': intent.client_secret,
-        }
-
-        return render(request, template, context)
+    return render(request, 'checkout/checkout.html', context)
 
 
 def checkout_success(request, order_number):
@@ -165,9 +132,4 @@ def checkout_success(request, order_number):
     if 'cart' in request.session:
         del request.session['cart']
 
-    template = 'checkout/checkout_success.html'
-    context = {
-        'order': order,
-    }
-
-    return render(request, template, context)
+    return render(request, 'checkout/checkout_success.html', {'order': order})

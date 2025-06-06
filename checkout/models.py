@@ -57,11 +57,12 @@ class OrderLineItem(models.Model):
     lineitem_total = models.DecimalField(
         max_digits=6, decimal_places=2, null=False, blank=False,
         editable=False)
+    license_type = models.CharField(max_length=20, null=False, blank=False, default='personal')
 
     def save(self, *args, **kwargs):
         """Override the original save method to set the lineitem total"""
-        self.lineitem_total = self.product.price * self.quantity
+        self.lineitem_total = self.product.get_price_for_license(self.license_type) * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'License {self.product.license_number} on order {self.order.order_number}'
+        return f'License {self.product.model_number} on order {self.order.order_number}'

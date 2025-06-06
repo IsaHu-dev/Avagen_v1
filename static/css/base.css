@@ -3,12 +3,15 @@ html {
 }
 
 body {
-    background: url('/media/indexpg_placeholder.webp') no-repeat center center fixed;
-    background-size: cover;
+    background: #fff !important;
     height: calc(100vh - 164px);
     color: #555;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
+}
+
+body.cart-page {
+    background: #fff !important;
 }
 
 /* from Bulma */
@@ -366,4 +369,14 @@ input[name='q']::placeholder {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+.btn-lime {
+    background-color: #bfff00 !important;
+    color: #222 !important;
+    border: none;
+}
+.btn-lime:hover, .btn-lime:focus {
+    background-color: #a3e600 !important;
+    color: #222 !important;
 }

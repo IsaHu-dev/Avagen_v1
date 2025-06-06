@@ -3,36 +3,52 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from products.models import Product
 
+
 def calculate_delivery_cost(subtotal):
     """
     Calculate delivery cost based on subtotal and free delivery threshold.
     Returns delivery cost and amount needed for free delivery.
     """
     if subtotal < settings.FREE_DELIVERY_THRESHOLD:
-        delivery_cost = subtotal * Decimal(settings.STANDARD_DELIVERY_PERCENTAGE / 100)
+        delivery_cost = (
+            subtotal * Decimal(settings.STANDARD_DELIVERY_PERCENTAGE / 100)
+        )
         free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - subtotal
     else:
-        delivery_cost = 0
-        free_delivery_delta = 0
+        delivery_cost = Decimal('0')
+        free_delivery_delta = Decimal('0')
     
     return delivery_cost, free_delivery_delta
+
 
 def get_cart_items(cart):
     """
     Process cart items and return list of items with their details.
+    Always include a 'quantity' key for each item, defaulting to 1 if missing.
     """
     cart_items = []
-    subtotal = 0
+    subtotal = Decimal('0')
     item_count = 0
 
-    for item_id, quantity in cart.items():
+    for item_id, item_data in cart.items():
         product = get_object_or_404(Product, pk=item_id)
-        item_total = quantity * product.price
-        
+        if isinstance(item_data, dict):
+            quantity = item_data.get('quantity', 1)
+            license_type = item_data.get('license', 'personal')
+            price = Decimal(str(
+                item_data.get('price', product.personal_price)
+            ))
+            item_total = price * quantity
+        else:
+            quantity = 1
+            license_type = 'personal'
+            price = Decimal(str(product.personal_price))
+            item_total = price * quantity
         cart_items.append({
             'item_id': item_id,
             'quantity': quantity,
             'product': product,
+            'license_type': license_type,
             'item_total': item_total,
         })
         
@@ -41,22 +57,24 @@ def get_cart_items(cart):
 
     return cart_items, subtotal, item_count
 
+
 def cart_contents(request):
     """
     Make cart contents available across the site.
     Returns a dictionary containing cart information for template context.
+    
     """
     cart = request.session.get('cart', {})
     
     if not cart:
         return {
             'cart_items': [],
-            'subtotal': 0,
+            'subtotal': Decimal('0'),
             'item_count': 0,
-            'delivery': 0,
+            'delivery': Decimal('0'),
             'free_delivery_delta': settings.FREE_DELIVERY_THRESHOLD,
             'free_delivery_threshold': settings.FREE_DELIVERY_THRESHOLD,
-            'grand_total': 0,
+            'grand_total': Decimal('0'),
         }
 
     cart_items, subtotal, item_count = get_cart_items(cart)

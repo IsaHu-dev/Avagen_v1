@@ -4,72 +4,54 @@ from django.contrib import messages
 
 from products.models import Product
 
-
 def view_cart(request):
     """Display the cart page with current session items."""
-    return render(request, 'cart/cart.html')
+    cart = request.session.get('cart', {})
+    total = 0
+    cleaned_cart = {}
+
+    for item_id, item in cart.items():
+        try:
+            item_total = float(item['price']) * item.get('quantity', 1)
+            total += item_total
+            cleaned_cart[item_id] = item
+        except KeyError:
+            messages.warning(request, f"Cart item {item_id} is missing price and has been skipped.")
+
+    context = {
+        'cart': cleaned_cart,
+        'total': total,
+    }
+    return render(request, 'cart/cart.html', context)
 
 
 def add_to_cart(request, item_id):
-    """Add an item to the cart stored in session."""
+    """Add a product with selected license to the cart."""
     product = get_object_or_404(Product, pk=item_id)
-    quantity = int(request.POST.get('quantity'))
-    redirect_url = request.POST.get('redirect_url')
+    license_type = request.POST.get('license', 'personal').lower()
+    price = product.get_price_for_license(license_type)
+    redirect_url = request.POST.get('redirect_url', reverse('products'))
+
     cart = request.session.get('cart', {})
 
-    cart[item_id] = cart.get(item_id, 0) + quantity
-    messages.success(request, f"Added {quantity} of {product.name} to your cart.")
+    # Store all details needed for cart display
+    cart[str(item_id)] = {
+        'name': product.name,
+        'license': license_type,
+        'price': float(price),
+        'quantity': 1,  # Default to 1 for now; can expand later
+    }
 
     request.session['cart'] = cart
+    messages.success(request, f"Added {product.name} ({license_type.title()} License) to your cart.")
     return redirect(redirect_url)
 
 
-def adjust_cart(request, item_id):
-    """Update the quantity of an item (or item size) in the session cart."""
-    product = get_object_or_404(Product, pk=item_id)
-    quantity = int(request.POST.get('quantity'))
-    size = request.POST.get('product_size', None)
-    cart = request.session.get('cart', {})
-
-    if size:
-        if quantity > 0:
-            cart[item_id]['items_by_size'][size] = quantity
-            messages.success(request, f"Updated {product.name} ({size.upper()}) to {quantity}.")
-        else:
-            del cart[item_id]['items_by_size'][size]
-            if not cart[item_id]['items_by_size']:
-                cart.pop(item_id)
-            messages.success(request, f"Removed size {size.upper()} {product.name} from your cart.")
-    else:
-        if quantity > 0:
-            cart[item_id] = quantity
-            messages.success(request, f"Updated {product.name} quantity to {quantity}.")
-        else:
-            cart.pop(item_id)
-            messages.success(request, f"Removed {product.name} from your cart.")
-
-    request.session['cart'] = cart
-    return redirect(reverse('view_cart'))
-
-
 def remove_from_cart(request, item_id):
-    """Remove a product (or a specific size) from the cart, then redirect to product detail page."""
-    try:
-        product = get_object_or_404(Product, pk=item_id)
-        size = request.POST.get('product_size', None)
-        cart = request.session.get('cart', {})
-
-        if size:
-            del cart[item_id]['items_by_size'][size]
-            if not cart[item_id]['items_by_size']:
-                cart.pop(item_id)
-            messages.success(request, f"Removed {product.name} in size {size.upper()} from your cart.")
-        else:
-            cart.pop(item_id, None)
-            messages.success(request, f"{product.name} has been removed from your cart.")
-
-        request.session['cart'] = cart
-        return redirect(f'/products/{item_id}/')  # Redirect to product detail page
-    except Exception as error:
-        messages.error(request, f"Could not remove item: {error}")
-        return redirect(f'/products/{item_id}/')  # Redirect even on failure for user experience
+    """Remove an item from the cart."""
+    cart = request.session.get('cart', {})
+    if str(item_id) in cart:
+        del cart[str(item_id)]
+        messages.success(request, "Item removed from cart.")
+    request.session['cart'] = cart
+    return redirect('view_cart')
