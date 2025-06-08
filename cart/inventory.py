@@ -9,16 +9,7 @@ def calculate_delivery_cost(subtotal):
     Calculate delivery cost based on subtotal and free delivery threshold.
     Returns delivery cost and amount needed for free delivery.
     """
-    if subtotal < settings.FREE_DELIVERY_THRESHOLD:
-        delivery_cost = (
-            subtotal * Decimal(settings.STANDARD_DELIVERY_PERCENTAGE / 100)
-        )
-        free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - subtotal
-    else:
-        delivery_cost = 0
-        free_delivery_delta = 0
-    
-    return delivery_cost, free_delivery_delta
+    return 0, 0
 
 
 def get_cart_items(cart):
@@ -62,22 +53,15 @@ def cart_contents(request):
             'cart_items': [],
             'subtotal': 0,
             'item_count': 0,
-            'delivery': 0,
-            'free_delivery_delta': settings.FREE_DELIVERY_THRESHOLD,
-            'free_delivery_threshold': settings.FREE_DELIVERY_THRESHOLD,
             'grand_total': 0,
         }
 
     cart_items, subtotal, item_count = get_cart_items(cart)
-    delivery_cost, free_delivery_delta = calculate_delivery_cost(subtotal)
-    grand_total = delivery_cost + subtotal
+    grand_total = subtotal
 
     return {
         'cart_items': cart_items,
         'subtotal': subtotal,
         'item_count': item_count,
-        'delivery': delivery_cost,
-        'free_delivery_delta': free_delivery_delta,
-        'free_delivery_threshold': settings.FREE_DELIVERY_THRESHOLD,
         'grand_total': grand_total,
     }
