@@ -24,9 +24,9 @@ def all_products(request):
 
         match sort_option:
             case 'price_asc':
-                items = items.order_by('price')
+                items = items.order_by('base_price')
             case 'price_desc':
-                items = items.order_by('-price')
+                items = items.order_by('-base_price')
             case 'name_az':
                 items = items.annotate(lower_name=Lower('name')).order_by('lower_name')
             case 'name_za':
