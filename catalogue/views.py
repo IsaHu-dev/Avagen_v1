@@ -1,7 +1,17 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import Http404, FileResponse
 from products.models import Product
 from .models import DigitalDownload
+
+def catalogue_view(request):
+    """
+    View to display the catalogue of available products
+    """
+    products = Product.objects.all()
+    context = {
+        'products': products,
+    }
+    return render(request, 'catalogue/catalogue.html', context)
 
 def download_file(request, product_id):
     """

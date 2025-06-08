@@ -8,3 +8,4 @@ node_modules/
 .github/
 cloudinary_python.txt
 gcs-service-key.json
+gcs_key_base64.txt
