@@ -57,6 +57,7 @@ def all_products(request):
         'search_term': active_query,
         'current_categories': selected_categories,
         'current_sorting': sorting_identifier,
+        'average_ratings': {product.id: product.reviews.aggregate(avg=models.Avg('rating'))['avg'] for product in items},
         'latest_reviews': {product.id: product.reviews.order_by('-created_at').first() for product in items},
     }
 
