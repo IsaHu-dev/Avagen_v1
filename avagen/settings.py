@@ -15,6 +15,7 @@ from pathlib import Path
 import google.auth
 import json
 from google.oauth2 import service_account
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,28 +24,22 @@ if os.path.isfile('env.py'):
     # flake8 will throw an error here, but it is necessary to import env.py
     import env
 
-import cloudinary
-
+# Cloudinary configuration
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
-    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
-    
-# Google Cloud Storage settings
-if 'GOOGLE_APPLICATION_CREDENTIALS_JSON' in os.environ:
-    # For Heroku deployment
-    gcs_credentials = json.loads(os.environ['GOOGLE_APPLICATION_CREDENTIALS_JSON'])
-    with open('gcs-service-key.json', 'w') as f:
-        json.dump(gcs_credentials, f)
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'gcs-service-key.json'
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET")
+)
+
+# Google Cloud Storage (Heroku-safe)
+GS_BUCKET_NAME = 'avagen-downloads'
+
+if "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
+    creds_dict = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(creds_dict)
 else:
-    # For local development
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(BASE_DIR, 'gcs-service-key.json')
+    GS_CREDENTIALS = None  # Optional fallback for local development
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
