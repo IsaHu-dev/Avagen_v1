@@ -31,10 +31,6 @@ def all_products(request):
                 items = items.annotate(lower_name=Lower('name')).order_by('lower_name')
             case 'name_za':
                 items = items.annotate(lower_name=Lower('name')).order_by('-lower_name')
-            case 'cat_az':
-                items = items.order_by('category__name')
-            case 'cat_za':
-                items = items.order_by('-category__name')
             case 'rating_high':
                 items = items.annotate(avg_score=Avg('reviews__rating')).order_by('-avg_score')
             case 'rating_low':
