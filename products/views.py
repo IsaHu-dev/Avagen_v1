@@ -57,6 +57,7 @@ def all_products(request):
         'search_term': active_query,
         'current_categories': selected_categories,
         'current_sorting': sorting_identifier,
+        'latest_reviews': {product.id: product.reviews.order_by('-created_at').first() for product in items},
     }
 
     return render(request, 'products/products.html', context)

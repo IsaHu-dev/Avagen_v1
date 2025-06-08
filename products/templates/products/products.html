@@ -64,7 +64,7 @@
 
                 <div class="row">
                     {% for product in products %}
-                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3" id="product-{{ product.id }}">
                             <div class="card h-100 border-0">
                                 {% if product.image_url %}
                                     <a href="{% url 'product_detail' product.id %}">
@@ -96,13 +96,23 @@
                                                 </a>
                                             </p>
                                             {% endif %}
-
-                                            {% if product.rating %}
-                                                <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
-                                            {% else %}
-                                                <small class="text-muted">No Rating</small>
+                                            {# Show latest review with matching stars #}
+                                            {% if product.reviews.all|length > 0 %}
+                                                {% with review=product.reviews.all.0 %}
+                                                    <div class="border p-2 mt-2">
+                                                        <strong>{{ review.name }}</strong>
+                                                        <span class="text-warning">
+                                                            {% for i in "12345" %}
+                                                                {% if forloop.counter <= review.rating %}
+                                                                    <i class="fas fa-star"></i>
+                                                                {% else %}
+                                                                    <i class="far fa-star"></i>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
+                                                    </div>
+                                                {% endwith %}
                                             {% endif %}
-
                                             {% if request.user.is_superuser %}
                                                 <small class="ml-3">
                                                     <a href="{% url 'edit_product' product.id %}">Edit</a> | 
