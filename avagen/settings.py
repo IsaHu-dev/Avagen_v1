@@ -16,12 +16,13 @@ import google.auth
 import json
 from google.oauth2 import service_account
 import cloudinary
+import base64
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-if os.path.isfile('env.py'):
-    # flake8 will throw an error here, but it is necessary to import env.py
+# Import environment variables
+if os.path.exists(os.path.join(BASE_DIR, 'env.py')):
     import env
 
 # Cloudinary configuration
@@ -34,7 +35,11 @@ cloudinary.config(
 # Google Cloud Storage (Heroku-safe)
 GS_BUCKET_NAME = 'avagen-downloads'
 
-if "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
+if "GCS_KEY_BASE64" in os.environ:
+    key_json = base64.b64decode(os.environ["GCS_KEY_BASE64"]).decode("utf-8")
+    creds_dict = json.loads(key_json)
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(creds_dict)
+elif "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
     creds_dict = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
     GS_CREDENTIALS = service_account.Credentials.from_service_account_info(creds_dict)
 else:
@@ -217,5 +222,3 @@ STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-    
-    
