@@ -96,6 +96,23 @@
                                                 </a>
                                             </p>
                                             {% endif %}
+                                            {# Show average rating as stars and number #}
+                                            {% with avg=average_ratings.product.id %}
+                                                {% if avg %}
+                                                    <span class="text-warning">
+                                                        {% for i in "12345" %}
+                                                            {% if forloop.counter <= avg|floatformat:0 %}
+                                                                <i class="fas fa-star"></i>
+                                                            {% else %}
+                                                                <i class="far fa-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <span class="ml-1">{{ avg|floatformat:1 }} / 5</span>
+                                                    </span>
+                                                {% else %}
+                                                    <span class="text-muted">No Rating</span>
+                                                {% endif %}
+                                            {% endwith %}
                                             {# Show latest review with matching stars #}
                                             {% if product.reviews.all|length > 0 %}
                                                 {% with review=product.reviews.all.0 %}
