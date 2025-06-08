@@ -117,7 +117,6 @@
                                             {% if product.reviews.all|length > 0 %}
                                                 {% with review=product.reviews.all.0 %}
                                                     <div class="border p-2 mt-2">
-                                                        <strong>{{ review.name }}</strong>
                                                         <span class="text-warning">
                                                             {% for i in "12345" %}
                                                                 {% if forloop.counter <= review.rating %}
