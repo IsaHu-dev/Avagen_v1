@@ -13,6 +13,8 @@ import os
 import dj_database_url
 from pathlib import Path
 import google.auth
+import json
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,11 +29,17 @@ cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
     api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
-)
-GS_BUCKET_NAME = 'avagen-downloads'
-GS_CREDENTIALS, _ = google.auth.load_credentials_from_file(
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
-)
+    
+# Google Cloud Storage settings
+if 'GOOGLE_APPLICATION_CREDENTIALS_JSON' in os.environ:
+    # For Heroku deployment
+    gcs_credentials = json.loads(os.environ['GOOGLE_APPLICATION_CREDENTIALS_JSON'])
+    with open('gcs-service-key.json', 'w') as f:
+        json.dump(gcs_credentials, f)
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'gcs-service-key.json'
+else:
+    # For local development
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(BASE_DIR, 'gcs-service-key.json')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/

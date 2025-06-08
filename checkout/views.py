@@ -62,22 +62,22 @@ def checkout(request):
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
-                    if isinstance(item_data, int):
+                    if isinstance(item_data, dict):
                         order_line_item = OrderLineItem(
                             order=order,
                             product=product,
-                            quantity=item_data,
+                            quantity=item_data['quantity'],
+                            license_type=item_data['license_type'],
                         )
                         order_line_item.save()
                     else:
-                        for size, quantity in item_data['items_by_size'].items():
-                            order_line_item = OrderLineItem(
-                                order=order,
-                                product=product,
-                                quantity=quantity,
-                                product_size=size,
-                            )
-                            order_line_item.save()
+                        messages.error(
+                            request,
+                            "There was an error with your cart. "
+                            "Please try again."
+                        )
+                        order.delete()
+                        return redirect(reverse('view_cart'))
                 except Product.DoesNotExist:
                     messages.error(
                         request,

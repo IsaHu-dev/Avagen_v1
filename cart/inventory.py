@@ -3,19 +3,23 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from products.models import Product
 
+
 def calculate_delivery_cost(subtotal):
     """
     Calculate delivery cost based on subtotal and free delivery threshold.
     Returns delivery cost and amount needed for free delivery.
     """
     if subtotal < settings.FREE_DELIVERY_THRESHOLD:
-        delivery_cost = subtotal * Decimal(settings.STANDARD_DELIVERY_PERCENTAGE / 100)
+        delivery_cost = (
+            subtotal * Decimal(settings.STANDARD_DELIVERY_PERCENTAGE / 100)
+        )
         free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - subtotal
     else:
         delivery_cost = 0
         free_delivery_delta = 0
     
     return delivery_cost, free_delivery_delta
+
 
 def get_cart_items(cart):
     """
@@ -25,21 +29,26 @@ def get_cart_items(cart):
     subtotal = 0
     item_count = 0
 
-    for item_id, quantity in cart.items():
+    for item_id, item_data in cart.items():
         product = get_object_or_404(Product, pk=item_id)
-        item_total = quantity * product.price
-        
-        cart_items.append({
-            'item_id': item_id,
-            'quantity': quantity,
-            'product': product,
-            'item_total': item_total,
-        })
-        
-        subtotal += item_total
-        item_count += quantity
+        if isinstance(item_data, dict):
+            quantity = item_data['quantity']
+            license_type = item_data['license_type']
+            item_total = quantity * product.get_price_for_license(license_type)
+            
+            cart_items.append({
+                'item_id': item_id,
+                'quantity': quantity,
+                'product': product,
+                'license_type': license_type,
+                'item_total': item_total,
+            })
+            
+            subtotal += item_total
+            item_count += quantity
 
     return cart_items, subtotal, item_count
+
 
 def cart_contents(request):
     """

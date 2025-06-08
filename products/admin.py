@@ -8,9 +8,9 @@ class ProductAdmin(admin.ModelAdmin):
     # Specifies which fields to display in the admin list view
     list_display = (
         'name',
-        'category',
-        'price',
+        'base_price',
         'image',
+        'model_number',
     )
 
 # Admin configuration for the Category model
