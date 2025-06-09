@@ -7,7 +7,7 @@ def catalogue_view(request):
     """
     View to display the catalogue of available products
     """
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-rating') 
     context = {
         'products': products,
     }

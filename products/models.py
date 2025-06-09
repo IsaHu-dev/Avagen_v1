@@ -1,5 +1,6 @@
 from django.db import models
 from decimal import Decimal
+from django.db.models import Avg
 
 
 # Define a model representing product categories
@@ -40,6 +41,7 @@ class Product(models.Model):
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
     model_number = models.CharField(max_length=50, null=True, blank=True)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.name
