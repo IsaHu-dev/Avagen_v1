@@ -374,7 +374,9 @@ input[name='q']::placeholder {
     max-width: 80px;
     text-align: center;
 }
-
+.footer-link {
+    font-size: 0.95rem;
+}
 
 
 
