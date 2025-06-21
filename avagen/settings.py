@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'reviews',
     'catalogue',
     'storages',
+    'newsletter',
 ]
 
 MIDDLEWARE = [

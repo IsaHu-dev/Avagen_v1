@@ -140,13 +140,15 @@
         <div class="col-md-3">
           <h5 class="small">NEWSLETTER</h5>
           <p class="small">Subscribe now!!</p>
-          <form>
-            <div class="input-group input-group-sm">
-              <input type="email" class="form-control" placeholder="Email">
-              <div class="input-group-append">
-                <button class="btn btn-dark btn-sm" type="submit">SUBSCRIBE</button>
-              </div>
-            </div>
+          <form method="POST" action="{% url 'subscribe_newsletter' %}">
+            {% csrf_token %}
+              <div class="input-group input-group-sm">
+    <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+    <div class="input-group-append">
+      <button class="btn btn-dark btn-sm" type="submit">SUBSCRIBE</button>
+    </div>
+  </div>
+</form>
           </form>
         </div>
       </div>
