@@ -46,6 +46,8 @@
   {% endblock %}
 
   {% block corejs %}
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
     crossorigin="anonymous"></script>
@@ -142,7 +144,19 @@
 
   {% block postloadjs %}
   <script type="text/javascript">
-    £('.popup').popup('show');
+    // Initialize Bootstrap components
+    $(function () {
+      // Initialize popovers
+      $('[data-toggle="popover"]').popover();
+      
+      // Initialize tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Auto-hide popups after 5 seconds
+      setTimeout(function() {
+        $('.popup').fadeOut();
+      }, 5000);
+    });
   </script>
   {% endblock %}
 

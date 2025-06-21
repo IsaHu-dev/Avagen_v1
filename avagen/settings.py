@@ -95,6 +95,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'avagen.middleware.Custom404RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'avagen.urls'
