@@ -32,3 +32,6 @@ urlpatterns = [
     path('newsletter/', include('newsletter.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Custom 404 handler
+handler404 = 'avagen.views.custom_404'
