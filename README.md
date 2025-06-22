@@ -1,3 +1,20 @@
+# Avagen - Digitally Crafted Avatar Collection
+
+A Django-based e-commerce platform for selling digitally crafted avatars and digital art.
+
+## Features
+- Custom 404 error page with proper redirects
+- SEO optimized meta tags
+- Newsletter signup with first/last name fields
+- Bootstrap-based responsive design
+- Stripe payment integration
+
+## Recent Updates
+- Added comprehensive SEO meta tags
+- Implemented custom 404 error handling
+- Enhanced newsletter signup functionality
+- Updated branding to "digitally crafted avatars"
+
 **Avagen**
 
 ![Index Page](https://github.com/IsaHu-dev/Avagen_v1/blob/main/media/readme/screensresponsive.webp)
