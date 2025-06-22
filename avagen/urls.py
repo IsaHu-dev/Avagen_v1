@@ -18,8 +18,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-from django.contrib.sitemaps.views import sitemap
-from .sitemaps import sitemaps
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,8 +39,10 @@ urlpatterns = [
     )),
     
     # Sitemap
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
-         name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', TemplateView.as_view(
+        template_name='sitemap.xml', 
+        content_type='application/xml'
+    )),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Custom 404 handler
