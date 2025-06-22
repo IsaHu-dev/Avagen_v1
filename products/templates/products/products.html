@@ -82,15 +82,15 @@
                             <div class="card h-100 border-0">
                                 {% if product.image_url %}
                                     <a href="{% url 'product_detail' product.id %}">
-                                        <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
+                                        <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }} - Digitally Crafted Avatar by Avagen">
                                     </a>
                                 {% elif product.image %}
                                     <a href="{% url 'product_detail' product.id %}">
-                                        <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }} - Digitally Crafted Avatar by Avagen">
                                     </a>
                                 {% else %}
                                     <a href="{% url 'product_detail' product.id %}">
-                                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.webp" alt="{{ product.name }}">
+                                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.webp" alt="No image available for {{ product.name }} - Digitally Crafted Avatar">
                                     </a>
                                 {% endif %}
                                 <div class="card-body pb-0">
