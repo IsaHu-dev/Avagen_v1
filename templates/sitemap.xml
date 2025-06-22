@@ -1,167 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>1.00</priority>
+  </url>
 
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>0.90</priority>
+  </url>
 
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/cart/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/accounts/signup/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/accounts/login/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=personalized</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=themed</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=seasonal</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=special_events</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=professional</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=social</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=formal</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=fitness</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=games</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=new_arrivals</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=box_sets</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=sales</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=contact</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?sort=price&amp;direction=asc</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?sort=rating&amp;direction=desc</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?sort=category&amp;direction=asc</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=Club%20Avagen</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/faq/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/accounts/password/reset/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/18/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/19/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/13/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/12/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/8/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/10/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://avagen-502553ff2610.herokuapp.com/products/7/</loc>
-  <lastmod>2025-06-22T14:45:31+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
+  <!-- Main category pages -->
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=personalized</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=themed</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/?category=seasonal</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
 
+  <!-- Individual products (keep 5–10 key ones) -->
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/18/</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/19/</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/13/</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>0.64</priority>
+  </url>
+
+  <!-- Support / FAQ -->
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/faq/</loc>
+    <lastmod>2025-06-22T14:45:31+00:00</lastmod>
+    <priority>0.64</priority>
+  </url>
 
 </urlset>
