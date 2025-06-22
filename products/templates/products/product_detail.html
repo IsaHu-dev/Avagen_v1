@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block meta_title %}{{ product.name }} - Digitally Crafted Avatar | Avagen{% endblock %}
+
+{% block meta_description %}{{ product.name }} - A unique digitally crafted avatar by Avagen. {{ product.description|truncatewords:20 }}. Perfect for gaming, social media, and digital identity.{% endblock %}
+
+{% block meta_keywords %}{{ product.name }}, digitally crafted avatar, custom avatar, gaming avatar, profile picture, digital art, virtual identity, social media avatar, professional avatar, personalized avatar, avatar design, digital portrait, online avatar, gaming profile picture, social media profile picture, virtual world avatar, digital character design, avatar marketplace, premium digital art, unique avatar, creative avatar, artistic avatar, modern avatar, trendy avatar, avatar collection, digital identity, virtual self, online persona, digital art marketplace, avatar shop, buy avatar, purchase avatar, avatar gallery{% endblock %}
+
+{% block og_title %}{{ product.name }} - Digitally Crafted Avatar | Avagen{% endblock %}
+
+{% block og_description %}{{ product.name }} - A unique digitally crafted avatar by Avagen. Perfect for gaming, social media, and digital identity.{% endblock %}
+
+{% block twitter_title %}{{ product.name }} - Digitally Crafted Avatar | Avagen{% endblock %}
+
+{% block twitter_description %}{{ product.name }} - A unique digitally crafted avatar by Avagen. Perfect for gaming, social media, and digital identity.{% endblock %}
+
 {% block page_header %}
 <div class="container header-container">
     <div class="row">
