@@ -46,15 +46,23 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - Detailed product specifications and price breakdown before purchase.
   - Average star rating and customer reviews displayed beneath the product descriptions.
 
+  **Reviews & Ratings**
+   - Authenticated users can leave 1–5 star reviews with optional comments.
+   - Average rating is calculated on‑the‑fly and displayed for performance.
+   - Catalogue can be sorted by rating to surface the most popular avatars.
+
 - **Cart & Checkout**
-  - Add products to cart and proceed through a secure Stripe-powered checkout.
+  - Add products (with chosen licence) to cart and adjust quantities inline.
   - Encrypted payment processing ensures security.
   - Optimized for mobile and desktop devices.
+  - Verified Stripe webhooks finalise orders.
+  - Fully responsive checkout pages optimised for mobile and desktop.
 
 - **Digital Delivery**
   - Download links shown immediately after successful payment.
   - Order history includes access to previously purchased downloads.
-  - Fast and secure delivery of digital products.
+  - Instant and secure delivery of digital products.
+  - Purchased digital products are downloadable from the registered user's account. The downloads are resumable. Lifetime access to them is granted.
 
 - **User Accounts**
   - Built using the django-allauth third-party package for robust user authentication.
@@ -81,6 +89,10 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - Clean, readable URLs.
   - Custom 404 error page for better user experience and site crawlability.
   - Optimized meta tags applied to key pages for enhanced search engine indexing.
+  
+  **Performance** 
+  - WhiteNoise serves compressed static assets; Cloudinary transforms images on‑the‑fly for smaller payloads.
+
 
 ## How to Use Avagen
 
@@ -106,7 +118,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
 [![Avagen Logo](media/avagen_logo_text.png)](media/avagen_logo_text.png)
 
 
-The interface uses soft, neutral colors with a single eye-catching gradient ( #7F00FF → #17A2B8 → #E100FF) for buttons and key actions. This keeps the focus on the artwork while still guiding users where to click. For typography, it uses Inter for body text and Space Grotesk for headings, creating a modern and readable design.
+The interface uses soft, neutral colors with a single eye-catching gradient ( #7F00FF → #17A2B8 → #E100FF) for buttons and key actions. This keeps the focus on the products page while still guiding users where to click. For typography, it uses Inter for body text and Space Grotesk for headings, creating a modern and readable design.
 
 ## Agile Process
 
@@ -183,7 +195,6 @@ Project tasks were tracked in **GitHub Projects** (Kanban). Each card contained 
    ```
 4. Upload media files to Google Cloud Storage 3.1.0
 
----
 
 ## Local Installation
 
@@ -198,8 +209,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-Browse to [http://127.0.0.1:8000](http://127.0.0.1:8000).
-
+### Browse to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 ---
 
 ## 🧪 Detailed User Testing
