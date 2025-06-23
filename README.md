@@ -256,16 +256,19 @@ python manage.py runserver
 |                   | Cancel checkout                   | Return to cart, no order created                 | ✅      |
 | **Delivery**      | Download from success page        | ZIP or file download starts                      | ✅      |
 |                   | Download from past orders         | File re-downloads without issues                 | ✅      |
-|                   | Attempt expired link (>24h)       | 403 Forbidden shown                              | ✅      |
-| **Profile**       | Edit account info                 | Name/email updates persist                       | ✅      |
+| **Profile**       | Edit account info                 | Name/email updates can be changed at any time    | ✅      |
 |                   | Delete account                    | Data removed, user logged out                    | ✅      |
 | **Mobile**        | Navigate on iPhone SE / Galaxy S8 | Layout responsive, navbar collapses correctly    | ✅      |
 | **Accessibility** | Navigate with keyboard            | All interactive elements are reachable           | ✅      |
+| **Admin**         | Upload ZIP file to product        | File is linked and downloadable post-purchase    | ✅      |
+| **Admin**         | Toggle product live/draft         | Visibility updated without deleting the product  | ✅      |
+| **Search**        | Use keyword search bar            | Matching products shown from the keyword search  | ✅      |
+| **Newsletter**    | Submit email on signup form       | Confirmation message shown or email stored in database | ✅      |
 
 ### Testing Status
 
 * **Manual Testing**: ✅ Comprehensive manual testing completed
-* **Performance**: Lighthouse scores -- across all categories
+* **Performance**: Lighthouse scores tbc across all categories
 * **HTML/CSS**: Passes W3C validators
 
 ---
