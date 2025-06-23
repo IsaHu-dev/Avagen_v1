@@ -1,4 +1,4 @@
-# Avagen - Digitally Crafted Avatar Collection
+## Avagen - Digitally Crafted Avatar Collection
 
 
 [**Avagen – Live Site**](https://avagen-502553ff2610.herokuapp.com/) 
@@ -113,17 +113,20 @@ Avagen is a full-stack Django web application designed for selling digital produ
 | **Colour palette** |   tbc   |
 
 
-### Logo 
+### Logo & Brand Identity
 
-[![Avagen Logo](media/avagen_logo_text.png)](media/avagen_logo_text.png)
+![Avagen Logo](media/avagen_logo_text.png)
 
+The Avagen logo represents the brand's focus on digital identity creation. 
 
-The interface uses soft, neutral colors with a single eye-catching gradient ( #7F00FF → #17A2B8 → #E100FF) for buttons and key actions. This keeps the focus on the products page while still guiding users where to click. For typography, it uses Inter for body text and Space Grotesk for headings, creating a modern and readable design.
+The interface is designed with a clean and minimal layout with soft neutral colors and a distinct gradient accent (  #17A2B8 → #E100FF) on buttons and interactive elements. This guides users toward key actions while keeping the interface simple and readable.
+
+Typography is modern and legible, using Inter for body text and Space Grotesk for headings. The design looks consistent and clear across all screen sizes and enhances the overall user experience.
 
 ## Agile Process
 
 Project tasks were tracked in **GitHub Projects** (Kanban). Each card contained a *user story* with acceptance criteria and links to the relevant pull request.
-
+Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projects/14
 
 ## User Stories
 
