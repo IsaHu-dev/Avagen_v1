@@ -223,9 +223,9 @@ Project tasks were tracked in **GitHub Projects** (Kanban). Each card contained 
 git clone https://github.com/IsaHu-dev/Avagen_v1.git
 cd Avagen_v1
 python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
+source venv/bin/activate   
 pip install -r requirements.txt
-cp .env.example .env        # add your Stripe keys, etc.
+cp .env.example .env        
 python manage.py migrate
 python manage.py runserver
 ```
@@ -233,7 +233,7 @@ python manage.py runserver
 ### Browse to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 ---
 
-## 🧪 Detailed User Testing
+##  Manual User Testing
 
 ### ✅ Manual Testing
 
@@ -259,7 +259,7 @@ python manage.py runserver
 | **Mobile**        | Navigate on iPhone SE / Galaxy S8 | Layout responsive, navbar collapses correctly    | ✅      |
 | **Accessibility** | Navigate with keyboard            | All interactive elements are reachable           | ✅      |
 
-### 🧪 Testing Status
+### Testing Status
 
 * **Manual Testing**: ✅ Comprehensive manual testing completed
 * **Performance**: Lighthouse scores -- across all categories
@@ -282,7 +282,7 @@ python manage.py runserver
 
 | Resource                      | Usage                                   |
 | ----------------------------- | --------------------------------------- |
-| **Envato**                            | Base png elements for some avatar packs   |
+| **Envato**                            | Base png elements for some sample avatar packs   |
 | **Stylized semi-3D character images** | Created by the owner of Avagen - Isa Hu      |                  
 | **Stripe Docs & Samples**             | Checkout & stripe credit card implementation   |
 | **Code Institute**                    | Webhooks implementation
