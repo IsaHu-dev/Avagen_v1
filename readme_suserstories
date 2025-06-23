@@ -1,0 +1,46 @@
+## User Stories
+
+| Role                          | Story                                                                                       | Acceptance 
+Criteria                                                                                          |
+|------------------------------|---------------------------------------------------------------------------------------------|
+---------------------------------------------------------------------------------------------------------------|
+| Site Visitor                 | *I want to view detailed information about individual products*                            | Product detail pages show title, description, price, reviews, images, and 
+licence options.                   |
+| Site Visitor                 | *I want to filter products by category*                                                     | Category filters return results instantly without page 
+reload.                                               |
+| Site Visitor                 | *I want to see a running total of my purchases*                                             | Cart updates total price dynamically as items are added or 
+removed.                                          |
+| Site Visitor                 | *I want to preview avatars before buying*                                                   | Index page loads within <3s, displays 12 avatars per page, and clicking an 
+item opens its detail page.      |
+| Site User                    | *I want to receive a confirmation email after signing up*                                   | Confirmation email is sent immediately after successful 
+registration.                                        |
+| User (searching)             | *I want to see what I searched for and how many matches were found*                         | Search term is echoed on the results page with total match count displayed 
+above results.                    |
+| Site User                    | *I want to log in and log out effortlessly*                                                  | Login and logout actions complete without error and redirect as 
+expected.                                   |
+| Site User                    | *I want to reset my password if I forget it*                                                 | Password reset emails are sent within 1 minute of request and allow full 
+account recovery.                   |
+| Site User                    | *I want a custom user profile with my order history*                                         | Profile page shows past orders, licence details, and editable personal 
+info.                                |
+| Online Shopper               | *I want to organize product listings by rating, price, or category*                         | Sorting options update grid without refreshing the 
+page.                                                     |
+| Online Shopper (specific)    | *I want to search for items using keywords from the name or description*                    | Search field returns matching results 
+instantly.                                                             |
+| Shopper (category browsing)  | *I want to reorder items in a category by price, popularity, or name*                       | Sort dropdowns apply within filtered categories and update the product 
+grid.                                |
+| User (cross-category search) | *I want to apply sorting across different categories*                                       | Sorting persists even when switching between 
+categories.                                                     |
+| Site Admin / Superuser       | *I want to dynamically update the \"New Releases\" section from the admin panel*             | Admin dashboard allows marking products as \"New\" and the nav bar 
+updates without needing code changes.       |
+| Authenticated User           | *I want to download my past purchases again anytime*                                        | Users can view order history and access download links in \"Download 
+Again\" section.                         |
+| Admin / Superuser            | *I want to upload product files and assign them to specific items*                         | Admins can upload ZIPs in the Django admin and map them to product name & 
+model number.                     |
+| Admin / Superuser            | *I want to make products temporarily invisible without deleting them*                       | Products can be toggled between live and draft 
+status.                                                       |
+| Visitor                      | *I want to subscribe to a newsletter for updates*                                           | Newsletter signup accepts name and email; stores info for Mailchimp/SMTP 
+integration.                       |
+| Developer / SEO Specialist   | *I want search engines to properly index the site*                                          | Sitemap.xml, robots.txt, and clean meta tags are available and 
+auto-generated.                              |
+| Admin                        | *I want to manage products, categories, and users easily*                                   | Django Admin dashboard supports full CRUD operations and access control by 
+user tier.                       |

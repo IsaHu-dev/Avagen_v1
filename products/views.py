@@ -12,7 +12,7 @@ from reviews.forms import ReviewForm
 def all_products(request):
     """ Display all products, with support for sorting, category filtering, and search. """
 
-    items = Product.objects.all()
+    items = Product.objects.filter(status='published')
     active_query = None
     selected_categories = None
     sort_option = request.GET.get('sort', '')
@@ -28,19 +28,29 @@ def all_products(request):
             case 'price_desc':
                 items = items.order_by('-base_price')
             case 'name_az':
-                items = items.annotate(lower_name=Lower('name')).order_by('lower_name')
+                items = items.annotate(
+                    lower_name=Lower('name')
+                ).order_by('lower_name')
             case 'name_za':
-                items = items.annotate(lower_name=Lower('name')).order_by('-lower_name')
+                items = items.annotate(
+                    lower_name=Lower('name')
+                ).order_by('-lower_name')
             case 'rating_high':
-                items = items.annotate(avg_score=Avg('reviews__rating')).order_by('-avg_score')
+                items = items.annotate(
+                    avg_score=Avg('reviews__rating')
+                ).order_by('-avg_score')
             case 'rating_low':
-                items = items.annotate(avg_score=Avg('reviews__rating')).order_by('avg_score')
+                items = items.annotate(
+                    avg_score=Avg('reviews__rating')
+                ).order_by('avg_score')
 
     # Category filter
     if 'category' in request.GET:
         category_names = request.GET['category'].split(',')
         items = items.filter(category__name__in=category_names)
-        selected_categories = Category.objects.filter(name__in=category_names)
+        selected_categories = Category.objects.filter(
+            name__in=category_names
+        )
 
     # Search query
     if 'q' in request.GET:
@@ -49,7 +59,10 @@ def all_products(request):
             messages.error(request, "Please enter a valid search term.")
             return redirect(reverse('products'))
 
-        lookup = Q(name__icontains=active_query) | Q(description__icontains=active_query)
+        lookup = (
+            Q(name__icontains=active_query) | 
+            Q(description__icontains=active_query)
+        )
         items = items.filter(lookup)
 
     context = {
