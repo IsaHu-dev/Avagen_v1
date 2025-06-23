@@ -19,7 +19,7 @@ The platform is built with **Django 5**, **PostgreSQL** and **Stripe** to prov
 
 ### Target Users
 
-| Persona                   | Needs                                                 |
+| User (Persona)            | Needs                                                 |
 | ------------------------- | ----------------------------------------------------- |
 | **Gamers & streamers**    | Original in‑game skins & digital profile                                          |
 | **All users**             | Anyone aged 16+ or older, of any gender, who loves social media and gaming.        |
@@ -124,6 +124,7 @@ The interface uses soft, neutral colors with a single eye-catching gradient ( #7
 
 Project tasks were tracked in **GitHub Projects** (Kanban). Each card contained a *user story* with acceptance criteria and links to the relevant pull request.
 
+
 ## User Stories
 
 | Role                          | Story                                                                                       | Acceptance Criteria                                                                                          |
@@ -141,7 +142,7 @@ Project tasks were tracked in **GitHub Projects** (Kanban). Each card contained 
 | Online Shopper (specific)    | *I want to search for items using keywords from the name or description*                    | Search field returns matching results instantly.                                                             |
 | Shopper (category browsing)  | *I want to reorder items in a category by price, popularity, or name*                       | Sort dropdowns apply within filtered categories and update the product grid.                                |
 | User (cross-category search) | *I want to apply sorting across different categories*                                       | Sorting persists even when switching between categories.                                                     |
-| Site Admin / Superuser       | *I want to dynamically update the \"New Releases\" section from the admin panel*             | Admin dashboard allows marking products as \"New\" and the nav bar updates without needing code changes.       |
+| Site Admin / Superuser       | *I want to dynamically update the \"New Releases\" section from the admin panel*             | Admin dashboard updates additions to 'New Releases' in the navbar without needing code changes.       |
 | Authenticated User           | *I want to download my past purchases again anytime*                                        | Users can view order history and access download links in \"Download Again\" section.                         |
 | Admin / Superuser            | *I want to upload product files and assign them to specific items*                         | Admins can upload ZIPs in the Django admin and map them to product name & model number.                     |
 | Admin / Superuser            | *I want to make products temporarily invisible without deleting them*                       | Products can be toggled between live and draft status.                                                       |
