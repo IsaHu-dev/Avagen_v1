@@ -113,7 +113,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
 
 ### Logo & Brand Identity
 
-![Avagen Logo](media/avagen_logo_text.png)
+![Avagen Logo](media/avagen_logo_text.webp)
 
 The Avagen logo represents the brand's focus on digital identity creation. It is futuristic and colourful.  
 The logo communicates that Avagen is a forward-thinking brand centered on empowering users to create unique digital personas.
