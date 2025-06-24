@@ -262,16 +262,7 @@ input[type="month"],
 input[type="week"],
 textarea,
 select {
-    border-radius: 8px !important;
-}
-
-/* Global Button Styling */
-.btn,
-button,
-input[type="submit"],
-input[type="button"],
-input[type="reset"] {
-    border-radius: 8px !important;
+    border-radius: 3px;
 }
 
 /* Product Form */
@@ -409,5 +400,83 @@ input[type="reset"] {
     font-size: 0.95rem;
 }
 
+/* Pill-shaped buttons for product page actions */
+.btn-keep-shopping,
+.btn-add-to-cart {
+    border-radius: 8px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-weight: 500;
+}
+
+.btn-rounded {
+    border-radius: 4px;
+}
+
+.login input[type="text"],
+.login input[type="email"],
+.login input[type="password"],
+.login input[type="number"],
+.login input[type="tel"],
+.login input[type="url"],
+.login input[type="search"],
+.login input[type="date"],
+.login input[type="time"],
+.login input[type="datetime-local"],
+.login input[type="month"],
+.login input[type="week"],
+.login textarea,
+.login select {
+    border-radius: 4px;
+}
+
+.btn-smaller {
+    font-size: 1rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+@media (max-width: 575.98px) {
+  .btn-keep-shopping-wide,
+  .btn-guest-checkout-wide {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  .cart-summary-box {
+    max-width: 100% !important;
+    float: none !important;
+  }
+}
+
+.btn-keep-shopping-wide {}
+.btn-guest-checkout-wide {}
+
+.cart-action-btn {
+    min-width: 180px;
+    max-width: 240px;
+    width: 100%;
+}
+
+/* Instagram brand colors */
+.fab.fa-instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.fab.fa-instagram:hover {
+    background: linear-gradient(45deg, #bc1888 0%, #cc2366 25%, #dc2743 50%, #e6683c 75%, #f09433 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Footer links styling */
+.footer-link a {
+    font-size: 0.9rem;
+}
 
 
