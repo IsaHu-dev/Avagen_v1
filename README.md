@@ -119,7 +119,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
 
 The Avagen logo represents the brand's focus on digital identity creation. 
 
-The interface is designed with a clean and minimal layout with soft neutral colors and a distinct gradient accent (  #17A2B8 → #E100FF) on buttons and interactive elements. This guides users toward key actions while keeping the interface simple and readable.
+The interface is designed with a clean and minimal layout with soft neutral colors and a distinct gradient accent <br> (  #17A2B8 → #E100FF) on buttons and interactive elements. This guides users toward key actions while keeping the interface simple and readable.
 
 Typography is modern and legible, using Inter for body text and Space Grotesk for headings. The design looks consistent and clear across all screen sizes and enhances the overall user experience.
 
@@ -154,9 +154,106 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 | Admin                        | *I want to manage products, categories, and users easily*                                   | Django Admin dashboard supports full CRUD operations and access control by user tier.                       |
 
 
-## Models (simplified)
+## Models 
 
+### Custom Models and Code Architecture
 
+The application includes five custom models across modular apps, each written manually custom models to address the needs of the user, site owner and online shopper:
+
+1. ### `reviews` App – `Review` Model
+- Connected to `User` and `Product` via foreign keys.
+- Stores `rating` (1–5 stars), `comment`, and a `created_on` timestamp.
+- Prevents duplicate reviews per user/product using model-level constraints.
+- Includes logic for calculating average product ratings.
+
+2. ### `catalogue` App – `Catalogue` Models
+
+The catalogue app is responsible for: 
+
+- Associating **digital downloads** with products.
+- Allowing **authenticated users** to access downloads after purchase or review.
+- Enabling **admins** to upload downloadable content via Django Admin.
+
+**DigitalDownload**
+
+Stores downloadable files for each product.
+
+**Fields:**
+- `product`: ForeignKey to `Product`
+- `file_url`: Link to file (links product files to secure Google Cloud Storage URLs).
+- `uploaded_at`: Timestamp
+
+- Download access is restricted to users who’ve completed a purchase.
+
+3. ### `newsletter` App – `Subscriber` Model
+- Stores `first_name`, `last_name`, and `email` fields.
+- Designed to work with external marketing tools like Mailchimp or SMTP.
+- Built manually, allowing full control over form handling and integration.
+
+```python
+class Subscriber(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)
+    subscribed_on = models.DateTimeField(auto_now_add=True)
+```
+
+4. ### `faq` App – `FAQ` Model
+
+The FAQ model is designed to store frequently asked questions along with their answers. 
+
+- Question & Answer structure
+- Optional user association (via `ForeignKey`)
+- Auto timestamp for creation date
+- Admin-friendly metadata (ordering, verbose names)
+
+The model has two main fields:
+
+- `question`: A `CharField` used to store the text of the question.  
+  `max_length=255` restricts it to 255 characters.
+
+- `answer`: A `TextField` for storing the full answer or explanation.  
+  This allows long-form content.
+
+ **Optional User Association**
+
+```python
+user = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+)
+```
+
+All models are custom-coded and optimized for extensibility, security, and clarity—adhering to Django ORM and clean code principles throughout.
+Would you like this inserted directly into your canvas or delivered as a standalone .md file?
+
+5. ### `product` App – `Product` Model
+
+- Core model with `name`, `description`, `model_number`, `base_price`, and Cloudinary images.
+- Displays a list of all available products.
+- Includes a `slug` field for SEO-friendly URLs.
+- `base_price` Contains methods for dynamic pricing that is incremental from the base price. Returns price for `Personal`, `Indie`, or `Professional` licenses.
+- `is_live` controls products storefront visibility (draft or published).
+- Cloudinary used for optimized media storage.
+
+**Category**
+- Self-referencing `parent` field for hierarchical structure.
+- Supports nested categories for advanced product filtering.
+
+**LicensePrice**
+- Stores multipliers for Personal, Indie, and Professional licenses.
+```
+class Product(models.Model):
+    name = models.CharField(max_length=120)
+    slug = models.SlugField(unique=True)
+    model_number = models.CharField(max_length=20)
+    description = models.TextField()
+    base_price = models.DecimalField(max_digits=8, decimal_places=2)
+    image = CloudinaryField('image')
+    is_live = models.BooleanField(default=False)
+```
 
 ## Technologies Used
 
@@ -298,7 +395,7 @@ python manage.py runserver
 
 ## Licence
 
-All code is released under the **MIT Licence**. Avatars and artwork are released under the **Avagen Digital Asset Licence** (see `LICENCE.md`).
+All code is released under the **[MIT Licence](https://opensource.org/licenses/MIT)**.
 
 ---
 
