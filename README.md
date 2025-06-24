@@ -110,18 +110,20 @@ Avagen is a full-stack Django web application designed for selling digital produ
 | Asset              | Preview |
 | ------------------ | ------- |
 | **Wireframes**     |   tbc   |
-| **Colour palette** |   tbc   |
-
 
 ### Logo & Brand Identity
 
 ![Avagen Logo](media/avagen_logo_text.png)
 
-The Avagen logo represents the brand's focus on digital identity creation. 
+The Avagen logo represents the brand's focus on digital identity creation. It is futuristic and colourful.  
+The logo communicates that Avagen is a forward-thinking brand centered on empowering users to create unique digital personas.
 
-The interface is designed with a clean and minimal layout with soft neutral colors and a distinct gradient accent <br> (  #17A2B8 → #E100FF) on buttons and interactive elements. This guides users toward key actions while keeping the interface simple and readable.
+## Colour Palette ##
 
-Typography is modern and legible, using Inter for body text and Space Grotesk for headings. The design looks consistent and clear across all screen sizes and enhances the overall user experience.
+![Colour Palette] (media/colourpalette.webp)
+
+The Avagen site uses a clean, minimal layout with a palette of soft neutral colors for backgrounds and sections. Bold, vibrant colors like blue (#007BFF), yellow (#FFC107), and raspberry (#D72660) are used for buttons and key actions, making them stand out and easy to find. This approach keeps the interface simple and readable while clearly guiding users to important features.
+Typography is modern and easy to read, with Inter for body text and Space Grotesk for headings. The design stays consistent and clear on all screen sizes, creating a smooth and enjoyable user experience.
 
 ## Agile Process
 
