@@ -21,7 +21,7 @@
             <table class="table table-sm table-borderless">
                 <thead class="text-black">
                     <tr>
-                        <th>Product Info</th><th></th><th>Price</th><th>Qty</th><th>Subtotal</th>
+                        <th>Product Info</th><th></th><th>Price</th><th>Qty</th>
                     </tr>
                 </thead>
                 {% for item in cart_items %}
@@ -47,25 +47,33 @@
                             <a href="#" class="remove-item text-danger small" data-item_id="{{ item.item_id }}">Remove</a>
                         </form>
                     </td>
-                    <td class="py-3"><p class="my-0">£{{ item.product.price|calc_subtotal:item.quantity }}</p></td>
+              
                 </tr>
                 {% endfor %}
                 <tr>
-                    <td colspan="5" class="pt-5 text-right">
-                        <h6><strong>Cart Total: {{ total|floatformat:2 }}</strong></h6>
-                        <h4 class="mt-4"><strong>Grand Total: £{{ grand_total|floatformat:2 }}</strong></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5" class="text-right">
-                        <a href="{% url 'products' %}" class="btn btn-outline-black btn-rounded btn-lg">
-                            <span class="icon"><i class="fas fa-chevron-left"></i></span>
-                            <span class="text-uppercase">Keep Shopping</span>
-                        </a>
-                        <a href="{% url 'checkout' %}" class="btn btn-warning btn-rounded btn-lg">
-                            <span class="text-uppercase">Secure Checkout</span>
-                            <span class="icon"><i class="fas fa-shopping-bag"></i></span>
-                        </a>
+                    <td colspan="3"></td>
+                    <td colspan="2" class="text-right" style="vertical-align: middle;">
+                        <div class="cart-summary-box" style="max-width:400px; float: right;">
+                            <h4 class="mt-4"><strong>Cart Total: £{{ grand_total|floatformat:2 }}</strong></h4>
+                            <div class="d-flex flex-column align-items-end w-100 mt-3 cart-summary-box">
+                                <div class="row w-100 mb-2">
+                                    <div class="col-12 mb-2">
+                                        <div class="d-flex flex-column align-items-center" style="max-width: 240px; width: 100%; margin: 0 auto;">
+                                            <a href="{% url 'products' %}" class="btn btn-outline-black btn-rounded btn-sm btn-smaller d-inline-flex align-items-center w-100 mb-2">
+                                                <span class="icon"><i class="fas fa-chevron-left"></i></span>
+                                                <span class="text-uppercase ml-2" style="white-space:nowrap;">Keep&nbsp;Browsing</span>
+                                            </a>
+                                            <a href="{% url 'account_login' %}?next={% url 'checkout' %}" class="btn btn-outline-black btn-rounded btn-sm btn-smaller w-100 mb-2" style="white-space:nowrap;">
+                                                <span class="text-uppercase">Sign&nbsp;In</span>
+                                            </a>
+                                            <a href="{% url 'checkout' %}" class="btn btn-warning btn-rounded btn-sm btn-smaller w-100" style="white-space:nowrap;">
+                                                <span class="text-uppercase">Guest&nbsp;Checkout</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -74,7 +82,7 @@
             <p class="lead mb-5">Your cart is empty.</p>
             <a href="{% url 'products' %}" class="btn btn-outline-black btn-rounded btn-lg">
                 <span class="icon"><i class="fas fa-chevron-left"></i></span>
-                <span class="text-uppercase">Keep Shopping</span>
+                <span class="text-uppercase">Back</span>
             </a>
         {% endif %}
     </div></div>

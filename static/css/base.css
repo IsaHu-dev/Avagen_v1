@@ -262,7 +262,7 @@ input[type="month"],
 input[type="week"],
 textarea,
 select {
-    border-radius: 8px;
+    border-radius: 3px;
 }
 
 /* Product Form */
@@ -410,7 +410,7 @@ select {
 }
 
 .btn-rounded {
-    border-radius: 8px;
+    border-radius: 4px;
 }
 
 .login input[type="text"],
@@ -427,8 +427,34 @@ select {
 .login input[type="week"],
 .login textarea,
 .login select {
-    border-radius: 8px;
+    border-radius: 4px;
 }
 
+.btn-smaller {
+    font-size: 1rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+@media (max-width: 575.98px) {
+  .btn-keep-shopping-wide,
+  .btn-guest-checkout-wide {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  .cart-summary-box {
+    max-width: 100% !important;
+    float: none !important;
+  }
+}
+
+.btn-keep-shopping-wide {}
+.btn-guest-checkout-wide {}
+
+.cart-action-btn {
+    min-width: 180px;
+    max-width: 240px;
+    width: 100%;
+}
 
 
