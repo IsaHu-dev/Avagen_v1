@@ -31,7 +31,7 @@
                         <p class="my-0"><strong>{{ item.product.name }}</strong></p>
                         <p class="my-0 small text-muted">Model Number: {{ item.product.model_number|upper }}</p>
                     </td>
-                    <td class="py-3"><p class="my-0">£{{ item.product.price }}</p></td>
+                    <td class="py-3"><p class="my-0">£{{ item|get_unit_price }}</p></td>
                     <td class="py-3 w-25">
                         <form id="update-form-{{ item.item_id }}" class="update-form" method="POST" action="{% url 'adjust_cart' item.item_id %}">
                             {% csrf_token %}
