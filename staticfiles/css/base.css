@@ -42,12 +42,14 @@ body {
     color: white;
     min-width: 260px;
     font-weight: 500;
+    border-radius: 8px;
 }
 
 .btn-black {
     background: black;
     color: white;
     font-weight: 500;
+    border-radius: 8px;
 }
 
 .btn-outline-black {
@@ -55,6 +57,7 @@ body {
     color: black !important;
     border: 1px solid black;
     font-weight: 500;
+    border-radius: 8px;
 }
 
 .btn-outline-black:hover,
@@ -203,7 +206,7 @@ input[name='q']::placeholder {
 
 .allauth-form-inner-content input {
     border-color: #000;
-    border-radius: 0;
+    border-radius: 8px;
 }
 
 .allauth-form-inner-content label:not([for='id_remember']) {
@@ -227,7 +230,7 @@ input[name='q']::placeholder {
     padding: .375rem .75rem;
     font-size: 1rem;
     line-height: 1.5;
-    border-radius: 0;
+    border-radius: 8px;
     transition: color .15s ease-in-out, background-color .15s ease-in-out,
                 border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
@@ -241,6 +244,34 @@ input[name='q']::placeholder {
 
 .allauth-form-inner-content a {
     color: #17a2b8;
+}
+
+/* Global Form Field Styling */
+.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+textarea,
+select {
+    border-radius: 8px !important;
+}
+
+/* Global Button Styling */
+.btn,
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+    border-radius: 8px !important;
 }
 
 /* Product Form */
@@ -261,14 +292,14 @@ input[name='q']::placeholder {
 }
 
 .custom-checkbox .custom-control-label::before {
-    border-radius: 0;
+    border-radius: 4px;
     border-color: #dc3545;
 }
 
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
     background-color: #dc3545;
     border-color: #dc3545;
-    border-radius: 0;
+    border-radius: 4px;
 }
 
 @media (min-width: 992px) {
@@ -367,3 +398,16 @@ input[name='q']::placeholder {
     height: 100%;
     object-fit: contain;
 }
+
+.qty_input {
+    width: 50px !important;
+    min-width: 0;
+    max-width: 80px;
+    text-align: center;
+}
+.footer-link {
+    font-size: 0.95rem;
+}
+
+
+

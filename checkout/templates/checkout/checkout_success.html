@@ -192,7 +192,7 @@
                 <p class="text-black">We'd love to hear your thoughts on your purchase!</p>
                 {% for item in order.lineitems.all %}
                     <div class="mb-3">
-                        <a href="{% url 'add_review' item.product.id %}" class="btn btn-outline-black rounded-0 my-2">
+                        <a href="{% url 'add_review' item.product.id %}" class="btn btn-outline-black rounded-0 btn-rounded my-2">
                             <span class="icon mr-2">
                                 <i class="fas fa-star"></i>
                             </span>
@@ -200,7 +200,7 @@
                         </a>
         
                         {% if item.product.digital_download %}
-                        <a href="{% url 'catalogue:download_avatar' item.product.id %}" class="btn btn-success rounded-0 my-2 ml-2">
+                        <a href="{% url 'catalogue:download_avatar' item.product.id %}" class="btn btn-success rounded-0 btn-rounded my-2 ml-2">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>

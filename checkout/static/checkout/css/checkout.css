@@ -1,49 +1,58 @@
+/* Stripe and custom input styling */
 .StripeElement,
-.stripe-style-input {
+.stripe-style-input,
+#payment-form .form-control,
+#card-element,
+#payment-form input,
+#payment-form select,
+#payment-form textarea,
+select {
   box-sizing: border-box;
   height: 40px;
   padding: 10px 12px;
-  border: 1px solid transparent;
-  border-radius: 0px;
+  border: 1px solid #000;
+  border-radius: 8px;
   background-color: white;
+  color: #000;
   box-shadow: 0 1px 3px 0 #e6ebf1;
-  -webkit-transition: box-shadow 150ms ease;
   transition: box-shadow 150ms ease;
 }
 
+/* Focus and active state */
 .StripeElement--focus,
 .stripe-style-input:focus,
 .stripe-style-input:active {
   box-shadow: 0 1px 3px 0 #cfd7df;
 }
 
+/* Autofill override */
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
 }
 
+/* Placeholder color */
 .stripe-style-input::placeholder {
-    color: #aab7c4;
+  color: #aab7c4;
 }
 
+/* Label tweak */
 .fieldset-label {
-    position: relative;
-    right: .5rem;
+  position: relative;
+  right: 0.5rem;
 }
 
-#payment-form .form-control,
-#card-element {
-    color: #000;
-    border: 1px solid #000;
-}
-select,
+/* Select option styling */
 select option {
-   color: #000000;
+  color: #000;
 }
-select:invalid, 
-  select option [value=""] {
+
+/* Invalid select state */
+select:invalid,
+select option[value=""] {
   color: #aab7c4 !important;
 }
 
+/* Loading overlay and spinner */
 #loading-overlay {
   display: none;
   position: fixed;
@@ -61,4 +70,3 @@ select:invalid,
   justify-content: center;
   height: 100%;
 }
-
