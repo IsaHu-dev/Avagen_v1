@@ -53,10 +53,12 @@ Avagen is a full-stack Django web application designed for selling digital produ
 
 - **Cart & Checkout**
   - Add products (with chosen licence) to cart and adjust quantities inline.
-  - Encrypted payment processing ensures security.
   - Optimized for mobile and desktop devices.
   - Verified Stripe webhooks finalise orders.
   - Fully responsive checkout pages optimised for mobile and desktop.
+  - Guest Checkout or Sign-In from Cart Page
+  - Users can proceed to checkout as a guest or choose to sign in directly from the cart page.
+  - If signed in, previous address and order history are autofilled.
 
 - **Digital Delivery**
   - Download links shown immediately after successful payment.
@@ -100,14 +102,13 @@ Avagen is a full-stack Django web application designed for selling digital produ
 2. **Login** - Login with your username or email and input your password.
 2. **Explore avatars** – filter by theme (Personalized, Artistic, Seasonal or Special Events, etc.) or sort by price / rating.
 3. **Add to cart** – adjust quantity or remove items directly from the mini‑cart.
-4. **Checkout** – fill in billing info and pay securely via Stripe. A confirmation email is sent instantly.
+4. **Checkout** – choose to checkout as a guest or sign in from the cart page. Then fill in billing info and pay securely via Stripe.
 5. **Download** – use the *Download* button on the success page or from *My Orders* at any time.
 6. **Manage account** – change personal info, view order history, re‑download files or delete your account.
 
 
 ## UX & Design
 
-| Asset              | Preview |
 | ------------------ | ------- |
 | **Wireframes**     |   tbc   |
 
@@ -176,7 +177,7 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 |----------------------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------|
 | Superuser / Admin    | Dynamically update the "New Releases" section                      | Ensure it stays current without editing code                                      |
 | Admin / Superuser    | Upload product files and assign them to specific items             | Attach ZIP files for download based on product name and model number             |
-| Admin / Superuser    | Make products temporarily invisible without deleting them          | Manage visibility without losing data                                            |
+| Admin / Superuser    | Make products temporarily invisible without deleting them          | Edit the product without publishing it                                           |
 | Admin                | Manage products, categories, and users easily                      | Perform full CRUD in Django Admin with access control                            |
 
 ---
@@ -185,7 +186,7 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 
 | As a / an             | I want to:                                                   | So that I can:                                                                  |
 |-----------------------|--------------------------------------------------------------|----------------------------------------------------------------------------------|
-| Visitor               | Subscribe to a newsletter for updates                        | Receive new product alerts and special offers                                   |
+| Site Visitor          | Subscribe to a newsletter for updates                        | Receive new product alerts and special offers                                   |
 | Developer / SEO       | Have search engines properly index the site                  | Improve site visibility with sitemap, robots.txt, and structured meta tags      |
 
 ---
