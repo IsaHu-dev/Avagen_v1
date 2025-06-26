@@ -397,6 +397,7 @@ python manage.py runserver
 
 ## Manual User Testing
 
+
 | Area              | Action                                   | Expected Result                                                           | Status |
 | ----------------- | ---------------------------------------- | ------------------------------------------------------------------------- | ------ |
 | **Registration**  | Submit form with valid input             | Redirect to Dashboard, confirmation email sent                            | ✅     |
@@ -417,6 +418,9 @@ python manage.py runserver
 | **Delivery**      | Download from success page               | ZIP or file download starts                                               | ✅     |
 |                   | Download from past orders                | File re-downloads without issues                                          | ✅     |
 | **Profile**       | Edit account info                        | Name/email updates can be changed at any time                             | ✅     |
+|                   | Edit user bio and display name           | Bio and display name saved and shown on profile page                      | ✅     |
+|                   | Upload profile image                     | Image saved and rendered with custom widget                               | ✅     |
+|                   | Fill address fields                      | Address details saved and used for delivery defaults                      | ✅     |
 |                   | Delete account                           | Data removed, user logged out                                             | ✅     |
 | **Mobile**        | Navigate on iPhone SE / Galaxy S8        | Layout responsive, navbar collapses correctly                             | ✅     |
 | **Accessibility** | Navigate with keyboard                   | All interactive elements are reachable                                    | ✅     |
@@ -425,7 +429,6 @@ python manage.py runserver
 | **Admin**         | Use 'Is Creator' checkbox                | Categories appear in 'New Releases' dropdown in main nav bar              | ✅     |
 | **Search**        | Use keyword search bar                   | Matching products shown from the keyword search                           | ✅     |
 | **Newsletter**    | Submit email on signup form              | Confirmation message shown or email stored in database                    | ✅     |
-
 
 
 | Area              | Action                                               | Expected Result                                                              | Status |
