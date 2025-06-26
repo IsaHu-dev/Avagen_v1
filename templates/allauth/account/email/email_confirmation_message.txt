@@ -2,13 +2,21 @@
 {% load account %}
 {% load i18n %}
 
-{% block content %}{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hello!
+{% block content %}{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hello {{ user_display }}!
 
-Thank you for registering with {{ site_name }}. To complete your registration and verify your email address, please click the link below:
+Welcome to Avagen! 🎉
+
+Thank you for joining our community of digital creators and enthusiasts. To complete your registration and start exploring our amazing collection of digital products, please verify your email address by clicking the link below:
 
 {{ activate_url }}
 
-If you did not create this account, you can safely ignore this email.
+Once verified, you'll have access to:
+• Premium digital products and assets
+• Early access to new releases
 
-Best regards,
-The {{ site_name }} Team{% endblocktrans %}{% endautoescape %}{% endblock %}
+If you didn't create this account, you can safely ignore this email.
+
+Welcome aboard!
+The Avagen Team
+
+P.S. Have questions? Feel free to reach out to our support team.{% endblocktrans %}{% endautoescape %}{% endblock %}

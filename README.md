@@ -395,34 +395,52 @@ python manage.py runserver
 ### Browse to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 ---
 
-##  Manual User Testing
+## Manual User Testing
 
-### ✅ Manual Testing
+| Area              | Action                                   | Expected Result                                                           | Status |
+| ----------------- | ---------------------------------------- | ------------------------------------------------------------------------- | ------ |
+| **Registration**  | Submit form with valid input             | Redirect to Dashboard, confirmation email sent                            | ✅     |
+|                   | Click email verification link            | Email verified, account fully activated                                   | ✅     |
+|                   | Check inbox after registration           | Verification message received with activation link                        | ✅     |
+|                   | Submit mismatched passwords              | Form errors shown, account not created                                    | ✅     |
+| **Login**         | Valid credentials                        | Redirect to dashboard, session starts                                     | ✅     |
+|                   | Invalid credentials                      | Error message shown                                                       | ✅     |
+| **Catalogue**     | Visit home page                          | 12+ products visible, filter sidebar available                            | ✅     |
+|                   | Use search or filters                    | Grid updates with matching items                                          | ✅     |
+| **Product Page**  | Click on product card                    | Redirect to detail page, preview gallery visible                          | ✅     |
+|                   | Click "Add to Cart"                      | Item added to cart, page redirects with success message                   | ✅     |
+|                   | Superuser: Click "Edit" or "Delete"      | Redirects to form or confirms deletion                                    | ✅     |
+| **Cart**          | Adjust quantity                          | Cart subtotal updates without page reload                                 | ✅     |
+|                   | Remove item                              | Item removed, cart total recalculates                                     | ✅     |
+| **Checkout**      | Fill form with Stripe test card          | Payment succeeds, redirect to success page                                | ✅     |
+|                   | Cancel checkout                          | Return to cart, no order created                                          | ✅     |
+| **Delivery**      | Download from success page               | ZIP or file download starts                                               | ✅     |
+|                   | Download from past orders                | File re-downloads without issues                                          | ✅     |
+| **Profile**       | Edit account info                        | Name/email updates can be changed at any time                             | ✅     |
+|                   | Delete account                           | Data removed, user logged out                                             | ✅     |
+| **Mobile**        | Navigate on iPhone SE / Galaxy S8        | Layout responsive, navbar collapses correctly                             | ✅     |
+| **Accessibility** | Navigate with keyboard                   | All interactive elements are reachable                                    | ✅     |
+| **Admin**         | Upload ZIP file to product               | File is linked and downloadable post-purchase                             | ✅     |
+| **Admin**         | Toggle product live/draft                | Visibility updated without deleting the product                           | ✅     |
+| **Admin**         | Use 'Is Creator' checkbox                | Categories appear in 'New Releases' dropdown in main nav bar              | ✅     |
+| **Search**        | Use keyword search bar                   | Matching products shown from the keyword search                           | ✅     |
+| **Newsletter**    | Submit email on signup form              | Confirmation message shown or email stored in database                    | ✅     |
 
-| Area              | Action                            | Expected Result                                  | Status |
-| ----------------- | --------------------------------- | ------------------------------------------------ | ------ |
-| **Registration**  | Submit form with valid input      | Redirect to Dashboard, confirmation email sent   | ✅      |
-|                   | Submit mismatched passwords       | Form errors shown, account not created           | ✅      |
-| **Login**         | Valid credentials                 | Redirect to dashboard, session starts            | ✅      |
-|                   | Invalid credentials               | Error message shown                              | ✅      |
-| **Catalogue**     | Visit home page                   | 12+ products visible, filter sidebar available   | ✅      |
-|                   | Use search or filters             | Grid updates with matching items                 | ✅      |
-| **Product Page**  | Click on product card             | Redirect to detail page, preview gallery visible | ✅      |
-|                   | Click "Add to Cart"               | Item added to cart, page redirects with success message | ✅      |
-| **Cart**          | Adjust quantity                   | Cart subtotal updates without page reload        | ✅      |
-|                   | Remove item                       | Item removed, cart total recalculates            | ✅      |
-| **Checkout**      | Fill form with Stripe test card   | Payment succeeds, redirect to success page       | ✅      |
-|                   | Cancel checkout                   | Return to cart, no order created                 | ✅      |
-| **Delivery**      | Download from success page        | ZIP or file download starts                      | ✅      |
-|                   | Download from past orders         | File re-downloads without issues                 | ✅      |
-| **Profile**       | Edit account info                 | Name/email updates can be changed at any time    | ✅      |
-|                   | Delete account                    | Data removed, user logged out                    | ✅      |
-| **Mobile**        | Navigate on iPhone SE / Galaxy S8 | Layout responsive, navbar collapses correctly    | ✅      |
-| **Accessibility** | Navigate with keyboard            | All interactive elements are reachable           | ✅      |
-| **Admin**         | Upload ZIP file to product        | File is linked and downloadable post-purchase    | ✅      |
-| **Admin**         | Toggle product live/draft         | Visibility updated without deleting the product  | ✅      |
-| **Search**        | Use keyword search bar            | Matching products shown from the keyword search  | ✅      |
-| **Newsletter**    | Submit email on signup form       | Confirmation message shown or email stored in database | ✅      |
+
+
+| Area              | Action                                               | Expected Result                                                              | Status |
+| ----------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------- | ------ |
+| **Admin**         | Upload product image via admin                       | Image is saved and visible in preview thumbnail                             | ✅     |
+| **Admin**         | Upload ZIP file to product                           | File is linked and downloadable post-purchase                               | ✅     |
+| **Admin**         | Use 'Is Creator' checkbox in Category                | Category appears in 'New Releases' or creator-specific dropdowns            | ✅     |
+| **Admin**         | Toggle product between 'Draft' and 'Published'       | Product visibility updates across site without being deleted                | ✅     |
+| **Admin**         | Use bulk action: Mark selected as Draft              | Selected products are set to 'draft' status and disappear from public view  | ✅     |
+| **Admin**         | Use bulk action: Mark selected as Published          | Selected products are live and visible on the site                          | ✅     |
+| **Admin**         | Edit model_number field (visible for superusers only)| Superuser sees and can update the model_number field                        | ✅     |
+| **Admin**         | Check readonly timestamps (created_at, modified_at)  | Fields are visible but cannot be edited manually                            | ✅     |
+| **Admin**         | Verify search by name, description, model_number     | Matching products appear in the admin list view                             | ✅     |
+| **Admin**         | View image preview in admin list                     | Thumbnail preview appears in image_preview column                           | ✅     |
+
 
 ### Testing Status
 
