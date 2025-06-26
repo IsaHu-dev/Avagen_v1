@@ -136,6 +136,8 @@
                                     <th>Order #</th>
                                     <th>Date</th>
                                     <th>Items</th>
+                                    <th>Model #</th>
+                                    <th>License Level</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -157,10 +159,24 @@
                                                 {% endfor %}
                                             </ul>
                                         </td>
+                                        <td>
+                                            <ul class="list-unstyled small mb-0">
+                                                {% for item in order.lineitems.all %}
+                                                    <li>{{ item.product.model_number|default:'—' }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="list-unstyled small mb-0">
+                                                {% for item in order.lineitems.all %}
+                                                    <li>{{ item.license_type|title }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
                                         <td>${{ order.grand_total }}</td>
                                     </tr>
                                 {% empty %}
-                                    <tr><td colspan="4" class="text-center">No orders found.</td></tr>
+                                    <tr><td colspan="6" class="text-center">No orders found.</td></tr>
                                 {% endfor %}
                             </tbody>
                         </table>

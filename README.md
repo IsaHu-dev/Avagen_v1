@@ -218,7 +218,7 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 
 ## Models 
 
-### Custom Models and Code Architecture
+### Custom Models 
 
 The application includes five custom models across modular apps, each written manually custom models to address the needs of the user, site owner and online shopper:
 
@@ -287,12 +287,7 @@ user = models.ForeignKey(
     blank=True
 )
 ```
-
-All models are custom-coded and optimized for extensibility, security, and clarity—adhering to Django ORM and clean code principles throughout.
-Would you like this inserted directly into your canvas or delivered as a standalone .md file?
-
 5. ### `product` App – `Product` Model
-
 - Core model with `name`, `description`, `model_number`, `base_price`, and Cloudinary images.
 - Displays a list of all available products.
 - Includes a `slug` field for SEO-friendly URLs.
@@ -326,7 +321,6 @@ class Product(models.Model):
 * **Testing** – `pytest`, Lighthouse, W3C validators, Black.
 
 ## Database Schema 
-
 
 
 ## Deployment
