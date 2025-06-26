@@ -1,36 +1,21 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
+from django.contrib.auth import get_user_model
 from django_countries.fields import CountryField
 
+User = get_user_model()
 
 class UserProfile(models.Model):
-    """
-    A user profile model for maintaining default
-    delivery information and order history
-    """
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    default_phone_number = models.CharField(max_length=20, null=True, blank=True)
-    default_street_address1 = models.CharField(max_length=80, null=True, blank=True)
-    default_street_address2 = models.CharField(max_length=80, null=True, blank=True)
-    default_town_or_city = models.CharField(max_length=40, null=True, blank=True)
-    default_county = models.CharField(max_length=80, null=True, blank=True)
-    default_postcode = models.CharField(max_length=20, null=True, blank=True)
-    default_country = CountryField(blank_label='Select Country', null=True, blank=True, default='')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    display_name = models.CharField(max_length=100, blank=True)
+    bio = models.TextField(blank=True)
+    profile_image = models.ImageField(upload_to='avatars/', default='avatars/default.png')
+
+    address_line_1 = models.CharField("Address Line 1", max_length=255, blank=True)
+    address_line_2 = models.CharField("Address Line 2", max_length=255, blank=True)
+    city = models.CharField("Town/City", max_length=100, blank=True)
+    region = models.CharField("County/Region", max_length=100, blank=True)
+    postal_code = models.CharField("Postcode", max_length=20, blank=True)
+    country = CountryField(blank_label="(Select country)", blank=True)
 
     def __str__(self):
-        return self.user.username
-    
-    
-@receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
-    """
-    Create or update the user profile
-    """
-    if created:
-        UserProfile.objects.create(user=instance)
-    # Existing users: just save the profile
-    instance.userprofile.save()
-    
+        return self.display_name or self.user.username

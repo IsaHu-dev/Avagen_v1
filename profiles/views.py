@@ -1,46 +1,57 @@
-# Importing necessary Django utilities
-from django.shortcuts import render, get_object_or_404  # Used to render templates and safely fetch objects
-from django.contrib import messages  # Used to pass one-time messages to templates (like success notifications)
+# Written by Isa Hu
+
+from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # Importing the UserProfile model and associated form
 from .models import UserProfile
-from .forms import UserProfileForm
+from .forms import UserProfileForm, CustomUserUpdateForm
 
-# Importing the Order model from the checkout app
+# Import the Order model (from checkout app) to show user's order history
 from checkout.models import Order
 
-@login_required
+@login_required  # Ensure only logged-in users can access their profile
 def profile(request):
-    """
-    Display the user's profile and allow updates via a form.
-    Also fetch and display the user's past orders.
-    """
-    # Get or create the UserProfile object for the currently logged-in user
+    # Try to retrieve the UserProfile for the logged-in user;
+    # if it doesn't exist yet, create a new one.
     profile, created = UserProfile.objects.get_or_create(user=request.user)
 
-    # If the form has been submitted (POST request)
+    # If this is a POST request, handle form submission
     if request.method == 'POST':
-        # Populate form with POST data and bind it to the existing profile
-        form = UserProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            # Save the updated profile data
-            form.save()
+        # Populate forms with POST data
+        user_form = CustomUserUpdateForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(
+            request.POST, # Text fields from form
+            request.FILES, # Image uploads, e.g. profile picture 
+            instance=profile # Bind the form to the existing profile
+        )
+
+        # If both forms are valid, save the changes to DB
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
             # Display a success message to the user
             messages.success(request, 'Profile updated successfully')
         else:
-            messages.error(request, 'Update failed. Please ensure the form is valid.')
-    else:  # If not POST, display the form pre-filled with existing profile data
-        form = UserProfileForm(instance=profile)
+            # If there are errors, display them to the user
+            messages.error(
+                request, 
+                'Update failed. Please ensure the form is valid.'
+            )
+    else:  # If not POST, display the forms pre-filled with existing data
+        user_form = CustomUserUpdateForm(instance=request.user)
+        profile_form = UserProfileForm(instance=profile)
 
-    # Retrieve all orders associated with this user profile
-    orders = profile.orders.all()
+    # Retrieve all orders associated with this user
+    orders = request.user.orders.all().order_by('-date')
 
-    # Render the profile page with the form and order list
+    # Render the profile page with the forms and order list
     template = 'profiles/profile.html'
     context = {
-        'form': form,
-        'orders': orders,
-        'on_profile_page': True  # Optional context variable that may be used for conditional display in the template
+        'user_form': user_form,# Form for updating User model fields
+        'profile_form': profile_form,# Form for updating UserProfile model
+        'orders': orders, # User's order history
+        'on_profile_page': True # Optional flag for use in templates
     }
 
     return render(request, template, context)
@@ -53,17 +64,17 @@ def order_history(request, order_number):
     # Safely fetch the Order by its number or return 404 if not found
     order = get_object_or_404(Order, order_number=order_number)
 
-    # Notify the user that this is a historical confirmation (not a new order)
+    # Notify the user that this is a historical confirmation
     messages.info(request, (
         f'This is a past confirmation for order number {order_number}. '
         'A confirmation email was sent on the order date.'
     ))
 
-    # Render the same template used for a successful checkout, but indicate this came from the profile
+    # Render the same template used for a successful checkout
     template = 'checkout/checkout_success.html'
     context = {
         'order': order,
-        'from_profile': True  # This flag can help modify display in the template (e.g., hide "continue shopping" links)
+        'from_profile': True
     }
 
     return render(request, template, context)
