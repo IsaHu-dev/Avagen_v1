@@ -111,6 +111,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
 
 | ------------------ | ------- |
 | **Wireframes**     |   tbc   |
+| **Flowchart**     |   tbc   |
 
 ### Logo & Brand Identity
 
@@ -141,7 +142,7 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 | Site Visitor  | Browse a list of available products                        | Choose items to purchase                                               |
 | Site Visitor  | Filter products by category                                | Quickly find items that match my interests without browsing everything |
 | Site Visitor  | View detailed information about individual products        | Understand their price, description, ratings, images, and sizes        |
-| Site Visitor  | See a running total of my purchases                        | Keep track of how much I’m spending while shopping                     |
+| Site Visitor  | See a running total of my purchases                        | Keep track of how much I'm spending while shopping                     |
 | Site Visitor  | Preview avatars before buying                              | Browse 12 avatars per page, quickly explore individual ones            |
 
 ---

@@ -11,7 +11,7 @@ select {
   height: 40px;
   padding: 10px 12px;
   border: 1px solid #000;
-  border-radius: 8px;
+  border-radius: 4px;
   background-color: white;
   color: #000;
   box-shadow: 0 1px 3px 0 #e6ebf1;
@@ -69,4 +69,17 @@ select option[value=""] {
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+/* Ensure all checkout form fields have a 4px border-radius */
+#payment-form .form-control,
+#payment-form input,
+#payment-form select,
+#payment-form textarea,
+#payment-form .StripeElement,
+#payment-form .stripe-style-input,
+select,
+input,
+textarea {
+  border-radius: 4px;
 }

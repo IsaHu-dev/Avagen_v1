@@ -1,14 +1,14 @@
 # Written by Isa Hu
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # Importing the UserProfile model and associated form
 from .models import UserProfile
 from .forms import UserProfileForm, CustomUserUpdateForm
 
-# Import the Order model (from checkout app) to show user's order history
-from checkout.models import Order
+# Import the DigitalPurchase model (from checkout app) to show user's purchase history
+from checkout.models import DigitalPurchase
 
 @login_required  # Ensure only logged-in users can access their profile
 def profile(request):
@@ -42,40 +42,32 @@ def profile(request):
         user_form = CustomUserUpdateForm(instance=request.user)
         profile_form = UserProfileForm(instance=profile)
 
-    # Retrieve all orders associated with this user
-    orders = request.user.orders.all().order_by('-date')
+    # Retrieve all purchases associated with this user
+    purchases = DigitalPurchase.objects.filter(customer=request.user).order_by('-created_at')
 
-    # Render the profile page with the forms and order list
+    # Render the profile page with the forms and purchase list
     template = 'profiles/profile.html'
     context = {
         'profile': profile, # UserProfile object for displaying profile info
         'user_form': user_form,# Form for updating User model fields
         'profile_form': profile_form,# Form for updating UserProfile model
-        'orders': orders, # User's order history
+        'purchases': purchases, # User's purchase history
         'on_profile_page': True # Optional flag for use in templates
     }
 
     return render(request, template, context)
 
 
-def order_history(request, order_number):
+def purchase_history_detail(request, purchase_id):
     """
-    Display a past order confirmation page from the user's order history.
+    Display a past purchase confirmation page from the user's purchase history.
     """
-    # Safely fetch the Order by its number or return 404 if not found
-    order = get_object_or_404(Order, order_number=order_number)
-
-    # Notify the user that this is a historical confirmation
-    messages.info(request, (
-        f'This is a past confirmation for order number {order_number}. '
-        'A confirmation email was sent on the order date.'
-    ))
-
-    # Render the same template used for a successful checkout
-    template = 'checkout/checkout_success.html'
+    purchase = get_object_or_404(DigitalPurchase, purchase_id=purchase_id)
+    if request.user.is_authenticated and purchase.customer != request.user:
+        messages.error(request, 'Access denied')
+        return redirect('profile')
     context = {
-        'order': order,
-        'from_profile': True
+        'purchase': purchase,
+        'purchase_items': purchase.purchase_items.all(),
     }
-
-    return render(request, template, context)
+    return render(request, 'profiles/purchase_history_detail.html', context)
