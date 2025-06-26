@@ -4,10 +4,14 @@ from django.shortcuts import (
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.contrib.auth.decorators import login_required
+from products.models import DigitalProduct
 
 from .forms import OrderForm
 from .models import Order, OrderLineItem
-from products.models import Product
 from cart.inventory import cart_contents
 
 import stripe
@@ -61,7 +65,7 @@ def checkout(request):
             
             for item_id, item_data in cart.items():
                 try:
-                    product = Product.objects.get(id=item_id)
+                    product = DigitalProduct.objects.get(id=item_id)
                     if isinstance(item_data, dict):
                         order_line_item = OrderLineItem(
                             order=order,
@@ -78,7 +82,7 @@ def checkout(request):
                         )
                         order.delete()
                         return redirect(reverse('view_cart'))
-                except Product.DoesNotExist:
+                except DigitalProduct.DoesNotExist:
                     messages.error(
                         request,
                         "One of the products in your cart wasn't found in our "

@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0008_add_license_number_field'),
+        ('products', '0007_category_is_creator_product_license_number'),
     ]
 
     operations = [

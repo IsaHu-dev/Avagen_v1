@@ -109,7 +109,10 @@ class OrderLineItemAdmin(admin.ModelAdmin):
 
     def product_link(self, obj):
         """Create a link to the product"""
-        url = reverse('admin:products_product_change', args=[obj.product.id])
+        url = reverse(
+            'admin:products_digitalproduct_change', 
+            args=[obj.product.id]
+        )
         return format_html('<a href="{}">{}</a>', url, obj.product.name)
     product_link.short_description = 'Product'
 

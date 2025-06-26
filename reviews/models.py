@@ -1,10 +1,10 @@
 from django.db import models
-from products.models import Product
+from products.models import DigitalProduct
 
 
 class Review(models.Model):
     product = models.ForeignKey(
-        Product,
+        DigitalProduct,
         on_delete=models.CASCADE,
         related_name='reviews'
     )

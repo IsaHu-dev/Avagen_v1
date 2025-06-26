@@ -8,9 +8,10 @@ from django.conf import settings
 
 # Import app-specific models
 from .models import Order, OrderLineItem
-from products.models import Product
+from products.models import DigitalProduct
 from profiles.models import UserProfile
 
+import stripe
 import json
 import time
 
@@ -138,7 +139,7 @@ class StripeWH_Handler:
 
                 # Create OrderLineItems from the cart contents
                 for item_id, item_data in json.loads(cart).items():
-                    product = Product.objects.get(id=item_id)
+                    product = DigitalProduct.objects.get(id=item_id)
                     if isinstance(item_data, int):
                         # Item has no size
                         order_line_item = OrderLineItem(

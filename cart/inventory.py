@@ -1,7 +1,5 @@
-from decimal import Decimal
-from django.conf import settings
 from django.shortcuts import get_object_or_404
-from products.models import Product
+from products.models import DigitalProduct
 
 
 def calculate_delivery_cost(subtotal):
@@ -21,7 +19,7 @@ def get_cart_items(cart):
     item_count = 0
 
     for item_id, item_data in cart.items():
-        product = get_object_or_404(Product, pk=item_id)
+        product = get_object_or_404(DigitalProduct, pk=item_id)
         if isinstance(item_data, dict):
             quantity = item_data['quantity']
             license_type = item_data['license_type']

@@ -1,23 +1,25 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import Http404, FileResponse
-from products.models import Product
+from products.models import DigitalProduct
 from .models import DigitalDownload
 
-def catalogue_view(request):
+
+def catalogue(request):
     """
     View to display the catalogue of available products
     """
-    products = Product.objects.all().order_by('-rating') 
+    products = DigitalProduct.objects.all().order_by('-rating') 
     context = {
         'products': products,
     }
     return render(request, 'catalogue/catalogue.html', context)
 
+
 def download_file(request, product_id):
     """
     View to handle digital file downloads
     """
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(DigitalProduct, id=product_id)
     
     # Check if the product has a digital download
     try:

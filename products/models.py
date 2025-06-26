@@ -26,7 +26,7 @@ class Category(models.Model):
         return self.friendly_name
 
 
-class Product(models.Model):
+class DigitalProduct(models.Model):
     STATUS_CHOICES = [
         ('draft', 'Draft'),
         ('published', 'Published'),

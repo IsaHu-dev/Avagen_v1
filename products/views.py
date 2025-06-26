@@ -5,14 +5,16 @@ from django.db.models import Q, Avg
 from django.db.models.functions import Lower
 from django.db import models
 
-from .models import Product, Category
+from .models import DigitalProduct, Category
 from .forms import ProductForm
 from reviews.forms import ReviewForm
 
-def all_products(request):
-    """ Display all products, with support for sorting, category filtering, and search. """
 
-    items = Product.objects.filter(status='published')
+def list_digital_products(request):
+    """ Display all products, with support for sorting, category filtering, 
+    and search. """
+
+    items = DigitalProduct.objects.filter(status='published')
     active_query = None
     selected_categories = None
     sort_option = request.GET.get('sort', '')
@@ -65,19 +67,41 @@ def all_products(request):
         )
         items = items.filter(lookup)
 
+    # Calculate average ratings and latest reviews for each product
+    average_ratings = {}
+    latest_reviews = {}
+    
+    for product in items:
+        avg_rating = product.reviews.aggregate(
+            avg=models.Avg('rating')
+        )['avg']
+        average_ratings[product.id] = avg_rating
+        
+        latest_review = product.reviews.order_by('-created_at').first()
+        latest_reviews[product.id] = latest_review
+
     context = {
         'products': items,
         'search_term': active_query,
         'current_categories': selected_categories,
         'current_sorting': sorting_identifier,
-        'average_ratings': {product.id: product.reviews.aggregate(avg=models.Avg('rating'))['avg'] for product in items},
-        'latest_reviews': {product.id: product.reviews.order_by('-created_at').first() for product in items},
+        'average_ratings': {
+            product.id: product.reviews.aggregate(
+                avg=models.Avg('rating')
+            )['avg'] 
+            for product in items
+        },
+        'latest_reviews': {
+            product.id: product.reviews.order_by('-created_at').first() 
+            for product in items
+        },
     }
 
     return render(request, 'products/products.html', context)
 
+
 def product_detail(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
+    product = get_object_or_404(DigitalProduct, pk=product_id)
     reviews = product.reviews.all().order_by('-created_at')
 
     if request.method == 'POST':
@@ -117,7 +141,10 @@ def add_product(request):
             messages.success(request, 'Successfully added product!')
             return redirect(reverse('product_detail', args=[product.id]))
         else:
-            messages.error(request, 'Failed to add product. Please ensure the form is valid.')
+            messages.error(
+                request, 
+                'Failed to add product. Please ensure the form is valid.'
+            )
     else:
         form = ProductForm()
 
@@ -132,7 +159,7 @@ def add_product(request):
 @login_required
 def edit_product(request, product_id):
     """ Edit a product in the store """
-    product = get_object_or_404(Product, pk=product_id)
+    product = get_object_or_404(DigitalProduct, pk=product_id)
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
@@ -140,7 +167,10 @@ def edit_product(request, product_id):
             messages.success(request, 'Successfully updated product!')
             return redirect(reverse('product_detail', args=[product.id]))
         else:
-            messages.error(request, 'Failed to update product. Please ensure the form is valid.')
+            messages.error(
+                request, 
+                'Failed to update product. Please ensure the form is valid.'
+            )
     else:
         form = ProductForm(instance=product)
         messages.info(request, f'You are editing {product.name}')
@@ -161,7 +191,7 @@ def delete_product(request, product_id):
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
 
-    product = get_object_or_404(Product, pk=product_id)
+    product = get_object_or_404(DigitalProduct, pk=product_id)
     product.delete()
     messages.success(request, 'Product deleted!')
     return redirect(reverse('products'))

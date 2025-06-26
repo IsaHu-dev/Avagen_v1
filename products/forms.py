@@ -1,14 +1,18 @@
 from django import forms
 from .widgets import CustomClearableFileInput
-from .models import Product, Category
-from reviews.models import Review
+from .models import DigitalProduct, Category
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
-        model = Product
+        model = DigitalProduct
         fields = '__all__'
 
-    image = forms.ImageField(label='Image', required=False, widget=CustomClearableFileInput)
+    image = forms.ImageField(
+        label='Image', 
+        required=False, 
+        widget=CustomClearableFileInput
+    )
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)  # Extract the user
@@ -27,11 +31,3 @@ class ProductForm(forms.ModelForm):
 
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-black rounded-0'
-
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ['name', 'rating', 'comment']
-        widgets = {
-            'rating': forms.RadioSelect(choices=[(i, f'{i} Star{"s" if i > 1 else ""}') for i in range(1, 6)])
-        }
