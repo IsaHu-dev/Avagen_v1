@@ -64,10 +64,10 @@
                                                 <span class="icon"><i class="fas fa-chevron-left"></i></span>
                                                 <span class="text-uppercase ml-2" style="white-space:nowrap;">Keep&nbsp;Browsing</span>
                                             </a>
-                                            <a href="{% url 'account_login' %}?next={% url 'checkout:initiate_purchase' %}" class="btn btn-outline-black btn-rounded btn-sm btn-smaller w-100 mb-2" style="white-space:nowrap;">
+                                            <a href="{% url 'account_login' %}?next={% url 'checkout' %}" class="btn btn-outline-black btn-rounded btn-sm btn-smaller w-100 mb-2" style="white-space:nowrap;">
                                                 <span class="text-uppercase">Sign&nbsp;In</span>
                                             </a>
-                                            <a href="{% url 'checkout:initiate_purchase' %}" class="btn btn-warning btn-rounded btn-sm btn-smaller w-100" style="white-space:nowrap;">
+                                            <a href="{% url 'checkout' %}" class="btn btn-warning btn-rounded btn-sm btn-smaller w-100" style="white-space:nowrap;">
                                                 <span class="text-uppercase">Guest&nbsp;Checkout</span>
                                             </a>
                                         </div>
