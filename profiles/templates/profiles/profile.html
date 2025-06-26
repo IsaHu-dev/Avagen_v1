@@ -26,22 +26,109 @@
     </div>
 
     <div class="row">
-        <!-- Profile Update Section -->
-        <div class="col-12 col-lg-6 mb-4">
-            <p class="text-muted">Profile & Address Information</p>
-            <form method="POST" enctype="multipart/form-data" class="mt-3" id="profile-form">
-                {% csrf_token %}
-                {{ user_form|crispy }}
-                {{ profile_form|crispy }}
-                <button class="btn btn-dark text-uppercase float-right mt-3">Save Changes</button>
-            </form>
+        <!-- Profile Image and Info Section -->
+        <div class="col-12 col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="profile-image-container mb-3">
+                        {% if profile.profile_image %}
+                            <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="profile-image">
+                        {% else %}
+                            <div class="profile-image-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <h5 class="card-title">{{ profile.display_name|default:user.username }}</h5>
+                    {% if profile.bio %}
+                        <p class="card-text text-muted">{{ profile.bio }}</p>
+                    {% endif %}
+                    <div class="profile-stats">
+                        <small class="text-muted">
+                            <i class="fas fa-shopping-bag"></i> {{ orders.count }} orders
+                        </small>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Order History and Downloads -->
-        <div class="col-12 col-lg-6">
-            <div class="card shadow-sm mb-4">
+        <!-- Profile Update Section -->
+        <div class="col-12 col-lg-8 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h6 class="mb-0">Profile & Address Information</h6>
+                </div>
                 <div class="card-body">
-                    <h6 class="text-muted">Order History</h6>
+                    <form method="POST" enctype="multipart/form-data" class="mt-3" id="profile-form">
+                        {% csrf_token %}
+                        
+                        <!-- Profile Image Upload Section -->
+                        <div class="form-group">
+                            <label for="{{ profile_form.profile_image.id_for_label }}">Profile Image</label>
+                            <div class="custom-file-upload">
+                                {{ profile_form.profile_image }}
+                                <small class="form-text text-muted">Upload a profile picture (JPG, PNG, GIF up to 5MB)</small>
+                            </div>
+                        </div>
+
+                        <!-- User Information -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ user_form.first_name|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ user_form.last_name|as_crispy_field }}
+                            </div>
+                        </div>
+                        {{ user_form.email|as_crispy_field }}
+                        
+                        <!-- Profile Information -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ profile_form.display_name|as_crispy_field }}
+                            </div>
+                        </div>
+                        {{ profile_form.bio|as_crispy_field }}
+                        
+                        <!-- Address Information -->
+                        <hr class="my-4">
+                        <h6 class="text-muted mb-3">Address Information</h6>
+                        {{ profile_form.address_line_1|as_crispy_field }}
+                        {{ profile_form.address_line_2|as_crispy_field }}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ profile_form.city|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ profile_form.region|as_crispy_field }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ profile_form.postal_code|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ profile_form.country|as_crispy_field }}
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-dark text-uppercase float-right mt-3">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order History Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h6 class="mb-0">Order History</h6>
+                </div>
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-sm">
                             <thead>
@@ -80,30 +167,40 @@
                     </div>
                 </div>
             </div>
-
-            {% if downloads %}
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h6 class="text-muted">Your Downloads</h6>
-                    <ul class="list-group">
-                        {% for download in downloads %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ download.product.name }} ({{ download.license_type }})
-                                <a href="{{ download.file.url }}" class="btn btn-sm btn-outline-primary" download>
-                                    Download
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% endif %}
         </div>
     </div>
+
+    <!-- Downloads Section -->
+    {% if downloads %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h6 class="mb-0">Your Downloads</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for download in downloads %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="download-item p-3 border rounded">
+                                    <h6 class="mb-2">{{ download.product.name }}</h6>
+                                    <p class="small text-muted mb-2">License: {{ download.license_type }}</p>
+                                    <a href="{{ download.file.url }}" class="btn btn-sm btn-outline-primary" download>
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
-    <script src="{% static 'profiles/js/countryfield.js' %}"></script>
+    <script src="{% static 'profiles/js/profile.js' %}"></script>
 {% endblock %}

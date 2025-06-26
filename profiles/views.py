@@ -48,6 +48,7 @@ def profile(request):
     # Render the profile page with the forms and order list
     template = 'profiles/profile.html'
     context = {
+        'profile': profile, # UserProfile object for displaying profile info
         'user_form': user_form,# Form for updating User model fields
         'profile_form': profile_form,# Form for updating UserProfile model
         'orders': orders, # User's order history

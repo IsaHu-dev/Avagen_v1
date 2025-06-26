@@ -25,3 +25,286 @@
 /* #profile-update-form{
     background-color: red;
 } */
+
+/* Profile Image Styles */
+.profile-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+.profile-image-placeholder {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image-placeholder i {
+    font-size: 5rem;
+    color: #6c757d;
+}
+
+/* Profile Stats */
+.profile-stats {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Custom File Upload */
+.custom-file-upload {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.custom-file-upload input[type="file"] {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.custom-file-upload input[type="file"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Custom Clearable File Input Styling */
+.current-file {
+    border: 1px solid #e9ecef;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.current-image-preview {
+    margin-top: 0.25rem;
+}
+
+.file-input-wrapper {
+    margin-top: 0.5rem;
+}
+
+.file-input-wrapper input[type="file"] {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.file-input-wrapper input[type="file"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.checkbox-wrapper {
+    margin-top: 0.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.checkbox-text {
+    color: #dc3545;
+}
+
+/* Hide "currently:" text from file input */
+.custom-file-upload input[type="file"] + br,
+.custom-file-upload input[type="file"] + br + a,
+.custom-file-upload input[type="file"] + br + a + br {
+    display: none;
+}
+
+/* Alternative method to hide currently text */
+input[type="file"] + br + a[href*="media"] {
+    display: none;
+}
+
+/* Hide the "currently:" text specifically */
+input[type="file"] + br + a[href*="media"] + br {
+    display: none;
+}
+
+/* Download Items */
+.download-item {
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.download-item:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Enhancements */
+.card {
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 600;
+}
+
+/* Form Enhancements */
+#profile-form .form-control {
+    color: #000;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#profile-form .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+#profile-form input::placeholder {
+    color: #aab7c4;
+}
+
+/* Country Field Styling */
+#id_country,
+#id_country option:not(:first-child) {
+    color: #000;
+}
+
+#id_country {
+    border-radius: 8px;
+}
+
+#id_country option:first-child {
+    color: #aab7c4;
+}
+
+/* Order History Table */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-image,
+    .profile-image-placeholder {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .profile-image-placeholder i {
+        font-size: 4rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-image,
+    .profile-image-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-image-placeholder i {
+        font-size: 3rem;
+    }
+}
+
+/* Animation for profile image upload */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-image-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Button Enhancements */
+.btn-dark {
+    background-color: #343a40;
+    border-color: #343a40;
+    transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+    background-color: #23272b;
+    border-color: #1d2124;
+    transform: translateY(-1px);
+}
+
+/* Order History Enhancements */
+.orderhistory {
+    max-height: 416px;
+    overflow-y: auto;
+}
+
+/* Profile Form Layout */
+#profile-form .row {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+}
+
+#profile-form .col-md-6 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
