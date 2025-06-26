@@ -8,11 +8,6 @@ from .models import UserProfile
 # Get the currently active User model (custom or default)
 User = get_user_model()
 
-# Custom file input widget with a custom template
-class CustomClearableFileInput(forms.ClearableFileInput):
-    # Use a custom template for rendering the file input (e.g., with preview or delete option)
-    template_name = 'profiles/custom_clearable_file_input.html'
-
 
 # Form for editing a user's profile (not the core auth user)
 class UserProfileForm(forms.ModelForm):
@@ -29,8 +24,8 @@ class UserProfileForm(forms.ModelForm):
         widgets = {
             # Use a smaller textarea for the bio field
             'bio': forms.Textarea(attrs={'rows': 3}),
-            # Use the custom file input widget for profile_image with extra HTML attributes
-            'profile_image': CustomClearableFileInput(attrs={
+            # Use standard file input for profile_image
+            'profile_image': forms.FileInput(attrs={
                 'class': 'form-control-file',
                 'accept': 'image/*'
             }),
