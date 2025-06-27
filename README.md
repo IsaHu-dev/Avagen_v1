@@ -74,10 +74,10 @@ Avagen is a full-stack Django web application designed for selling digital produ
 
 - **Profile**
 
-  - A dedicated profile page shows the user’s personal and address information.
+  - A dedicated profile page shows the user's personal and address information.
   - Users can edit their contact details and delivery address.
   - Users can upload a profile photo for their dedicated profile page.
-  - View a timeline of previous orders, including date, items purchased, and download links.
+  - View a timeline of previous orders, including date and items purchased.
   - Profile section includes password reset and account deletion options.
 
 - **Newsletter Signup**
@@ -139,7 +139,7 @@ Typography is modern and easy to read, with Inter for body text and Space Grotes
 ## Agile Process
 
 Project tasks were tracked in **GitHub Projects** (Kanban). Each card contained a *user story* with acceptance criteria and links to the relevant pull request.
-Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projects/14
+Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/users/IsaHu-dev/projects/14)
 
 ## User Stories
                 
@@ -164,7 +164,7 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 | Site User     | Log in and log out effortlessly                | Manage my account securely                                               |
 | Site User     | Reset my password if I forget it               | Regain access to my account                                              |
 | Site User     | Receive a confirmation email after signing up  | Know my registration was successful                                      |
-| Site User     | Have a custom user profile                     | See past orders, upload profile photo, save preferences, and manage payment info |
+| Site User     | Have a custom user profile                     | See past orders, upload profile photo and save my details                |
 | Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                               |
 
 ---
@@ -225,6 +225,7 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 | Developer / SEO       | Ensure search engines index the site properly                    | Sitemap.xml, robots.txt, and meta tags are present and auto-generated               |
 | Admin                 | Manage products, categories, and users                           | Full CRUD via Django Admin with role-based access                                   |
             
+[Go to the Kanban Board](https://github.com/users/IsaHu-dev/projects/14)
 
 ## Models 
 
