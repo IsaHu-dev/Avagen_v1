@@ -81,8 +81,21 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - Profile section includes password reset and account deletion options.
   
 - **Manage Products** 
-  - Full CRUD via Django Admin with a custom product form for file uploads..
+  - Full CRUD functionality accessible from the top right corner of the site.
+  - Admins and superusers can manage products through a frontend form, in addition to Django Admin:
 
+- **Add New Products** via a simple, user-friendly form
+
+- Input fields for:
+
+  -  Category  (dropdown)
+  -  Name of item
+  -  Description (rich text)
+  -  Base Price  
+  - `Image URL` or upload using  `Select Image`
+  - Status (*Draft* or *Published*)
+  - Upload images directly or paste hosted links 
+  - `Cancel` or `Add Product` buttons
 
 - **Newsletter Signup**
   - Users can subscribe using their first name, last name, and email.
@@ -172,7 +185,9 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 | Authenticated User | Delete my account                         | Access my profile page to delete my account                              |
 | Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                                |
 | Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                                |
----
+
+
+
 
 ## Sorting and Searching
 
@@ -228,7 +243,7 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 | Admin / Superuser     | Make products temporarily invisible                              | Toggle product status between live and draft                                        |
 | Visitor               | Subscribe to a newsletter                                        | Signup form stores name/email for Mailchimp or SMTP integration                     |
 | Developer / SEO       | Ensure search engines index the site properly                    | Sitemap.xml, robots.txt, and meta tags are present and auto-generated               |
-| Admin                 | Manage products, categories, and users                           | Full CRUD via Django Admin with role-based access                                   |
+| Admin                 | Manage products, categories, and users                           | Full CRUD on web frontend and via Django Admin with role-based access                                   |
             
 [Go to the Kanban Board](https://github.com/users/IsaHu-dev/projects/14)
 
@@ -454,6 +469,11 @@ python manage.py runserver
 | **Admin**         | Check readonly timestamps (created_at, modified_at)  | Fields are visible but cannot be edited manually                            | ✅     |
 | **Admin**         | Verify search by name, description, model_number     | Matching products appear in the admin list view                             | ✅     |
 | **Admin**         | View image preview in admin list                     | Thumbnail preview appears in image_preview column                           | ✅     |
+| **Admin**         | Manage Products - Fill out the custom product form and submit          | Product is created and visible in the admin/storefront                    | ✅     |
+| **Admin**         | Manage Products - Upload image using file input                        | Image is accepted and preview is visible (if supported)                   | ✅     |
+| **Admin**         | Manage Products - Submit form with missing required fields             | Error messages appear, product is not created                             | ✅     |
+| **Admin**         | Manage Products - Set status to Draft and submit                       | Product is saved but hidden from the storefront                           | ✅     |
+| **Admin**         | Manage Products - Set status to Published and submit                   | Product is saved and shown in the storefront                              | ✅     |
 
 
 ### Testing Status
