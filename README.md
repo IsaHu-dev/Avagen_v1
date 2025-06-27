@@ -72,6 +72,14 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - Users can update their profile information, i.e Phone number, Address, Postcode and County and Country.
   - Includes a "Download Again" page for users to re-download past purchases.
 
+- **Profile**
+
+  - A dedicated profile page shows the user’s personal and address information.
+  - Users can edit their contact details and delivery address.
+  - Users can upload a profile photo for their dedicated profile page.
+  - View a timeline of previous orders, including date, items purchased, and download links.
+  - Profile section includes password reset and account deletion options.
+
 - **Newsletter Signup**
   - Users can subscribe using their first name, last name, and email.
   - Supports email marketing integrations (e.g., Mailchimp or SMTP).
@@ -138,7 +146,7 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 
 ## Site Visitor
 
-| As a / an     | I want to be able to:                                     | So that I can:                                                        |
+| As a / an     | I want to be able to:                                      | So that I can:                                                        |
 |---------------|------------------------------------------------------------|------------------------------------------------------------------------|
 | Site Visitor  | Browse a list of available products                        | Choose items to purchase                                               |
 | Site Visitor  | Filter products by category                                | Quickly find items that match my interests without browsing everything |
@@ -156,7 +164,7 @@ Check the User Stories on Github here: https://github.com/users/IsaHu-dev/projec
 | Site User     | Log in and log out effortlessly                | Manage my account securely                                               |
 | Site User     | Reset my password if I forget it               | Regain access to my account                                              |
 | Site User     | Receive a confirmation email after signing up  | Know my registration was successful                                      |
-| Site User     | Have a custom user profile                     | See past orders, save preferences, and manage payment info               |
+| Site User     | Have a custom user profile                     | See past orders, upload profile photo, save preferences, and manage payment info |
 | Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                               |
 
 ---
