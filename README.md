@@ -161,7 +161,7 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 ## User Stories
                 
 
-## Site Visitor
+### Site Visitor
 
 | As a / an     | I want to be able to:                                      | So that I can:                                                        |
 |---------------|------------------------------------------------------------|------------------------------------------------------------------------|
@@ -173,7 +173,7 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 
 ---
 
-## Registrations and User Accounts
+### Registrations and User Accounts
 
 | As a / an     | I want to:                                     | So that I can:                                                          |
 |---------------|------------------------------------------------|--------------------------------------------------------------------------|
@@ -189,7 +189,7 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 
 
 
-## Sorting and Searching
+### Sorting and Searching
 
 | As a / an               | I want to:                                                              | So that I can:                                                                 |
 |------------------------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------|
@@ -201,7 +201,7 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 
 ---
 
-## Admin & CMS Functionality
+### Admin & CMS Functionality
 
 | As a / an            | I want to:                                                         | So that I can:                                                                   |
 |----------------------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------|
@@ -212,7 +212,7 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 
 ---
 
-## Additional Features
+### Additional Features
 
 | As a / an             | I want to:                                                   | So that I can:                                                                  |
 |-----------------------|--------------------------------------------------------------|----------------------------------------------------------------------------------|
@@ -220,8 +220,6 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 | Developer / SEO       | Have search engines properly index the site                  | Improve site visibility with sitemap, robots.txt, and structured meta tags      |
 
 ---
-
-# Acceptance Criteria
 
 | Role                  | Story                                                             | Acceptance Criteria                                                                 |
 |-----------------------|-------------------------------------------------------------------|--------------------------------------------------------------------------------------|
