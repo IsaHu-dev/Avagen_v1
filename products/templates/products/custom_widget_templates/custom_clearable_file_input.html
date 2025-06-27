@@ -1,8 +1,13 @@
+{# Show current image if one exists #}
 {% if widget.is_initial %}
     <p>{{ widget.initial_text }}:</p>
+    
+    {# Thumbnail preview with clickable link #}
     <a href="{{ widget.value.url }}">
         <img width="96" height="96" class="rounded shadow-sm" src="{{ widget.value.url }}" alt="Product image preview - {{ widget.value.name }}">
     </a>
+    
+    {# Remove checkbox (only if image not required) #}
     {% if not widget.required %}
         <div class="custom-control custom-checkbox mt-2">
             <input class="custom-control-input" type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
@@ -11,7 +16,12 @@
     {% endif %}<br>
     {{ widget.input_text }}
 {% endif %}
+
+{# Styled file input button #}
 <span class="btn btn-black rounded-0 btn-file">
-    Select Image <input id="new-image" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+    Select Image 
+    <input id="new-image" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
 </span>
+
+{# Filename display for JavaScript #}
 <strong><p class="text-danger" id="filename"></p></strong>
