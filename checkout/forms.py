@@ -9,9 +9,10 @@ from django_countries.widgets import CountrySelectWidget
 
 class OrderForm(forms.ModelForm):
     country = forms.ChoiceField(  
-    choices=list(CountryField().choices),
-    widget=CountrySelectWidget(layout='{widget}')  # Disable stripe's flag icon
+        choices=list(CountryField().choices),
+        widget=CountrySelectWidget(layout='{widget}')
     )
+    
     # Custom field validators
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
@@ -48,8 +49,7 @@ class OrderForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """
-        Features:
-        - Dynamic placeholder system
+        Initialize form with placeholders and styling
         """
         super().__init__(*args, **kwargs)
         
@@ -65,26 +65,8 @@ class OrderForm(forms.ModelForm):
             'county': '🏘️ County, State or Locality',
         }
 
-        style_classes = {
-            'full_name': 'form-control name-input',
-            'email': 'form-control email-input',
-            'phone_number': 'form-control phone-input',
-            'postcode': 'form-control postcode-input',
-            'town_or_city': 'form-control city-input',
-            'street_address1': 'form-control address-input',
-            'street_address2': 'form-control address-input',
-            'county': 'form-control county-input',
-            'country': 'form-control country-select'
-        }
-
-        self.fields['full_name'].widget.attrs.update({
-            'autofocus': True,
-            'class': f'{style_classes["full_name"]} focus-ring',
-            'data-validate': 'required'
-        })
-        
+        # Apply styling and placeholders to all fields
         for field in self.fields:
-            # Skip country field special handling
             if field != 'country':
                 # Placeholder with required indicator
                 if self.fields[field].required:
@@ -93,23 +75,24 @@ class OrderForm(forms.ModelForm):
                     placeholder = placeholders[field]
                 
                 # Apply field-specific styling and attributes
+                data_validate = 'required' if self.fields[field].required else ''
+                aria_label = placeholders[field].replace(' *', '')
                 attrs = {
                     'placeholder': placeholder,
-                    'class': f'{style_classes[field]} stripe-style-input',
-                    'data-validate': 'required' if self.fields[field].required else '',
-                    'aria-label': placeholders[field].replace(' *', '')
+                    'class': 'form-control stripe-style-input',
+                    'data-validate': data_validate,
+                    'aria-label': aria_label
                 }
                 self.fields[field].widget.attrs.update(attrs)
             else:
                 # Special handling for country field
                 self.fields[field].widget.attrs.update({
-                    'class': f'{style_classes[field]} stripe-style-input',
+                    'class': 'form-control stripe-style-input',
                     'data-validate': 'required'
                 })
             
             # Remove default labels as we're using placeholders
             self.fields[field].label = False
 
-        self.fields['country'].widget.attrs['class'] = 'stripe-style-input'
-        self.fields['country'].label = 'Country'
-        self.fields['country'].required = True
+        # Set autofocus on first field
+        self.fields['full_name'].widget.attrs['autofocus'] = True

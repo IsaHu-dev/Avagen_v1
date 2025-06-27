@@ -44,6 +44,14 @@ class Order(models.Model):
         
         return f"{timestamp}-{unique_id}"
 
+    def update_total(self):
+        """Update grand total based on line items"""
+        self.order_total = sum(
+            lineitem.lineitem_total for lineitem in self.lineitems.all()
+        )
+        self.grand_total = self.order_total
+        self.save()
+
     def save(self, *args, **kwargs):
         """Override the original save method to set the order number"""
         if not self.order_number:
