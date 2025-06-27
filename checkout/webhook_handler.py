@@ -76,10 +76,10 @@ class StripeWH_Handler:
         username = intent.metadata.username
         if username != 'AnonymousUser':
             try:
-                profile = UserProfile.objects.get(user__username=username)
-                if save_info:
-                    profile.default_country = shipping_details.address.country
-                    profile.default_phone_number = shipping_details.phone
+            profile = UserProfile.objects.get(user__username=username)
+            if save_info:
+                profile.default_country = shipping_details.address.country
+                profile.default_phone_number = shipping_details.phone
                     profile.default_postcode = (
                         shipping_details.address.postal_code
                     )
@@ -92,8 +92,8 @@ class StripeWH_Handler:
                     profile.default_street_address2 = (
                         shipping_details.address.line2
                     )
-                    profile.default_county = shipping_details.address.state
-                    profile.save()
+                profile.default_county = shipping_details.address.state
+                profile.save()
             except UserProfile.DoesNotExist:
                 profile = None
                    
@@ -171,8 +171,8 @@ class StripeWH_Handler:
                             order=order,
                             product=product,
                             quantity=item_data,
-                        )
-                        order_line_item.save()
+                            )
+                            order_line_item.save()
 
             # If order creation fails, delete any partial order and return error
             except Exception as e:

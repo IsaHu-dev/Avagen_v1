@@ -6,7 +6,10 @@ from .models import DigitalProduct, Category
 class ProductForm(forms.ModelForm):
     class Meta:
         model = DigitalProduct
-        fields = '__all__'
+        fields = [
+            'name', 'description', 'category', 'base_price', 
+            'image', 'image_url', 'model_number', 'status'
+        ]
 
     image = forms.ImageField(
         label='Image', 

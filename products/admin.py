@@ -9,7 +9,10 @@ class DigitalProductAdminForm(forms.ModelForm):
     
     class Meta:
         model = DigitalProduct
-        fields = '__all__'
+        fields = [
+            'name', 'description', 'category', 'base_price', 
+            'image', 'image_url', 'model_number', 'status'
+        ]
         widgets = {
             'image': forms.FileInput(attrs={
                 'accept': 'image/*',

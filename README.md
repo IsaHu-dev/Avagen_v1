@@ -79,6 +79,10 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - Users can upload a profile photo for their dedicated profile page.
   - View a timeline of previous orders, including date and items purchased. Additional information includes license level, a model number and total paid.
   - Profile section includes password reset and account deletion options.
+  
+- **Manage Products** 
+  - Full CRUD via Django Admin with a custom product form for file uploads..
+
 
 - **Newsletter Signup**
   - Users can subscribe using their first name, last name, and email.
