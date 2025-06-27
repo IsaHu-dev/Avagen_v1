@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from .models import UserProfile
 from .forms import UserProfileForm, CustomUserUpdateForm
+from checkout.models import Order
 
 
 @login_required

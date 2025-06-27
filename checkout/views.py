@@ -3,6 +3,7 @@ from django.shortcuts import (
 )
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from products.models import DigitalProduct
 
@@ -152,11 +153,17 @@ def checkout(request):
         return render(request, template, context)
 
 
+@login_required
 def checkout_success(request, order_number):
     """
-    Handle successful checkouts
+    Handle successful checkouts - only for the user who made the order
     """
     order = get_object_or_404(Order, order_number=order_number)
+    
+    # Verify that the current user is the one who made the order
+    if order.user != request.user:
+        messages.error(request, "You don't have permission to view this order.")
+        return redirect('profile')
 
     messages.success(
         request,

@@ -251,13 +251,13 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 
 The application includes five custom models across modular apps, each written manually custom models to address the needs of the user, site owner and online shopper:
 
-1. ### `reviews` App – `Review` Model
+1. ### `Review` Model
 - Connected to `User` and `Product` via foreign keys.
 - Stores `rating` (1–5 stars), `comment`, and a `created_on` timestamp.
 - Prevents duplicate reviews per user/product using model-level constraints.
 - Includes logic for calculating average product ratings.
 
-2. ### `catalogue` App – `Catalogue` Models
+2. ### `Catalogue` Models
 
 The catalogue app is responsible for: 
 
@@ -276,7 +276,7 @@ Stores downloadable files for each product.
 
 - Download access is restricted to users who've completed a purchase.
 
-3. ### `newsletter` App – `Subscriber` Model
+3. ### `Newsletter Subscriber` Model
 - Stores `first_name`, `last_name`, and `email` fields.
 - Designed to work with external marketing tools like Mailchimp or SMTP.
 - Built manually, allowing full control over form handling and integration.
@@ -289,7 +289,7 @@ class Subscriber(models.Model):
     subscribed_on = models.DateTimeField(auto_now_add=True)
 ```
 
-4. ### `faq` App – `FAQ` Model
+4. ### `FAQ` Model
 
 The FAQ model is designed to store frequently asked questions along with their answers. 
 
@@ -316,7 +316,7 @@ user = models.ForeignKey(
     blank=True
 )
 ```
-5. ### `product` App – `Product` Model
+5. ### `Product` Model
 - Core model with `name`, `description`, `model_number`, `base_price`, and Cloudinary images.
 - Displays a list of all available products.
 - Includes a `slug` field for SEO-friendly URLs.
@@ -490,8 +490,8 @@ python manage.py runserver
 ---
 ## Resources
 
-| **Real Python / Django docs / Stack Overflow**   | Reference for the code in the Avagen app |
-
+| **Real Python / Django docs / Stack Overflow**   | Reference for Code Snippets. |
+| **Code Institute**                               | Boutique Ado - used as inspiration for the Avagen E-commerce site.
 
 ## Credits
 
@@ -499,8 +499,7 @@ python manage.py runserver
 | ----------------------------- | --------------------------------------- |
 | **Envato**                            | Base png elements for some sample avatar packs   |
 | **Stylized semi-3D character images** | Created by the owner of Avagen - Isa Hu      |                  
-| **Stripe Docs & Samples**             | Checkout & stripe credit card implementation   |
-| **Code Institute**                    | Webhooks implementation
+
 
 
 ---
