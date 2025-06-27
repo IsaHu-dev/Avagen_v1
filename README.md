@@ -56,8 +56,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - Optimized for mobile and desktop devices.
   - Verified Stripe webhooks finalise orders.
   - Fully responsive checkout pages optimised for mobile and desktop.
-  - Guest Checkout or Sign-In from Cart Page
-  - Users can proceed to checkout as a guest or choose to sign in directly from the cart page.
+  - Users can sign in directly from the cart page.
   - If signed in, previous address and order history are autofilled.
 
 - **Digital Delivery**
@@ -128,7 +127,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
 2. **Explore avatars** – filter by theme (Personalized, Artistic, Seasonal or Special Events, etc.) or sort by price / rating.
 3. **Add to cart** – adjust quantity or remove items directly from the mini‑cart.
 4. **Click on cart symbol to see a cart total** - adjust quantity or remove from the cart page and checkout. 
-5. **Checkout** – choose to checkout as a guest or sign in from the cart page. Then fill in billing info and pay securely via Stripe.
+5. **Checkout** – sign in from the cart page. Then fill in billing info and pay securely via Stripe.
 6. **Download** – use the *Download* button on the success page or from *My Orders* at any time.
 7. **Manage account** – change personal info, view order history, re‑download files or delete your account.
 
