@@ -479,4 +479,44 @@ select {
     font-size: 0.9rem;
 }
 
+/* Bootstrap responsive utilities for mobile navbar */
+/* Custom icon sizing for different breakpoints */
+.fa-lg-sm {
+    font-size: 1.1rem;
+}
+
+@media (min-width: 576px) {
+    .fa-lg-sm {
+        font-size: 1.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .fa-lg-sm {
+        font-size: 1.5rem;
+    }
+}
+
+/* Ensure mobile navbar elements are properly sized */
+@media (max-width: 575.98px) {
+    .d-lg-none.d-flex img {
+        max-height: 35px !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .d-lg-none.d-flex img {
+        max-height: 30px !important;
+    }
+    
+    /* Adjust header padding for very small screens */
+    .header-container {
+        padding-top: 100px;
+    }
+    
+    body {
+        height: calc(100vh - 100px);
+    }
+}
+
 
