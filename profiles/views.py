@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from .models import UserProfile
 from .forms import UserProfileForm, CustomUserUpdateForm
-from checkout.models import Order
+from catalogue.models import DigitalDownload
 
 
 @login_required
@@ -52,6 +52,26 @@ def profile(request):
     
     # Get user's orders ordered by date (newest first)
     orders = request.user.orders.all().order_by('-date')
+    
+    # Get digital downloads for purchased products
+    # This creates a list of all digital products the user has purchased
+    purchased_products = []
+    for order in orders:
+        for line_item in order.lineitems.all():
+            try:
+                # Try to get the digital download file for this product
+                digital_download = line_item.product.digital_download
+                # Add product info to the list if download file exists
+                purchased_products.append({
+                    'product': line_item.product,
+                    'download': digital_download,
+                    'license_type': line_item.license_type,
+                    'order_date': order.date,
+                    'order_number': order.order_number
+                })
+            except DigitalDownload.DoesNotExist:
+                # Product doesn't have a digital download file
+                continue
 
     template = 'profiles/profile.html'
     context = {
@@ -59,6 +79,7 @@ def profile(request):
         'user_form': user_form,
         'profile_form': profile_form,
         'orders': orders,
+        'purchased_products': purchased_products,
         'on_profile_page': True
     }
 

@@ -14,8 +14,10 @@ class Custom404RedirectMiddleware:
         response = self.get_response(request)
 
         if response.status_code == 404:
-           
+            # --- Option A – show friendly page (default) ---
             return render(request, "404.html", status=404)
+
+
 
 
         return response

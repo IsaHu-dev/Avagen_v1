@@ -203,6 +203,13 @@
                                             {% for item in order.lineitems.all %}
                                                 <li>
                                                     {{ item.product.name }} ×{{ item.quantity }}
+                                                    <!-- Check if this product has a digital download file available -->
+                                                    {% if item.product.digital_download %}
+                                                        <!-- Display download link for digital products -->
+                                                        <a href="{{ item.product.digital_download.file.url }}" class="btn btn-sm btn-outline-success ml-2" download>
+                                                            <i class="fas fa-download"></i> Download
+                                                        </a>
+                                                    {% endif %}
                                                 </li>
                                             {% endfor %}
                                         </ul>
@@ -233,23 +240,27 @@
         </div>
     </div>
 
-    <!-- Downloads Section -->
-    {% if downloads %}
+    <!-- Digital Downloads Section -->
+    {% if purchased_products %}
     <div class="row mt-4">
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-header">
-                    <h6 class="mb-0">Your Downloads</h6>
+                    <h6 class="mb-0">Your Digital Downloads</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        {% for download in downloads %}
+                        {% for item in purchased_products %}
                             <div class="col-md-6 col-lg-4 mb-3">
                                 <div class="download-item p-3 border rounded">
-                                    <h6 class="mb-2">{{ download.product.name }}</h6>
-                                    <p class="small text-muted mb-2">License: {{ download.license_type }}</p>
-                                    <a href="{{ download.file.url }}" class="btn btn-sm btn-outline-primary" download>
-                                        <i class="fas fa-download"></i> Download
+                                    <h6 class="mb-2">{{ item.product.name }}</h6>
+                                    <p class="small text-muted mb-2">
+                                        <strong>License:</strong> {{ item.license_type|title }}<br>
+                                        <strong>Order:</strong> {{ item.order_number|truncatechars:8 }}<br>
+                                        <strong>Date:</strong> {{ item.order_date|date:"M d, Y" }}
+                                    </p>
+                                    <a href="{{ item.download.file.url }}" class="btn btn-sm btn-outline-success" download>
+                                        <i class="fas fa-download"></i> Download File
                                     </a>
                                 </div>
                             </div>
