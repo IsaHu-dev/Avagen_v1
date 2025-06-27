@@ -77,7 +77,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - A dedicated profile page shows the user's personal and address information.
   - Users can edit their contact details and delivery address.
   - Users can upload a profile photo for their dedicated profile page.
-  - View a timeline of previous orders, including date and items purchased.
+  - View a timeline of previous orders, including date and items purchased. Additional information includes license level, a model number and total paid.
   - Profile section includes password reset and account deletion options.
 
 - **Newsletter Signup**
@@ -104,7 +104,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - WhiteNoise serves compressed static assets; Cloudinary transforms images on‑the‑fly for smaller payloads.
 
 
-## How to Use Avagen
+## How to Use Avagen - A brief walkthrough.
 
 1. **Register** – click *Sign‑up*, enter your email address username and password.
 2. **Login** - Login with your username or email and input your password.
@@ -164,9 +164,10 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 | Site User     | Log in and log out effortlessly                | Manage my account securely                                               |
 | Site User     | Reset my password if I forget it               | Regain access to my account                                              |
 | Site User     | Receive a confirmation email after signing up  | Know my registration was successful                                      |
-| Site User     | Have a custom user profile                     | See past orders, upload profile photo and save my details                |
-| Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                               |
-
+| Site User     | Have a custom user profile                     | See past orders, upload profile photo, change password and save my details   |
+| Authenticated User | Delete my account                         | Access my profile page to delete my account                              |
+| Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                                |
+| Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                                |
 ---
 
 ## Sorting and Searching
@@ -425,8 +426,9 @@ python manage.py runserver
 | **Profile**       | Edit account info                        | Name/email updates can be changed at any time                             | ✅     |
 |                   | Edit user bio and display name           | Bio and display name saved and shown on profile page                      | ✅     |
 |                   | Upload profile image                     | Image saved and rendered with custom widget                               | ✅     |
-|                   | Fill address fields                      | Address details saved and used for delivery defaults                      | ✅     |
+|                   | Fill address fields                      | Address details saved.                                                    | ✅     |
 |                   | Delete account                           | Data removed, user logged out                                             | ✅     |
+|                   | Order History displayed                  | Order number, date, item, model number, license level and total paid is displayed.                                              | ✅     |
 | **Mobile**        | Navigate on iPhone SE / Galaxy S8        | Layout responsive, navbar collapses correctly                             | ✅     |
 | **Accessibility** | Navigate with keyboard                   | All interactive elements are reachable                                    | ✅     |
 | **Admin**         | Upload ZIP file to product               | File is linked and downloadable post-purchase                             | ✅     |

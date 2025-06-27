@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from .models import UserProfile
 from .forms import UserProfileForm, CustomUserUpdateForm
 
@@ -8,7 +9,11 @@ from .forms import UserProfileForm, CustomUserUpdateForm
 @login_required
 def profile(request):
     """Display the user's profile."""
-    profile = get_object_or_404(UserProfile, user=request.user)
+    # Get or create user profile
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
+    if created:
+        messages.info(request, 'Profile created successfully!')
 
     if request.method == 'POST':
         user_form = CustomUserUpdateForm(request.POST, instance=request.user)
@@ -44,11 +49,12 @@ def profile(request):
         user_form = CustomUserUpdateForm(instance=request.user)
         profile_form = UserProfileForm(instance=profile)
     
-    orders = profile.user.orders.all().order_by('-date')
+    # Get user's orders ordered by date (newest first)
+    orders = request.user.orders.all().order_by('-date')
 
     template = 'profiles/profile.html'
     context = {
-        'profile': profile,  # Explicitly pass profile to context
+        'profile': profile,
         'user_form': user_form,
         'profile_form': profile_form,
         'orders': orders,
@@ -56,3 +62,47 @@ def profile(request):
     }
 
     return render(request, template, context)
+
+
+@login_required
+def delete_account(request):
+    """Handle account deletion with confirmation."""
+    if request.method == 'POST':
+        # Check if user confirmed deletion
+        if 'confirm_delete' in request.POST:
+            try:
+                # Get user data for confirmation message
+                username = request.user.username
+                email = request.user.email
+                
+                # Delete the user (this will cascade to profile and related data)
+                request.user.delete()
+                
+                # Logout the user
+                logout(request)
+                
+                messages.success(
+                    request, 
+                    f'Account for {username} ({email}) has been '
+                    f'permanently deleted.'
+                )
+                return redirect('home')
+            except Exception as e:
+                messages.error(
+                    request, 
+                    f'Error deleting account: '
+                    f'{str(e)}'
+                )
+        else:
+            messages.warning(
+                request, 
+                'Account deletion cancelled.'
+            )
+            return redirect('profile')
+    
+    # GET request - show confirmation page
+    return render(
+        request, 
+        'profiles/delete_account.html', 
+        {'on_profile_page': True}
+    )

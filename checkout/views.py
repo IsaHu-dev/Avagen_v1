@@ -4,10 +4,6 @@ from django.shortcuts import (
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.conf import settings
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.contrib.auth.decorators import login_required
 from products.models import DigitalProduct
 
 from .forms import OrderForm
@@ -90,6 +86,9 @@ def checkout(request):
                     )
                     order.delete()
                     return redirect(reverse('view_cart'))
+
+            # Update the order total after all line items are created
+            order.update_total()
 
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(
