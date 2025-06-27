@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Avg
 from django.db.models.functions import Lower
-from django.db import models
 
 from .models import DigitalProduct, Category
 from .forms import ProductForm
@@ -68,33 +67,13 @@ def list_digital_products(request):
         items = items.filter(lookup)
 
     # Calculate average ratings and latest reviews for each product
-    average_ratings = {}
-    latest_reviews = {}
+    items = items.prefetch_related('reviews')
     
-    for product in items:
-        avg_rating = product.reviews.aggregate(
-            avg=models.Avg('rating')
-        )['avg']
-        average_ratings[product.id] = avg_rating
-        
-        latest_review = product.reviews.order_by('-created_at').first()
-        latest_reviews[product.id] = latest_review
-
     context = {
         'products': items,
         'search_term': active_query,
         'current_categories': selected_categories,
         'current_sorting': sorting_identifier,
-        'average_ratings': {
-            product.id: product.reviews.aggregate(
-                avg=models.Avg('rating')
-            )['avg'] 
-            for product in items
-        },
-        'latest_reviews': {
-            product.id: product.reviews.order_by('-created_at').first() 
-            for product in items
-        },
     }
 
     return render(request, 'products/products.html', context)
@@ -115,7 +94,7 @@ def product_detail(request, product_id):
     else:
         review_form = ReviewForm()
 
-    avg_rating = reviews.aggregate(models.Avg('rating'))['rating__avg']
+    avg_rating = reviews.aggregate(Avg('rating'))['rating__avg']
 
     context = {
         'product': product,

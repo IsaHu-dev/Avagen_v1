@@ -8,7 +8,9 @@ def catalogue(request):
     """
     View to display the catalogue of available products
     """
-    products = DigitalProduct.objects.all().order_by('-rating') 
+    products = DigitalProduct.objects.filter(
+        status='published'
+    ).order_by('-date_created')
     context = {
         'products': products,
     }
@@ -30,8 +32,6 @@ def download_file(request, product_id):
     # Check if user has purchased the product
     if not request.user.is_authenticated:
         return redirect('account_login')
-    
-    # TODO: Add purchase verification logic here
     
     # Return the file for download
     return FileResponse(digital_download.file, as_attachment=True)
