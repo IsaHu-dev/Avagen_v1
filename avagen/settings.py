@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'storages',
     'newsletter',
     'useraccount',
+    
 ]
 
 MIDDLEWARE = [
