@@ -48,9 +48,12 @@
                         <div class="col-7">
                             <p class="my-0"><strong>{{ item.product.name }}</strong></p>
                             <p class="my-0 small text-muted">Qty: {{ item.quantity }}</p>
+                            <!-- FIX: Display license type -->
+                            <p class="my-0 small text-muted">License: {{ item.license_type|title }}</p>
                         </div>
                         <div class="col-3 text-right">
-                            <p class="my-0 small text-muted">£{{ item.product.price | calc_subtotal:item.quantity }}</p>
+                            <!-- FIX: Use pre-calculated item_total for correct license pricing -->
+                            <p class="my-0 small text-muted">£{{ item.item_total | floatformat:2 }}</p>
                         </div>
                     </div>
                 {% endfor %}

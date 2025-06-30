@@ -505,6 +505,7 @@ python manage.py runserver
 - [DjangoGirls Tutorial](https://tutorial.djangogirls.org/)
 - [How to Send Email in Django (Real Python)](https://realpython.com/django-send-email/)
 - [Django Signals: Real Python](https://realpython.com/django-signals/)
+- [Eraser.io - Database scheme ](https://www.eraser.io/) Inserted SQL input into the Eraser web interface to generate the Database Schema.
 
 ## Credits
 

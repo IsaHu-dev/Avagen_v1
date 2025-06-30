@@ -110,11 +110,19 @@ def checkout(request):
                 amount=stripe_total,
                 currency=settings.STRIPE_CURRENCY,
             )
-            return render(request, 'checkout/checkout.html', {
-                'order_form': order_form,
-                'stripe_public_key': stripe_public_key,
-                'client_secret': intent.client_secret,
-            })
+            # FIX: Pass cart items and totals to template for proper subtotal display
+            # This ensures item prices, subtotals, and totals are correctly shown
+            return render(
+                request, 'checkout/checkout.html', {
+                    'order_form': order_form,
+                    'stripe_public_key': stripe_public_key,
+                    'client_secret': intent.client_secret,
+                    'cart_items': current_cart['cart_items'],
+                    'total': current_cart['subtotal'],
+                    'grand_total': current_cart['grand_total'],
+                    'product_count': current_cart['item_count'],
+                }
+            )
     else:
         cart = request.session.get('cart', {})
         if not cart:
@@ -144,13 +152,20 @@ def checkout(request):
             )
 
         template = 'checkout/checkout.html'
+        # FIX: Pass cart items and totals to template for proper subtotal display
         context = {
             'order_form': order_form,
             'stripe_public_key': stripe_public_key,
             'client_secret': intent.client_secret,
+            'cart_items': current_cart['cart_items'],
+            'total': current_cart['subtotal'],
+            'grand_total': current_cart['grand_total'],
+            'product_count': current_cart['item_count'],
         }
 
-        return render(request, template, context)
+        return render(
+            request, template, context
+        )
 
 
 @login_required
