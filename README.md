@@ -355,7 +355,7 @@ class Product(models.Model):
 
 ## Database Schema 
 
-![Database Schema](media/readme/erd_databaseschema.png)
+![Database Schema](media/readme/erd_databaseschema.webp)
 
 ## Deployment
 
@@ -493,14 +493,14 @@ python manage.py runserver
 
 ## Known Issues / Future Work
 
-* **Avatar builder** – client‑side compositor using Three.js & Fabric.js
+* **Avatar builder** - create an interactive avatar builder
 * **Marketplace payouts** – migrate to Stripe Connect Express for automated royalties
 
 ---
 ## Resources
 
-- Stack Overflow. Reference for Code Snippets. 
-- Code Institute. Boutique Ado - used as inspiration for the Avagen E-commerce site.
+- Stack Overflow - Reference for Code Snippets. 
+- Code Institute - Boutique Ado served as a starting point for learning and planning, but all logic, views, and components in Avagen have been developed independently. The codebase has been fully rewritten and customized for this project.
 - [Django Documentation](https://docs.djangoproject.com/en/3.2/)
 - [DjangoGirls Tutorial](https://tutorial.djangogirls.org/)
 - [How to Send Email in Django (Real Python)](https://realpython.com/django-send-email/)
@@ -512,8 +512,6 @@ python manage.py runserver
 | ----------------------------- | --------------------------------------- |
 | **Envato**                            | Base png elements for some sample avatar packs   |
 | **Stylized semi-3D character images** | Created by the owner of Avagen - Isa Hu      |                  
-
-
 
 ---
 
