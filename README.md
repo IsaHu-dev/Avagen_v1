@@ -458,9 +458,8 @@ python manage.py runserver
 | **Search**        | Use keyword search bar                   | Matching products shown from the keyword search                           | ✅     |
 | **Newsletter**    | Submit email on signup form              | Confirmation message shown or email stored in database                    | ✅     |
 | **Newsletter**    | Subscribe with valid email and name      | Welcome email is received (check inbox/spam)                              | ✅     |
-| **Newsletter**    | Subscribe with duplicate email           | Error shown, no duplicate entry created                                   | ✅     |
+| **Newsletter**    | Subscribe with duplicate email           | Error message popup shown, no duplicate entry created                     | ✅     |
 | **Newsletter**    | Admin views subscribers in admin panel   | Subscriber list is visible, can search/filter/delete                      | ✅     |
-| **Newsletter**    | Admin cannot see Newsletter model in admin| Newsletter model is not listed in admin interface                        | ✅     |
 | **Newsletter**    | Welcome email uses correct name          | Email greets user by their first name as entered on signup                | ✅     |
 
 

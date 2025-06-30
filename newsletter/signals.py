@@ -26,7 +26,6 @@ def send_welcome_email_signal(sender, instance, created, **kwargs):
                     "What you can expect:\n"
                     "• New product announcements\n"
                     "• Special discounts and offers\n"
-                    "• Tips and tutorials\n"
                     "• Community updates\n\n"
                     "We're excited to have you as part of our community!"
                 )
