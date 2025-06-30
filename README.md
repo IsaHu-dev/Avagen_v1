@@ -139,9 +139,9 @@ Avagen is a full-stack Django web application designed for selling digital produ
 
 ## UX & Design
 
-| ------------------ | ------- |
-| **Wireframes**     |   tbc   |
-| **Flowchart**     |   tbc   |
+| ------------------| -------|
+| **Wireframes**    | tbc   |
+| **Flowchart**     | [View Flow Chart](FLOWCHART.md)   |
 
 ### Logo & Brand Identity
 
