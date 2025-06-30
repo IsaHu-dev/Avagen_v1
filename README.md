@@ -355,6 +355,7 @@ class Product(models.Model):
 
 ## Database Schema 
 
+![Database Schema](media/readme/erd_databaseschema.png)
 
 ## Deployment
 
