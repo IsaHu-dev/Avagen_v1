@@ -1,0 +1,11 @@
+{% load i18n %}
+
+{{ welcome_message }}
+
+---
+Thank you for joining the Avagen community!
+
+Best regards,
+The Avagen Team
+
+To unsubscribe, please contact us at info@avagen.co.uk 

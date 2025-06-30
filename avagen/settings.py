@@ -151,9 +151,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'polymath.verse@gmail.com')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'nxgx usxh jjsz xjup')
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', 'polymath.verse@gmail.com')
+EMAIL_HOST_USER = 'avagen.studio@gmail.com'
+EMAIL_HOST_PASSWORD = 'wjnq hcnr itwb sspf'
+DEFAULT_FROM_EMAIL = 'avagen.studio@gmail.com'
 
 # Allauth Settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'

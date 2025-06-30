@@ -122,7 +122,7 @@ input[name='q']::placeholder {
     color: #aab7c4;
 }
 
-/* ------------------------------- bootstrap popups */
+/* ------------------------------- popup notifications */
 
 .message-container {
     position: fixed;
@@ -479,7 +479,7 @@ select {
     font-size: 0.9rem;
 }
 
-/* Bootstrap responsive utilities for mobile navbar */
+/* Responsive utilities for mobile navbar */
 /* Custom icon sizing for different breakpoints */
 .fa-lg-sm {
     font-size: 1.1rem;

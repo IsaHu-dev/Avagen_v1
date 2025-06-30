@@ -1,13 +1,30 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib import messages
 from .forms import NewsletterForm
 
+
+# This function is for the newsletter signup form at the bottom of the website.
 def subscribe_newsletter(request):
+    # If the form was submitted (the user clicked the button)
     if request.method == 'POST':
         form = NewsletterForm(request.POST)
+        # Check if the information entered is correct
         if form.is_valid():
-            form.save()
-            messages.success(request, "Thanks for subscribing!")
+            form.save()  # Save the new subscriber
+            # Show a thank you message to the user
+            messages.success(
+                request, 
+                "Thanks for subscribing to our newsletter!"
+            )
         else:
-            messages.error(request, "This email is already subscribed or invalid.")
+            # If something is wrong (like the email is already used), 
+            # show an error
+            messages.error(
+                request, 
+                "This email is already subscribed or invalid."
+            )
+        # After submitting, send the user back to the page they were on
         return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+    # If the user didn't submit the form, just send them to the home page
+    return redirect('home')

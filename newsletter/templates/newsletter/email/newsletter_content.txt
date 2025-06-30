@@ -1,0 +1,13 @@
+{% load i18n %}
+
+Hello {{ subscriber.first_name|default:"there" }}!
+
+{{ newsletter.content }}
+
+---
+Thank you for subscribing to our newsletter!
+
+Best regards,
+The Avagen Team
+
+To unsubscribe, please contact us at info@avagen.co.uk 

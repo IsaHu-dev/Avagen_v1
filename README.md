@@ -100,6 +100,11 @@ Avagen is a full-stack Django web application designed for selling digital produ
   - Users can subscribe using their first name, last name, and email.
   - Supports email marketing integrations (e.g., Mailchimp or SMTP).
 
+- **Newsletter Subscribers**: Manage email subscriptions with first name, last name, and email.
+- **Newsletter Creation**: Create newsletters with title, subject, and content.
+- **Admin Interface**: Full admin interface for managing subscribers and newsletters.
+- **Welcome Emails**: Automatic welcome emails sent to new subscribers.
+
 - **Admin / Superuser Dashboard**
   - Django Admin interface for product and category management.
   - Full CRUD functionality for superusers.
@@ -452,6 +457,11 @@ python manage.py runserver
 | **Admin**         | Use 'Is Creator' checkbox                | Categories appear in 'New Releases' dropdown in main nav bar              | ✅     |
 | **Search**        | Use keyword search bar                   | Matching products shown from the keyword search                           | ✅     |
 | **Newsletter**    | Submit email on signup form              | Confirmation message shown or email stored in database                    | ✅     |
+| **Newsletter**    | Subscribe with valid email and name      | Welcome email is received (check inbox/spam)                              | ✅     |
+| **Newsletter**    | Subscribe with duplicate email           | Error shown, no duplicate entry created                                   | ✅     |
+| **Newsletter**    | Admin views subscribers in admin panel   | Subscriber list is visible, can search/filter/delete                      | ✅     |
+| **Newsletter**    | Admin cannot see Newsletter model in admin| Newsletter model is not listed in admin interface                        | ✅     |
+| **Newsletter**    | Welcome email uses correct name          | Email greets user by their first name as entered on signup                | ✅     |
 
 
 | Area              | Action                                               | Expected Result                                                              | Status |
@@ -489,8 +499,12 @@ python manage.py runserver
 ---
 ## Resources
 
-| **Real Python / Django docs / Stack Overflow**   | Reference for Code Snippets. |
-| **Code Institute**                               | Boutique Ado - used as inspiration for the Avagen E-commerce site.
+- Stack Overflow. Reference for Code Snippets. 
+- Code Institute. Boutique Ado - used as inspiration for the Avagen E-commerce site.
+- [Django Documentation](https://docs.djangoproject.com/en/3.2/)
+- [DjangoGirls Tutorial](https://tutorial.djangogirls.org/)
+- [How to Send Email in Django (Real Python)](https://realpython.com/django-send-email/)
+- [Django Signals: Real Python](https://realpython.com/django-signals/)
 
 ## Credits
 
