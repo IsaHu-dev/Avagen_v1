@@ -29,9 +29,13 @@ def download_file(request, product_id):
     
     # Check if the product has a digital download
     try:
-        digital_download = DigitalDownload.objects.get(product=product)
+        digital_download = DigitalDownload.objects.get(
+            product=product
+        )
     except DigitalDownload.DoesNotExist:
-        raise Http404("No digital download found for this product")
+        raise Http404(
+            "No digital download found for this product"
+        )
     
     # Check if user has purchased the product (has a paid order with this product)
     user_orders = Order.objects.filter(
@@ -41,7 +45,10 @@ def download_file(request, product_id):
     ).exists()
     
     if not user_orders:
-        messages.error(request, "You need to purchase this product to download it.")
+        messages.error(
+            request, 
+            "You need to purchase this product to download it."
+        )
         return redirect('products')
     
     # Return the file for download

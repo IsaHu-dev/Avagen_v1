@@ -51,7 +51,7 @@
                             <p class="mb-0">{{ order.date }}</p>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col">
                             <small class="text-muted">Order Details:</small>
@@ -85,7 +85,7 @@
                             <p class="mb-0">{{ order.full_name }}</p>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="mb-0 text-black font-weight-bold">Address 1</p>
@@ -181,6 +181,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row mt-4">
             <div class="col-12 col-lg-7">
                 <h3 class="text-muted">Leave a Review</h3>
@@ -193,9 +194,11 @@
                             </span>
                             <span class="text-uppercase">Review {{ item.product.name }}</span>
                         </a>
-        
+
                         {% if item.product.digital_download %}
-                        <a href="{% url 'catalogue:download_avatar' item.product.id %}" class="btn btn-success rounded-0 btn-rounded my-2 ml-2">
+                        <a id="download-avatar-btn-{{ item.product.id }}"
+                           href="{% url 'catalogue:download_avatar' item.product.id %}"
+                           class="btn btn-success rounded-0 btn-rounded my-2 ml-2">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>
@@ -206,4 +209,70 @@
                 {% endfor %}
             </div>
         </div>
+    </div>
+
+    <!-- Hidden popup template for JavaScript -->
+    <div id="download-success-template" style="display: none;">
+        <div class="popup custom-popup rounded-0 border-top-0" data-autohide="false">
+            <div class="arrow-up arrow-success"></div>
+            <div class="w-100 popup-capper bg-success"></div>
+            <div class="popup-header bg-white text-dark">
+                <strong class="mr-auto">Success!</strong>
+                <button type="button" class="ml-2 mb-1 close text-dark" data-dismiss="popup" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="popup-body bg-white">
+                Your avatar has downloaded successfully
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block postloadjs %}
+<script>
+  $(document).on('click', '[id^="download-avatar-btn-"]', function (event) {
+    event.preventDefault();
+    
+    // Show success popup immediately
+    showDownloadSuccessPopup();
+    
+    // Trigger the download after a short delay
+    setTimeout(function() {
+      window.location.href = this.href;
+    }.bind(this), 1000);
+  });
+
+  function showDownloadSuccessPopup() {
+    // Clone the hidden template
+    const template = document.getElementById('download-success-template');
+    const popup = template.querySelector('.popup').cloneNode(true);
+    
+    // Add popup to the message container
+    const messageContainer = document.querySelector('.message-container');
+    if (!messageContainer) {
+      const newContainer = document.createElement('div');
+      newContainer.className = 'message-container';
+      document.body.appendChild(newContainer);
+    }
+    
+    const container = document.querySelector('.message-container');
+    container.innerHTML = '';
+    container.appendChild(popup);
+    
+    // Show the popup
+    popup.style.display = 'block';
+    
+    // Auto-hide after 5 seconds
+    setTimeout(function() {
+      popup.style.display = 'none';
+    }, 5000);
+    
+    // Handle close button
+    popup.querySelector('.close').addEventListener('click', function() {
+      popup.style.display = 'none';
+    });
+  }
+</script>
 {% endblock %}

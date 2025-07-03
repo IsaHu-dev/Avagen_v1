@@ -522,8 +522,6 @@ All code is released under the **[MIT Licence](https://opensource.org/licenses/M
 
 ---
 
-## Acknowledgements
-
 
 
 
