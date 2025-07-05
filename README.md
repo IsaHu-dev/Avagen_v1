@@ -140,7 +140,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
 ## UX & Design
 
 | ------------------| -------|
-| **Wireframes**    | tbc   |
+| **Wireframes**    | [View Wireframes](WIREFRAMES.md)   |
 | **Flowchart**     | [View Flow Chart](FLOWCHART.md)   |
 
 ### Logo & Brand Identity
@@ -189,8 +189,6 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 | Authenticated User | Delete my account                         | Access my profile page to delete my account                              |
 | Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                                |
 | Authenticated User | Download my past purchases again anytime | Re-access previously bought content easily                                |
-
-
 
 
 ### Sorting and Searching
