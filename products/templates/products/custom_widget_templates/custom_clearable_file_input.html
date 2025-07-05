@@ -18,8 +18,8 @@
 {% endif %}
 
 {# Styled file input button #}
-<span class="btn btn-black rounded-0 btn-file">
-    Select Image 
+<span class="btn btn-black btn-file" style="border-radius: 4px;">
+    Upload Image 
     <input id="new-image" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
 </span>
 
