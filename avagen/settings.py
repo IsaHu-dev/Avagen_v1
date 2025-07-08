@@ -154,6 +154,7 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'avagen.studio@gmail.com'
 EMAIL_HOST_PASSWORD = 'wjnq hcnr itwb sspf'
 DEFAULT_FROM_EMAIL = 'avagen.studio@gmail.com'
+EMAIL_SUBJECT_PREFIX = '[avagen.co.uk] '
 
 # Allauth Settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
