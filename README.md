@@ -12,7 +12,7 @@ The platform is built with **Django 5**, **PostgreSQL** and **Stripe** to prov
 ### Why Avagen?
 
 * **Creators first** – Upon purchase and download, both creators and metaverse users can immediately assign their selected avatar to their profile for use across supported platforms.
-* **Instant delivery** – every purchase is a digital download as a ready‑to‑use PNGs in a zipped file, plus the original layered source file PSD so buyers can re‑skin as they wish.
+* **Instant delivery** – every purchase is a digital download as a ready‑to‑use PNGs in a zipped file.
 * **Cross‑platform licensing** – a single licence grants customers the right to reuse the avatar across games, socials and the open metaverse.
 
 ---
