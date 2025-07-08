@@ -143,7 +143,7 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 
 # Site Domain for Email Verification
-SITE_DOMAIN = 'avagen-502553ff2610.herokuapp.com'
+SITE_DOMAIN = 'avagen.co.uk'
 
 # Email Configuration
 EMAIL_BACKEND = 'avagen.email_backend.CustomEmailBackend'
