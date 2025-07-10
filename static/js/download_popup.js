@@ -39,4 +39,4 @@ function showDownloadSuccessPopup() {
   popup.querySelector('.close').addEventListener('click', function() {
     popup.style.display = 'none';
   });
-} 
+}
