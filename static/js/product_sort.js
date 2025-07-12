@@ -1,6 +1,12 @@
-window.addEventListener('DOMContentLoaded', () => {
-        const sortControl = document.querySelector('#sort-options');
-        sortControl?.addEventListener('change', () => {
+/* jshint esversion: 6 */
+/* global $ */
+
+// Run when DOM is ready
+window.addEventListener('DOMContentLoaded', function () {
+    const sortControl = document.querySelector('#sort-options');
+
+    if (sortControl) {
+        sortControl.addEventListener('change', function () {
             const selection = sortControl.value;
             const currentURL = new URL(window.location);
 
@@ -12,5 +18,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
             window.location.href = currentURL.toString();
         });
-    });
-
+    }
+});
