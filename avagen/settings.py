@@ -95,7 +95,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'avagen.middleware.DisableXFrameOptionsMiddleware',  # Replaces Django's default to allow iframe embedding
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'avagen.middleware.Custom404RedirectMiddleware',
 ]

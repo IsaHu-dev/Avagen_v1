@@ -1,6 +1,9 @@
+/* jshint esversion: 6 */
+/* global $ */
+
 // Handle back to top button
 $('.btt-link').click(function(e) {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
 });
 
 // Handle quantity increment/decrement
@@ -13,12 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
             const input = document.getElementById(`id_qty_${itemId}`);
             let currentValue = parseInt(input.value);
             if (this.classList.contains("increment-qty")) {
-                if (currentValue < parseInt(input.max)) input.value = currentValue + 1;
+                if (currentValue < parseInt(input.max)) {
+                    input.value = currentValue + 1;
+                }
             } else {
-                if (currentValue > parseInt(input.min)) input.value = currentValue - 1;
+                if (currentValue > parseInt(input.min)) {
+                    input.value = currentValue - 1;
+                }
             }
             const form = document.getElementById(`update-form-${itemId}`);
-            if (form) form.submit();
+            if (form) {
+                form.submit();
+            }
         });
     });
 
@@ -28,7 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const itemId = this.dataset.item_id;
             const form = document.getElementById(`update-form-${itemId}`);
-            if (form) form.submit();
+            if (form) {
+                form.submit();
+            }
         });
     });
 
@@ -43,4 +54,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-}); 
+});

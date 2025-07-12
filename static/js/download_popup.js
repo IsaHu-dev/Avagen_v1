@@ -1,42 +1,49 @@
+/* jshint esversion: 6 */
+/* global $ */
+
 $(document).on('click', '[id^="download-avatar-btn-"]', function (event) {
   event.preventDefault();
-  
-  // Show success popup immediately
+
   showDownloadSuccessPopup();
-  
-  // Trigger the download after a short delay
-  setTimeout(function() {
+
+  setTimeout(() => {
     window.location.href = this.href;
-  }.bind(this), 1000);
+  }, 1000);
 });
 
 function showDownloadSuccessPopup() {
-  // Clone the hidden template
+  const popup = createDownloadPopup();
+  ensureMessageContainerExists();
+  displayPopup(popup);
+  attachCloseHandler(popup);
+}
+
+function createDownloadPopup() {
   const template = document.getElementById('download-success-template');
-  const popup = template.querySelector('.popup').cloneNode(true);
-  
-  // Add popup to the message container
-  const messageContainer = document.querySelector('.message-container');
-  if (!messageContainer) {
+  return template.querySelector('.popup').cloneNode(true);
+}
+
+function ensureMessageContainerExists() {
+  if (!document.querySelector('.message-container')) {
     const newContainer = document.createElement('div');
     newContainer.className = 'message-container';
     document.body.appendChild(newContainer);
   }
-  
+}
+
+function displayPopup(popup) {
   const container = document.querySelector('.message-container');
   container.innerHTML = '';
   container.appendChild(popup);
-  
-  // Show the popup
   popup.style.display = 'block';
-  
-  // Auto-hide after 5 seconds
-  setTimeout(function() {
+
+  setTimeout(() => {
     popup.style.display = 'none';
   }, 5000);
-  
-  // Handle close button
-  popup.querySelector('.close').addEventListener('click', function() {
+}
+
+function attachCloseHandler(popup) {
+  popup.querySelector('.close').addEventListener('click', () => {
     popup.style.display = 'none';
   });
 }
