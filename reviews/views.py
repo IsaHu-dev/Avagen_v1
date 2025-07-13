@@ -14,7 +14,6 @@ def add_review(request, product_id):
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.name = request.user.username
             review.product = product
             review.save()
             messages.success(request, 'Thank you for your review!')
