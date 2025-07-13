@@ -2,14 +2,6 @@ from django.shortcuts import get_object_or_404
 from products.models import DigitalProduct
 
 
-def calculate_delivery_cost(subtotal):
-    """
-    Calculate delivery cost based on subtotal and free delivery threshold.
-    Returns delivery cost and amount needed for free delivery.
-    """
-    return 0, 0
-
-
 def get_cart_items(cart):
     """
     Process cart items and return list of items with their details.
