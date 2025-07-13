@@ -38,14 +38,13 @@ body {
 }
 
 .shop-now-button {
-    background: linear-gradient(135deg, #ff0080 0%, #ff6b9d 100%);
+    background: linear-gradient(135deg, #ff0080 0%, #8a2be2 50%, #ffd700 100%);
     color: white;
     min-width: 260px;
     font-weight: 500;
     border-radius: 8px;
     border: none;
     transition: all 0.3s ease;
-    
 }
 
 .btn-black {
@@ -73,10 +72,8 @@ body {
 .shop-now-button:hover,
 .shop-now-button:active,
 .shop-now-button:focus {
-    background: linear-gradient(135deg, #e60073 0%, #ff4d94 100%);
+    background: linear-gradient(135deg, #e60073 0%, #7b1fa2 50%, #ffc107 100%);
     color: white;
-    transform: translateY(-2px);
-  
 }
 
 .btn-black:hover,
