@@ -28,6 +28,17 @@ The platform is built with **Django 5**, **PostgreSQL** and **Stripe** to prov
 | **Hobbyists**             | Users using avatars to add to their profiles for recreation  |
 ---
 
+### Business / Revenue Model
+
+- **Direct Avatar Sales**: Revenue is generated per avatar purchase, with prices tiered by license type (*Personal*, *Indie*, *Professional*).
+
+- **Tiered Licensing**: Customers pay more for broader usage rights (e.g., for commercial content, streaming, branding).
+
+- **Newsletter Promotions**: Sales and launches are marketed through an integrated newsletter system.
+
+- **Creator-Friendly Terms**: A portion of revenue is directed toward avatar designers *(future feature roadmap)*.
+
+
 ## Key Features
 
 ### Features
@@ -418,7 +429,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-### Browse to [http://127.0.0.1:8000](http://127.0.0.1:8000).
+#### Browse to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 ---
 
 ## Manual User Testing
@@ -459,7 +470,7 @@ python manage.py runserver
 | **Newsletter**    | Subscribe with valid email and name      | Welcome email is received (check inbox/spam)                              | ✅     |
 | **Newsletter**    | Subscribe with duplicate email           | Error message popup shown, no duplicate entry created                     | ✅     |
 | **Newsletter**    | Admin views subscribers in admin panel   | Subscriber list is visible, can search/filter/delete                      | ✅     |
-| **Newsletter**    | Welcome email uses correct name          | Email greets user by their first name as entered on sign up                | ✅     |
+| **Newsletter**    | Welcome email uses correct name          | Email greets user by their first name as entered on sign up               | ✅     |
 
 
 | Area              | Action                                               | Expected Result                                                              | Status |
@@ -484,8 +495,8 @@ python manage.py runserver
 ### Testing Status
 
 * **Manual Testing**: ✅ Comprehensive manual testing completed
-* **Performance**: Lighthouse scores tbc across all categories
 * **HTML/CSS**: Passes W3C validators
+* **Javascript**: Passed the Jshint validator
 
 ---
 
@@ -519,6 +530,10 @@ python manage.py runserver
 All code is released under the **[MIT Licence](https://opensource.org/licenses/MIT)**.
 
 ---
+
+## Acknowledgements
+ 
+ - Thanks to the mentor programme at Code Institute with Moritz Wach.
 
 
 
