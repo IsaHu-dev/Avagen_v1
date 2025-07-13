@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% block page_title %}Avagen - Where Your Digital Self Begins | Digitally Crafted Avatar Collection{% endblock %}
+
 {% block meta_title %}Avagen - Where Your Digital Self Begins | Digitally Crafted Avatar Collection{% endblock %}
 
 {% block meta_description %}Discover your perfect digital identity at Avagen. Shop our curated collection of digitally crafted avatars for gamers, designers, and digital explorers. Find your avatar to define your presence across gaming, social media and virtual worlds.{% endblock %}
@@ -16,31 +18,49 @@
 
 {% block twitter_description %}Discover your perfect digital identity at Avagen. Shop our curated collection of digitally crafted avatars for gamers, designers, and digital explorers.{% endblock %}
 
+{% block extra_head %}
+<!-- Structured Data for Homepage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Avagen - Where Your Digital Self Begins",
+  "description": "Discover your perfect digital identity at Avagen. Shop our curated collection of digitally crafted avatars for gamers, designers, and digital explorers.",
+  "url": "{{ request.build_absolute_uri }}",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Avagen",
+    "description": "Digitally crafted avatar collection for gaming, social media, and digital identity"
+  }
+}
+</script>
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+<div class="row">
+<div class="col"></div>
+</div>
+</div>
 {% endblock %}
 
 {% block content %}
     <div class="container h-100">
-        <div class="row h-100">
-            <div class="col-7 col-md-6 my-auto">
-                <h1 class="display-4 logo-font text-white">
+<div class="row h-100">
+<div class="col-7 col-md-6 my-auto">
+<h1 class="display-4 logo-font text-white">
                     Avagen - Where your digital self begins.
                     A creative concept store for designers, gamers and explorers of digital realms. Find your avatar to define your presence across gaming, social media and virtual worlds.
                 </h1>
-                <p class="display-4 logo-font text-white text-uppercase mt-4">
+<p class="display-4 logo-font text-white text-uppercase mt-4">
                     Design your persona on Avagen.
                 </p>
-                <div class="my-5">
-                    <h4>
-                        <a href="{% url 'products' %}" class="shop-now-button btn btn-lg btn-rounded text-uppercase py-3">Shop Now</a>
-                    </h4>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="my-5">
+<h4>
+<a class="shop-now-button btn btn-lg btn-rounded text-uppercase py-3" href="{% url 'products' %}">Shop Now</a>
+</h4>
+</div>
+</div>
+</div>
+</div>
 {% endblock %}
