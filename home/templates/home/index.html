@@ -25,12 +25,32 @@
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Avagen - Where Your Digital Self Begins",
-  "description": "Discover your perfect digital identity at Avagen. Shop our curated collection of digitally crafted avatars for gamers, designers, and digital explorers.",
+  "description": "Discover your perfect digital identity at Avagen. Shop our curated collection of digitally crafted avatars for gamers, designers, and digital explorers. Find your avatar to define your presence across gaming, social media and virtual worlds.",
   "url": "{{ request.build_absolute_uri }}",
   "mainEntity": {
     "@type": "Organization",
     "name": "Avagen",
-    "description": "Digitally crafted avatar collection for gaming, social media, and digital identity"
+    "description": "Digitally crafted avatar collection for gaming, social media, and digital identity",
+    "url": "{{ request.build_absolute_uri }}",
+    "logo": "{{ request.build_absolute_uri }}{% static 'media/avagen_logo_text.webp' %}",
+    "sameAs": [
+      "https://www.instagram.com/avagen",
+      "https://www.facebook.com/avagen",
+      "https://twitter.com/avagen"
+    ]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Avagen",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.build_absolute_uri }}{% static 'media/avagen_logo_text.webp' %}"
+    }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ request.build_absolute_uri }}{% url 'products' %}?q={search_term_string}",
+    "query-input": "required name=search_term_string"
   }
 }
 </script>
@@ -47,12 +67,12 @@
 {% block content %}
     <div class="container h-100">
 <div class="row h-100">
-<div class="col-7 col-md-6 my-auto">
-<h1 class="display-4 logo-font text-white">
+<div class="col-12 col-md-10 col-lg-8 my-auto">
+<h1 class="display-4 logo-font text-white text-break responsive-headline">
                     Avagen - Where your digital self begins.
                     A creative concept store for designers, gamers and explorers of digital realms. Find your avatar to define your presence across gaming, social media and virtual worlds.
                 </h1>
-<p class="display-4 logo-font text-white text-uppercase mt-4">
+<p class="lead logo-font text-white text-uppercase mt-4 responsive-subheadline">
                     Design your persona on Avagen.
                 </p>
 <div class="my-5">

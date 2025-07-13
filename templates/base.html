@@ -54,68 +54,68 @@
   <title>Avagen - A house collection of Avatars {% block extra_title %}{% endblock %}</title>
 </head>
 <body>
-<header class="container-fluid fixed-top bg-white">
+  <header class="w-100 fixed-top bg-white m-0 p-0">
 <!-- Header top navigation with logo on the left and controls on the right -->
-<div class="d-none d-lg-flex align-items-center justify-content-between px-3 py-2 bg-white" id="topnav">
-<!-- Left: Avagen logo -->
-<div class="d-flex align-items-center">
-<a class="nav-link main-logo-link" href="{% url 'home' %}">
-<img alt="Avagen - Digitally Crafted Avatar Collection Logo" class="logo-img" src="{{ MEDIA_URL }}avagen_logo_text.webp"/>
-</a>
-</div>
-<!-- Right: Search bar, cart icon, and user account -->
-<div class="d-flex align-items-center ml-auto justify-content-end w-100">
-<form action="{% url 'products' %}" class="mr-3" method="GET">
-          {% csrf_token %}
-          <div class="input-group">
-<input class="form-control rounded-pill border border-black" name="q" placeholder="Search our site" type="text"/>
-<div class="input-group-append">
-<button class="btn btn-outline-secondary rounded-pill border-0" type="submit">
-<i class="fas fa-search"></i>
-</button>
-</div>
-</div>
-</form>
-<a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link mx-2" href="{% url 'view_cart' %}">
-<i class="fas fa-shopping-cart fa-lg"></i>
-</a>
-<a aria-expanded="false" aria-haspopup="true" class="nav-link text-black mx-2" data-toggle="dropdown" href="#" id="user-options">
-<i class="fas fa-user fa-lg"></i>
-</a>
-<div aria-labelledby="user-options" class="dropdown-menu dropdown-menu-right border-0">
-          {% if request.user.is_authenticated %}
-            {% if request.user.is_superuser %}
-              <a class="dropdown-item" href="{% url 'add_product' %}">Manage Products</a>
-            {% endif %}
-            <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-<a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-          {% else %}
-            <a class="dropdown-item" href="{% url 'account_signup' %}">Register</a>
-<a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
-          {% endif %}
+<div class="d-none d-lg-flex align-items-center justify-content-between w-100 px-3 py-2" id="topnav">
+  <!-- Left: Avagen logo -->
+  <div class="d-flex align-items-center">
+    <a class="nav-link main-logo-link" href="{% url 'home' %}">
+      <img alt="Avagen - Digitally Crafted Avatar Collection Logo" class="logo-img" src="{{ MEDIA_URL }}avagen_logo_text.webp"/>
+    </a>
+  </div>
+  <!-- Right: Search bar, cart icon, and user account -->
+  <div class="d-flex align-items-center ml-auto justify-content-end w-100">
+    <form action="{% url 'products' %}" class="mr-3" method="GET">
+      {% csrf_token %}
+      <div class="input-group">
+        <input class="form-control rounded-pill border border-black" name="q" placeholder="Search our site" type="text"/>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary rounded-pill border-0" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
         </div>
-</div>
+      </div>
+    </form>
+    <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link mx-2" href="{% url 'view_cart' %}">
+      <i class="fas fa-shopping-cart fa-lg"></i>
+    </a>
+    <a aria-expanded="false" aria-haspopup="true" class="nav-link text-black mx-2" data-toggle="dropdown" href="#" id="user-options">
+      <i class="fas fa-user fa-lg"></i>
+    </a>
+    <div aria-labelledby="user-options" class="dropdown-menu dropdown-menu-right border-0">
+      {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser %}
+          <a class="dropdown-item" href="{% url 'add_product' %}">Manage Products</a>
+        {% endif %}
+        <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+        <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+      {% else %}
+        <a class="dropdown-item" href="{% url 'account_signup' %}">Register</a>
+        <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
+      {% endif %}
+    </div>
+  </div>
 </div>
 <div class="row" style="background-color: #e0e0e0;">
 <nav class="navbar navbar-expand-lg navbar-light w-100">
 <!-- Mobile header with logo, search, cart, and user -->
-<div class="d-lg-none d-flex align-items-center justify-content-between w-100 px-2 px-sm-3 py-2 bg-white">
+<div class="d-lg-none d-flex align-items-center justify-content-between w-100 bg-white mobile-navbar">
 <!-- Mobile logo -->
-<a class="nav-link main-logo-link" href="{% url 'home' %}">
+<a class="nav-link main-logo-link mobile-logo-gap mr-3" href="{% url 'home' %}">
 <img alt="Avagen - Digitally Crafted Avatar Collection Logo" class="img-fluid" src="{{ MEDIA_URL }}avagen_logo_text.webp" style="max-height: 40px; width: auto;"/>
 </a>
 <!-- Mobile search, cart, and user icons -->
 <div class="d-flex align-items-center">
 <!-- Mobile search button -->
-<button aria-controls="mobile-search" aria-expanded="false" class="btn btn-link text-black p-1 p-sm-2 mr-1 mr-sm-2" data-target="#mobile-search" data-toggle="collapse" type="button">
+<button aria-controls="mobile-search" aria-expanded="false" class="btn btn-link text-black" data-target="#mobile-search" data-toggle="collapse" type="button">
 <i class="fas fa-search fa-sm fa-lg-sm"></i>
 </button>
 <!-- Mobile cart icon -->
-<a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link p-1 p-sm-2 mr-1 mr-sm-2" href="{% url 'view_cart' %}">
+<a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link" href="{% url 'view_cart' %}">
 <i class="fas fa-shopping-cart fa-sm fa-lg-sm"></i>
 </a>
 <!-- Mobile user icon -->
-<a aria-expanded="false" aria-haspopup="true" class="nav-link text-black p-1 p-sm-2" data-toggle="dropdown" href="#" id="mobile-user-options">
+<a aria-expanded="false" aria-haspopup="true" class="nav-link text-black" data-toggle="dropdown" href="#" id="mobile-user-options">
 <i class="fas fa-user fa-sm fa-lg-sm"></i>
 </a>
 <div aria-labelledby="mobile-user-options" class="dropdown-menu dropdown-menu-right border-0">

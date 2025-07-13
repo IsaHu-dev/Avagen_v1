@@ -4,7 +4,7 @@ html {
 
 body {
     background: url('/media/avatar_intro.webp') no-repeat center center fixed;
-    background-size: 100% auto;
+    background-size: cover;
     height: calc(100vh - 164px);
     color: #555;
     font-family: 'Poppins', sans-serif;
@@ -45,6 +45,7 @@ body {
     border-radius: 8px;
     border: none;
     transition: all 0.3s ease;
+    
 }
 
 .btn-black {
@@ -72,8 +73,10 @@ body {
 .shop-now-button:hover,
 .shop-now-button:active,
 .shop-now-button:focus {
-    background: linear-gradient(135deg, #e60073 0%, #7b1fa2 50%, #ffc107 100%);
+    background: linear-gradient(135deg, #e60073 0%, #ff4d94 100%);
     color: white;
+    transform: translateY(-2px);
+  
 }
 
 .btn-black:hover,
@@ -523,6 +526,24 @@ select {
     body {
         height: calc(100vh - 100px);
     }
+}
+
+@media (max-width: 991.98px) {
+  html, body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .mobile-navbar {
+    width: 100vw;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
 
 
