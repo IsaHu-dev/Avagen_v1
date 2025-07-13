@@ -453,13 +453,13 @@ python manage.py runserver
 | **Accessibility** | Navigate with keyboard                   | All interactive elements are reachable                                    | ✅     |
 | **Admin**         | Upload ZIP file to product               | File is linked and downloadable post-purchase                             | ✅     |
 | **Admin**         | Toggle product live/draft                | Visibility updated without deleting the product                           | ✅     |
-| **Admin**         | Use 'Is Creator' checkbox                | Categories appear in 'New Releases' dropdown in main nav bar              | ✅     |
+| **Admin**         | Use 'Is Creator' checkbox                | Categories appear in 'New Releases' dropdown in main navigation bar       | ✅     |
 | **Search**        | Use keyword search bar                   | Matching products shown from the keyword search                           | ✅     |
 | **Newsletter**    | Submit email on signup form              | Confirmation message shown or email stored in database                    | ✅     |
 | **Newsletter**    | Subscribe with valid email and name      | Welcome email is received (check inbox/spam)                              | ✅     |
 | **Newsletter**    | Subscribe with duplicate email           | Error message popup shown, no duplicate entry created                     | ✅     |
 | **Newsletter**    | Admin views subscribers in admin panel   | Subscriber list is visible, can search/filter/delete                      | ✅     |
-| **Newsletter**    | Welcome email uses correct name          | Email greets user by their first name as entered on signup                | ✅     |
+| **Newsletter**    | Welcome email uses correct name          | Email greets user by their first name as entered on sign up                | ✅     |
 
 
 | Area              | Action                                               | Expected Result                                                              | Status |
