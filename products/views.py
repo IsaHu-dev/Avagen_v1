@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Avg
-from django.db.models.functions import Lower
+from django.db.models.functions import Lower, Coalesce
 
 from .models import DigitalProduct, Category
 from .forms import ProductForm
@@ -38,12 +38,12 @@ def list_digital_products(request):
                 ).order_by('-lower_name')
             case 'rating_high':
                 items = items.annotate(
-                    avg_score=Avg('reviews__rating')
-                ).order_by('-avg_score')
+                    avg_score=Coalesce(Avg('reviews__rating'), 0.0)
+                ).order_by('-avg_score', 'name')
             case 'rating_low':
                 items = items.annotate(
-                    avg_score=Avg('reviews__rating')
-                ).order_by('avg_score')
+                    avg_score=Coalesce(Avg('reviews__rating'), 0.0)
+                ).order_by('avg_score', 'name')
 
     # Category filter
     if 'category' in request.GET:
