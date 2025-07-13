@@ -82,6 +82,9 @@
     </a>
     <a aria-expanded="false" aria-haspopup="true" class="nav-link text-black mx-2" data-toggle="dropdown" href="#" id="user-options" aria-label="User account menu">
       <i class="fas fa-user fa-lg" aria-hidden="true"></i>
+      {% if request.user.is_authenticated %}
+        <span class="ml-1 username-display">{{ request.user.username }}</span>
+      {% endif %}
     </a>
     <div aria-labelledby="user-options" class="dropdown-menu dropdown-menu-right border-0">
       {% if request.user.is_authenticated %}
@@ -118,6 +121,9 @@
 <!-- Mobile user icon -->
 <a aria-expanded="false" aria-haspopup="true" class="nav-link text-black" data-toggle="dropdown" href="#" id="mobile-user-options" aria-label="User account menu">
 <i class="fas fa-user fa-sm fa-lg-sm" aria-hidden="true"></i>
+{% if request.user.is_authenticated %}
+  <span class="ml-1 username-display-mobile">{{ request.user.username }}</span>
+{% endif %}
 </a>
 <div aria-labelledby="mobile-user-options" class="dropdown-menu dropdown-menu-right border-0">
               {% if request.user.is_authenticated %}

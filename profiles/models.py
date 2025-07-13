@@ -14,11 +14,6 @@ class UserProfile(models.Model):
     profile_image = models.ImageField(
         upload_to='avatars/',
         default='avatars/default.png',
-        validators=[
-            FileExtensionValidator(
-                allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'webp']
-            )
-        ],
         help_text=(
             'Upload a profile picture (JPG, PNG, GIF, WebP up to 5MB)'
         )

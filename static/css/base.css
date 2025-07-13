@@ -546,4 +546,40 @@ select {
   }
 }
 
+/* ===== USERNAME DISPLAY STYLING ===== */
+/* 
+   Styling for username display next to user icon
+   - Desktop and mobile responsive styling
+   - Proper spacing and typography
+*/
+
+/* Desktop username display */
+.username-display {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    vertical-align: middle;
+}
+
+/* Mobile username display */
+.username-display-mobile {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #333;
+    vertical-align: middle;
+}
+
+/* Responsive adjustments for username display */
+@media (max-width: 768px) {
+    .username-display-mobile {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .username-display-mobile {
+        font-size: 0.7rem;
+    }
+}
+
 

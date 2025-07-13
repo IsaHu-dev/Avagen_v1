@@ -26,13 +26,18 @@ def profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             try:
                 user_form.save()
-                profile_form.save()
+                profile_instance = profile_form.save(commit=False)
+                if not request.FILES.get('profile_image'):
+                    profile_instance.profile_image = profile.profile_image
+                profile_instance.save()
                 # Refresh the profile object to get updated data
                 profile.refresh_from_db()
                 messages.success(request, 'Profile updated successfully!')
             except Exception as e:
                 messages.error(
-                    request, f'Error saving profile: {str(e)}'
+                    request,
+                    'Error saving profile: '
+                    f'{str(e)}'
                 )
         else:
             # Show specific form errors
