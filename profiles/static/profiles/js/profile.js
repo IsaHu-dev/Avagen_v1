@@ -1,4 +1,7 @@
 // Profile Image Preview Functionality
+/* jshint esversion: 6 */
+/* global $ */
+
 document.addEventListener('DOMContentLoaded', function() {
     const profileImageInput = document.getElementById('id_profile_image');
     const profileImageContainer = document.querySelector('.profile-image-container');

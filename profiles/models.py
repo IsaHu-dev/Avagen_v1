@@ -5,18 +5,19 @@ from django.core.validators import FileExtensionValidator
 
 User = get_user_model()
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='profile'
+        User, on_delete=models.CASCADE, related_name="profile"
     )
     display_name = models.CharField(max_length=100, blank=True)
     bio = models.TextField(blank=True)
     profile_image = models.ImageField(
-        upload_to='avatars/',
-        default='avatars/default.png',
+        upload_to="avatars/",
+        default="avatars/default.png",
         help_text=(
-            'Upload a profile picture (JPG, PNG, GIF, WebP up to 5MB)'
-        )
+            "Upload a profile picture (JPG, PNG, GIF, WebP up to 5MB)"
+        ),
     )
 
     address_line_1 = models.CharField(
@@ -31,10 +32,15 @@ class UserProfile(models.Model):
     country = CountryField(blank_label="(Select country)", blank=True)
 
     def __str__(self):
+        """
+        Return the display name if set; otherwise the username.
+        """
         return self.display_name or self.user.username
-    
+
     def get_profile_image_url(self):
-        """Return the profile image URL or default image if none exists"""
-        if self.profile_image and hasattr(self.profile_image, 'url'):
+        """
+        Return the profile image URL or a fallback default image.
+        """
+        if self.profile_image and hasattr(self.profile_image, "url"):
             return self.profile_image.url
-        return '/media/avatars/default.png'
+        return "/media/avatars/default.png"

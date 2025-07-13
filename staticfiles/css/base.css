@@ -1,0 +1,585 @@
+html {
+    height: 100%;
+}
+
+body {
+    background: url('/media/avatar_intro.webp') no-repeat center center fixed;
+    background-size: cover;
+    height: calc(100vh - 164px);
+    color: #555;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+/* from Bulma */
+.icon {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.logo-font {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.display-4.logo-font {
+    font-size: 24px;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.main-logo-link {
+    width: fit-content;
+}
+
+.shop-now-button {
+    background: linear-gradient(135deg, #ff0080 0%, #8a2be2 50%, #ffd700 100%);
+    color: white;
+    min-width: 260px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.3s ease;
+    
+}
+
+.btn-black {
+    background: black;
+    color: white;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.btn-outline-black {
+    background: white;
+    color: black !important;
+    border: 1px solid black;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.btn-outline-black:hover,
+.btn-outline-black:active,
+.btn-outline-black:focus {
+    background: black;
+    color: white !important;
+}
+
+.shop-now-button:hover,
+.shop-now-button:active,
+.shop-now-button:focus {
+    background: linear-gradient(135deg, #e60073 0%, #ff4d94 100%);
+    color: white;
+    transform: translateY(-2px);
+  
+}
+
+.btn-black:hover,
+.btn-black:active,
+.btn-black:focus {
+    background: #222;
+    color: white;
+}
+
+.text-black {
+    color: #000 !important;
+}
+
+.border-black {
+    border: 1px solid black !important;
+}
+
+.bg-black {
+    background: #000 !important;
+}
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: white;
+    z-index: -1;
+}
+
+a.category-badge > span.badge:hover {
+    background: #212529 !important;
+    color: #fff !important;
+}
+
+.btt-button {
+    height: 42px;
+    width: 42px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.btt-link,
+.update-link,
+.remove-item {
+    cursor: pointer;
+}
+
+input[name='q']::placeholder {
+    color: #aab7c4;
+}
+
+/* ------------------------------- popup notifications */
+
+.message-container {
+    position: fixed;
+    top: 180px;
+    right: 15px;
+    z-index: 99999999999;
+}
+
+.custom-popup {
+    overflow: hidden;
+}
+
+.popup-capper {
+    height: 2px;
+}
+
+/* from CSS-tricks.com: https://css-tricks.com/snippets/css/css-triangle/ */
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 10px solid black;
+    position: absolute;
+    top: -10px;
+    right: 36px;
+}
+
+.arrow-primary {
+    border-bottom-color: #007bff !important;
+}
+
+.arrow-secondary {
+    border-bottom-color: #6c757d !important;
+}
+
+.arrow-success {
+    border-bottom-color: #28a745 !important;
+}
+
+.arrow-danger {
+    border-bottom-color: #dc3545 !important;
+}
+
+.arrow-warning {
+    border-bottom-color: #ffc107 !important;
+}
+
+.arrow-info {
+    border-bottom-color: #17a2b8 !important;
+}
+
+.arrow-light {
+    border-bottom-color: #f8f9fa !important;
+}
+
+.arrow-dark {
+    border-bottom-color: #343a40 !important;
+}
+
+.cart-notification-wrapper {
+    height: 100%;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+/* -------------------------------- Media Queries */
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 80%;
+  }
+}
+
+/* Allauth form formatting */
+
+.allauth-form-inner-content p {
+    margin-top: 1.5rem;
+    color: #6c757d;
+}
+
+.allauth-form-inner-content input {
+    border-color: #000;
+    border-radius: 8px;
+}
+
+.allauth-form-inner-content label:not([for='id_remember']) {
+    display: none;
+}
+
+.allauth-form-inner-content input::placeholder {
+    color: #aab7c4;
+}
+
+.allauth-form-inner-content button,
+.allauth-form-inner-content input[type='submit'] {
+    display: inline-block;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: #000;
+    border: 1px solid #000;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 8px;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out,
+                border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.allauth-form-inner-content button:hover,
+.allauth-form-inner-content input[type='submit']:hover {
+    color: #fff;
+    background-color: #222;
+    border-color: #222;
+}
+
+.allauth-form-inner-content a {
+    color: #17a2b8;
+}
+
+/* Global Form Field Styling */
+.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+textarea,
+select {
+    border-radius: 3px;
+}
+
+/* Product Form */
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-checkbox .custom-control-label::before {
+    border-radius: 4px;
+    border-color: #dc3545;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    border-radius: 4px;
+}
+
+@media (min-width: 992px) {
+    .fixed-top-desktop-only {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+    }
+
+    .header-container {
+        padding-top: 164px;
+    }
+}
+
+@media (max-width: 991px) {
+    .header-container {
+        padding-top: 116px;
+    }
+
+    body {
+        height: calc(100vh - 116px);
+    }
+}
+/* Container for the star rating component */
+.star-rating {
+    font-size: 1.8rem; /* Size of the stars */
+    unicode-bidi: bidi-override; /* The star characters display in the correct visual order */
+    display: inline-flex; /* Arrange the stars horizontally */
+    gap: 0.25rem; /* Small space between each star */
+}
+
+/* Hide the radio inputs used for the rating */
+.star-rating input[type="radio"] {
+    display: none; /* Hides the actual radio buttons so only stars (labels) are visible */
+}
+
+/* Base style for the star labels */
+.star-rating label {
+    color: #ccc; /* Default grey color for inactive stars */
+    cursor: pointer; /* Change cursor to pointer when hovering over a star */
+}
+
+/* Highlight stars on selection or hover */
+.star-rating input[type="radio"]:checked ~ label, /* When a radio input is selected, color the associated and all previous labels */
+.star-rating label:hover,                         /* Highlight star on hover */
+.star-rating label:hover ~ label {                /* Highlight all stars before the one hovered */
+    color: gold; /* Highlighted color for active or hovered stars */
+}
+
+.card .list-group-item.active,
+.list-group .list-group-item.active {
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+    color: #fff !important;
+}
+
+/* Fuschia color for Products Home link */
+.products-home-link {
+    color: #d72660 !important; /* Fuschia */
+}
+
+.logo-img {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.dropdown-menu .dropdown-item {
+    text-transform: none;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.card-img-top {
+    max-width: 380px;
+    max-height: 380px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-detail-img {
+    max-width: 456px;  /* 380px * 1.2 */
+    max-height: 456px; /* 380px * 1.2 */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.qty_input {
+    width: 50px !important;
+    min-width: 0;
+    max-width: 80px;
+    text-align: center;
+}
+.footer-link {
+    font-size: 0.95rem;
+}
+
+/* Pill-shaped buttons for product page actions */
+.btn-keep-shopping,
+.btn-add-to-cart {
+    border-radius: 8px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-weight: 500;
+}
+
+.btn-rounded {
+    border-radius: 4px;
+}
+
+.login input[type="text"],
+.login input[type="email"],
+.login input[type="password"],
+.login input[type="number"],
+.login input[type="tel"],
+.login input[type="url"],
+.login input[type="search"],
+.login input[type="date"],
+.login input[type="time"],
+.login input[type="datetime-local"],
+.login input[type="month"],
+.login input[type="week"],
+.login textarea,
+.login select {
+    border-radius: 4px;
+}
+
+.btn-smaller {
+    font-size: 1rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+@media (max-width: 575.98px) {
+  .btn-keep-shopping-wide,
+  .btn-guest-checkout-wide {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  .cart-summary-box {
+    max-width: 100% !important;
+    float: none !important;
+  }
+}
+
+.btn-keep-shopping-wide {}
+.btn-guest-checkout-wide {}
+
+.cart-action-btn {
+    min-width: 180px;
+    max-width: 240px;
+    width: 100%;
+}
+
+/* Instagram brand colors */
+.fab.fa-instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.fab.fa-instagram:hover {
+    background: linear-gradient(45deg, #bc1888 0%, #cc2366 25%, #dc2743 50%, #e6683c 75%, #f09433 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Footer links styling */
+.footer-link a {
+    font-size: 0.9rem;
+}
+
+/* Responsive utilities for mobile navbar */
+/* Custom icon sizing for different breakpoints */
+.fa-lg-sm {
+    font-size: 1.1rem;
+}
+
+@media (min-width: 576px) {
+    .fa-lg-sm {
+        font-size: 1.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .fa-lg-sm {
+        font-size: 1.5rem;
+    }
+}
+
+/* Ensure mobile navbar elements are properly sized */
+@media (max-width: 575.98px) {
+    .d-lg-none.d-flex img {
+        max-height: 35px !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .d-lg-none.d-flex img {
+        max-height: 30px !important;
+    }
+    
+    /* Adjust header padding for very small screens */
+    .header-container {
+        padding-top: 100px;
+    }
+    
+    body {
+        height: calc(100vh - 100px);
+    }
+}
+
+@media (max-width: 991.98px) {
+  html, body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .mobile-navbar {
+    width: 100vw;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+/* ===== USERNAME DISPLAY STYLING ===== */
+/* 
+   Styling for username display next to user icon
+   - Desktop and mobile responsive styling
+   - Proper spacing and typography
+*/
+
+/* Desktop username display */
+.username-display {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    vertical-align: middle;
+}
+
+/* Mobile username display */
+.username-display-mobile {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #333;
+    vertical-align: middle;
+}
+
+/* Responsive adjustments for username display */
+@media (max-width: 768px) {
+    .username-display-mobile {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .username-display-mobile {
+        font-size: 0.7rem;
+    }
+}
+
+

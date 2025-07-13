@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 // Profile Image Preview Functionality
 document.addEventListener('DOMContentLoaded', function() {
     const profileImageInput = document.getElementById('id_profile_image');
