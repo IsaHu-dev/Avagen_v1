@@ -19,41 +19,50 @@
 {% block twitter_description %}Discover your perfect digital identity at Avagen. Shop our curated collection of digitally crafted avatars for gamers, designers, and digital explorers.{% endblock %}
 
 {% block extra_head %}
-<!-- Structured Data for Homepage -->
+
+<!-- 
+Structured Data (JSON-LD format) for SEO
+This helps search engines understand the content and purpose of the page.
+-->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Avagen - Where Your Digital Self Begins",
-  "description": "Discover your perfect digital identity at Avagen. Shop our curated collection of digitally crafted avatars for gamers, designers, and digital explorers. Find your avatar to define your presence across gaming, social media and virtual worlds.",
-  "url": "{{ request.build_absolute_uri }}",
-  "mainEntity": {
-    "@type": "Organization",
-    "name": "Avagen",
-    "description": "Digitally crafted avatar collection for gaming, social media, and digital identity",
-    "url": "{{ request.build_absolute_uri }}",
-    "logo": "{{ request.build_absolute_uri }}{% static 'media/avagen_logo_text.webp' %}",
-    "sameAs": [
-      "https://www.instagram.com/avagen",
-      "https://www.facebook.com/avagen",
-      "https://twitter.com/avagen"
-    ]
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Avagen",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ request.build_absolute_uri }}{% static 'media/avagen_logo_text.webp' %}"
+  {
+    "@context": "https://schema.org",  // Defines the context as Schema.org vocabulary
+    "@type": "WebPage",                // Indicates this page is a general webpage
+  
+    "name": "Avagen - Where Your Digital Self Begins", // Title of the page
+    "description": "Discover your perfect digital identity at Avagen. Shop our curated collection of digitally crafted avatars for gamers, designers, and digital explorers. Find your avatar to define your presence across gaming, social media and virtual worlds.",
+  
+    "url": "{{ request.build_absolute_uri }}", // Dynamically inserts the current page URL
+  
+    "mainEntity": { // Main entity associated with the page — in this case, your organization
+      "@type": "Organization",
+      "name": "Avagen",  // Name of your brand or business
+      "description": "Digitally crafted avatar collection for gaming, social media, and digital identity",
+      "url": "{{ request.build_absolute_uri }}",  // Brand URL
+      "logo": "{{ request.build_absolute_uri }}{% static 'media/avagen_logo_text.webp' %}",  // Logo image URL
+      "sameAs": [ // Links to Avagen's official social media profiles
+        "https://www.instagram.com/avagen",
+        "https://www.facebook.com/avagen",
+        "https://twitter.com/avagen"
+      ]
+    },
+  
+    "publisher": { // The organization publishing the webpage
+      "@type": "Organization",
+      "name": "Avagen",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ request.build_absolute_uri }}{% static 'media/avagen_logo_text.webp' %}" // Publisher logo image
+      }
+    },
+  
+    "potentialAction": { // Defines a search action for the site — enables rich search box in Google
+      "@type": "SearchAction",
+      "target": "{{ request.build_absolute_uri }}{% url 'products' %}?q={search_term_string}", // Search URL template
+      "query-input": "required name=search_term_string" // Required parameter for the query
     }
-  },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "{{ request.build_absolute_uri }}{% url 'products' %}?q={search_term_string}",
-    "query-input": "required name=search_term_string"
   }
-}
-</script>
+  </script>
 {% endblock %}
 
 {% block page_header %}
