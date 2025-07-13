@@ -1,0 +1,12 @@
+/* Critical CSS for above-the-fold content */
+html{height:100%}
+body{background:url('/media/avatar_intro.webp') no-repeat center center fixed;background-size:100% auto;height:calc(100vh - 164px);color:#555;font-family:'Poppins',sans-serif;font-weight:400}
+.logo-font{font-weight:600;letter-spacing:.5px}
+.display-4.logo-font{font-size:24px}
+.text-uppercase{text-transform:uppercase}
+.text-white{color:#fff!important}
+.shop-now-button{background:linear-gradient(135deg,#ff0080 0%,#ff6b9d 100%);color:#fff;min-width:260px;font-weight:500;border-radius:8px;border:none;transition:all .3s ease;box-shadow:0 4px 15px rgba(255,0,128,.4)}
+.shop-now-button:hover,.shop-now-button:active,.shop-now-button:focus{background:linear-gradient(135deg,#e60073 0%,#ff4d94 100%);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,0,128,.6)}
+.logo-img{height:90px;width:auto;object-fit:contain;font-family:'Geist',sans-serif;font-weight:600}
+@media (min-width:992px){.header-container{padding-top:164px}}
+@media (max-width:991px){.header-container{padding-top:116px};body{height:calc(100vh - 116px)}} 

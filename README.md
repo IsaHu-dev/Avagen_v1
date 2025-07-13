@@ -468,8 +468,8 @@ python manage.py runserver
 | **Admin**         | Upload ZIP file to product                           | File is linked and downloadable post-purchase                               | ✅     |
 | **Admin**         | Use 'Is Creator' checkbox in Category                | Category appears in 'New Releases' or creator-specific dropdowns            | ✅     |
 | **Admin**         | Toggle product between 'Draft' and 'Published'       | Product visibility updates across site without being deleted                | ✅     |
-| **Admin**         | Use bulk action: Mark selected as Draft              | Selected products are set to 'draft' status and disappear from public view  | ✅     |
-| **Admin**         | Use bulk action: Mark selected as Published          | Selected products are live and visible on the site                          | ✅     |
+| **Admin**         | Mark selected as Draft                               | Selected products are set to 'draft' status and disappear from public view  | ✅     |
+| **Admin**         | Mark selected as Published                           | Selected products are live and visible on the site                          | ✅     |
 | **Admin**         | Edit model_number field (visible for superusers only)| Superuser sees and can update the model_number field                        | ✅     |
 | **Admin**         | Check readonly timestamps (created_at, modified_at)  | Fields are visible but cannot be edited manually                            | ✅     |
 | **Admin**         | Verify search by name, description, model_number     | Matching products appear in the admin list view                             | ✅     |
