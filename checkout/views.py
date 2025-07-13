@@ -183,8 +183,11 @@ def checkout_success(request, order_number):
         return redirect("profile")
     messages.success(
         request,
-        f"Order successfully processed! Your order number is {order_number}. "
-        f"A confirmation email will be sent to {order.email}."
+        (
+            f"Order successfully processed! Your order number is "
+            f"{order_number}. "
+            f"A confirmation email will be sent to {order.email}."
+        ),
     )
 
     if "cart" in request.session:

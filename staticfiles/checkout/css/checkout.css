@@ -2,7 +2,6 @@
 .StripeElement,
 .stripe-style-input,
 #payment-form .form-control,
-#card-element,
 #payment-form input,
 #payment-form select,
 #payment-form textarea,
@@ -35,24 +34,23 @@ select {
   color: #aab7c4;
 }
 
-/* Label tweak */
+/* Label positioning */
 .fieldset-label {
   position: relative;
   right: 0.5rem;
 }
 
-/* Select option styling */
+/* Select styling */
 select option {
   color: #000;
 }
 
-/* Invalid select state */
 select:invalid,
 select option[value=""] {
   color: #aab7c4 !important;
 }
 
-/* Loading overlay and spinner */
+/* Loading overlay */
 #loading-overlay {
   display: none;
   position: fixed;
