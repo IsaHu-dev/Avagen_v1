@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-    <link href="{% static 'profiles/css/profile.css' %}" rel="stylesheet"/>
+    <link href="{% static 'profiles/css/profile.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block page_header %}
@@ -19,9 +19,9 @@
 <div class="container">
 <div class="row">
 <div class="col">
-<hr/>
+<hr>
 <h2 class="logo-font mb-4">My Account</h2>
-<hr/>
+<hr>
 </div>
 </div>
 <div class="row">
@@ -31,7 +31,7 @@
 <div class="card-body text-center">
 <div class="profile-image-container mb-3">
                         {% if profile.profile_image %}
-                            <img alt="Profile Image" class="profile-image" src="{{ profile.profile_image.url }}"/>
+                                                            <img alt="Profile Image" class="profile-image" src="{{ profile.profile_image.url }}">
                         {% else %}
                             <div class="profile-image-placeholder">
 <i class="fas fa-user"></i>
@@ -108,7 +108,7 @@
                         {{ profile_form.bio|as_crispy_field }}
                         
                         <!-- Address Information -->
-<hr class="my-4"/>
+<hr class="my-4">
 <h6 class="text-muted mb-3">Address Information</h6>
                         {{ profile_form.address_line_1|as_crispy_field }}
                         {{ profile_form.address_line_2|as_crispy_field }}
@@ -247,8 +247,8 @@
 <div class="download-item p-3 border rounded">
 <h6 class="mb-2">{{ item.product.name }}</h6>
 <p class="small text-muted mb-2">
-<strong>License:</strong> {{ item.license_type|title }}<br/>
-<strong>Order:</strong> {{ item.order_number|truncatechars:8 }}<br/>
+<strong>License:</strong> {{ item.license_type|title }}<br>
+<strong>Order:</strong> {{ item.order_number|truncatechars:8 }}<br>
 <strong>Date:</strong> {{ item.order_date|date:"M d, Y" }}
                                     </p>
 <a class="btn btn-sm btn-outline-success" download="" href="{{ item.download.file.url }}">

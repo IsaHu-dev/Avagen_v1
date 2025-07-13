@@ -17,15 +17,15 @@
 <div class="image-container my-5">
                 {% if product.image_url %}
                     <a href="{{ product.image_url }}" target="_blank">
-<img alt="{{ product.name }} - Digitally Crafted Avatar for Review" class="product-detail-img" src="{{ product.image_url }}"/>
+                                    <img alt="{{ product.name }} - Digitally Crafted Avatar for Review" class="product-detail-img" src="{{ product.image_url }}">
 </a>
                 {% elif product.image %}
                     <a href="{{ product.image.url }}" target="_blank">
-<img alt="{{ product.name }} - Digitally Crafted Avatar for Review" class="product-detail-img" src="{{ product.image.url }}"/>
+                                    <img alt="{{ product.name }} - Digitally Crafted Avatar for Review" class="product-detail-img" src="{{ product.image.url }}">
 </a>
                 {% else %}
                     <a href="#">
-<img alt="No image available for {{ product.name }} - Digitally Crafted Avatar" class="product-detail-img" src="{{ MEDIA_URL }}noimage.webp"/>
+<img alt="No image available for {{ product.name }} - Digitally Crafted Avatar" class="product-detail-img" src="{{ MEDIA_URL }}noimage.webp">
 </a>
                 {% endif %}
             </div>
@@ -78,13 +78,13 @@
                     {{ form.comment }}
                 </div>
 <div class="form-group">
-<label for="star-rating"><strong>Rate this product:</strong></label><br/>
+<label for="star-rating"><strong>Rate this product:</strong></label><br>
 <div class="star-rating" id="star-rating">
                         {% for i in "12345" %}
                             <i class="far fa-star" data-value="{{ forloop.counter }}"></i>
                         {% endfor %}
                     </div>
-<input id="rating" name="rating" type="hidden" value=""/>
+<input id="rating" name="rating" type="hidden" value="">
 </div>
 <div class="d-flex justify-content-center">
 <button class="btn btn-outline-warning text-dark border-4" type="submit">
