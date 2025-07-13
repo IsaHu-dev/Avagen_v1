@@ -34,7 +34,7 @@ def add_to_cart(request, item_id):
         }
 
     messages.success(
-        request, 
+        request,
         f"Added {quantity} of {product.name} to your cart."
     )
     request.session['cart'] = cart
@@ -54,7 +54,7 @@ def adjust_cart(request, item_id):
             'license_type': license_type
         }
         messages.success(
-            request, 
+            request,
             f"Updated {product.name} quantity to {quantity}."
         )
     else:
@@ -72,7 +72,7 @@ def remove_from_cart(request, item_id):
         cart = request.session.get('cart', {})
         cart.pop(item_id, None)
         messages.success(
-            request, 
+            request,
             f"{product.name} has been removed from your cart."
         )
         request.session['cart'] = cart

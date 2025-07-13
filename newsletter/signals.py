@@ -1,25 +1,22 @@
-from django.db.models.signals import post_save  # This is a built-in Django signal that runs after something is saved in the database
-from django.dispatch import receiver  # This lets us connect our function to the signal
-from django.core.mail import send_mail  # This is used to send emails
-from django.template.loader import render_to_string  # This helps us fill in email templates
-from django.conf import settings  # This gives us access to email settings
-from .models import NewsletterSubscriber  # This is our subscriber model
+from django.db.models.signals import post_save  # Signal after saving in DB
+from django.dispatch import receiver  # Connects a function to a signal
+from django.core.mail import send_mail  # Used to send emails
+from django.template.loader import render_to_string  # Renders email templates
+from django.conf import settings  # Access Django settings
+from .models import NewsletterSubscriber  # Newsletter model
 
-# This decorator tells Django:
-# "Whenever a new NewsletterSubscriber is saved, run the function below."
+
 @receiver(post_save, sender=NewsletterSubscriber)
 def send_welcome_email_signal(sender, instance, created, **kwargs):
     """
-    When someone signs up for the newsletter, this function sends them a welcome email.
-    It only runs when a new subscriber is created (not when an existing one is updated).
+    Sends a welcome email when a new newsletter subscriber is created.
     """
-    if created:  # Only do this if it's a new subscriber
+    if created:
         try:
-            # Prepare the information to fill in the email templates
             context = {
-                'subscriber': instance,  # The new subscriber
+                'subscriber': instance,
                 'welcome_message': (
-                    f"Welcome to Avagen, {instance.first_name or 'there'}! 🎉\n\n"
+                    f"Welcome to Avagen, {instance.first_name or 'there'}!\n\n"
                     "Thank you for subscribing to our newsletter. You'll now "
                     "receive updates about our latest digital products, "
                     "special offers, and exclusive content.\n\n"
@@ -30,29 +27,30 @@ def send_welcome_email_signal(sender, instance, created, **kwargs):
                     "We're excited to have you as part of our community!"
                 )
             }
-            
-            # Fill in the plain text and HTML email templates with the subscriber's info
+
             text_content = render_to_string(
-                'newsletter/email/welcome_email.txt', 
+                'newsletter/email/welcome_email.txt',
                 context
             )
             html_content = render_to_string(
-                'newsletter/email/welcome_email.html', 
+                'newsletter/email/welcome_email.html',
                 context
             )
-            
-            # Send the welcome email to the new subscriber
+
             send_mail(
                 subject='Welcome to Avagen Newsletter! 🎉',
                 message=text_content,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[instance.email],
                 html_message=html_content,
-                fail_silently=True,  # Don't crash if the email can't be sent
+                fail_silently=True,
             )
-            
-            print(f"Welcome email sent to {instance.email}")  # For debugging
-            
+
+            print(
+                f"Welcome email sent to {instance.email}"
+            )
+
         except Exception as e:
-            # If something goes wrong, print an error message (for debugging)
-            print(f"Failed to send welcome email to {instance.email}: {e}") 
+            print(
+                f"Failed to send welcome email to {instance.email}: {e}"
+            )

@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+
 import os
 import dj_database_url
 from pathlib import Path
@@ -19,153 +20,163 @@ import cloudinary
 import base64
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Import environment variables
-if os.path.exists(os.path.join(BASE_DIR, 'env.py')):
-    import env
 
+if os.path.exists(os.path.join(BASE_DIR, "env.py")):
+    import env
 # Cloudinary configuration
+
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
-    api_secret=os.environ.get("CLOUDINARY_API_SECRET")
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
 )
 
 # Google Cloud Storage (Heroku-safe)
-GS_BUCKET_NAME = 'avagen-downloads'
+
+GS_BUCKET_NAME = "avagen-downloads"
 
 if "GCS_KEY_BASE64" in os.environ:
     key_json = base64.b64decode(os.environ["GCS_KEY_BASE64"]).decode("utf-8")
     creds_dict = json.loads(key_json)
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(creds_dict)
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+        creds_dict
+    )
 elif "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
     creds_dict = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(creds_dict)
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+        creds_dict
+    )
 else:
     GS_CREDENTIALS = None  # Optional fallback for local development
-
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',  # listen for stripe webhooks
-    '.herokuapp.com',
+    "127.0.0.1",
+    "localhost",  # listen for stripe webhooks
+    ".herokuapp.com",
 ]
 
 # Application definition
 
+
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'django_countries',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "django_countries",
     "cloudinary",
     "cloudinary_storage",
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     # Other
-    'crispy_forms',
-    'home',
-    'products',
-    'cart',
-    'checkout',
-    'faq',
-    'profiles',
-    'reviews',
-    'catalogue',
-    'storages',
-    'newsletter',
-    'useraccount',
-    
+    "crispy_forms",
+    "home",
+    "products",
+    "cart",
+    "checkout",
+    "faq",
+    "profiles",
+    "reviews",
+    "catalogue",
+    "storages",
+    "newsletter",
+    "useraccount",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'avagen.middleware.Custom404RedirectMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "avagen.middleware.Custom404RedirectMiddleware",
 ]
 
-ROOT_URLCONF = 'avagen.urls'
+ROOT_URLCONF = "avagen.urls"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
-            os.path.join(BASE_DIR, 'templates', 'allauth'),
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            os.path.join(BASE_DIR, "templates"),
+            os.path.join(BASE_DIR, "templates", "allauth"),
         ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
                 # required by allauth
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',
-                'products.context_processors.categories_context',
-                'cart.inventory.cart_contents',
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.media",
+                "products.context_processors.categories_context",
+                "cart.inventory.cart_contents",
             ],
-            'builtins': [
-                'crispy_forms.templatetags.crispy_forms_tags',
-                'crispy_forms.templatetags.crispy_forms_field',
-            ]
+            "builtins": [
+                "crispy_forms.templatetags.crispy_forms_tags",
+                "crispy_forms.templatetags.crispy_forms_field",
+            ],
         },
     },
 ]
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 SITE_ID = 1
 
 # Site Domain for Email Verification
-SITE_DOMAIN = 'avagen.co.uk'
+
+SITE_DOMAIN = "avagen.co.uk"
 
 # Email Configuration
-EMAIL_BACKEND = 'avagen.email_backend.CustomEmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_BACKEND = "avagen.email_backend.CustomEmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'avagen.studio@gmail.com'
-EMAIL_HOST_PASSWORD = 'wjnq hcnr itwb sspf'
-DEFAULT_FROM_EMAIL = 'avagen.studio@gmail.com'
-EMAIL_SUBJECT_PREFIX = '[avagen.co.uk] '
+EMAIL_HOST_USER = "avagen.studio@gmail.com"
+EMAIL_HOST_PASSWORD = "wjnq hcnr itwb sspf"
+DEFAULT_FROM_EMAIL = "avagen.studio@gmail.com"
+EMAIL_SUBJECT_PREFIX = "[avagen.co.uk] "
 
 # Allauth Settings
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/"
 
 # Additional Allauth Settings for better error handling
+
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
@@ -173,39 +184,39 @@ ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_USERNAME_REQUIRED = True
 
-WSGI_APPLICATION = 'avagen.wsgi.application'
+WSGI_APPLICATION = "avagen.wsgi.application"
 
-DATABASES = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
+DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation."
+        "UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation."
+        "MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation."
+        "CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.'
-                'NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation."
+        "NumericPasswordValidator",
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -213,25 +224,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-DIGITAL_DOWNLOAD_STORAGE = 'avagen.storage_backends.GoogleCloudZipStorage'
+DIGITAL_DOWNLOAD_STORAGE = "avagen.storage_backends.GoogleCloudZipStorage"
 
 # Stripe
 # FREE_DELIVERY_THRESHOLD = 50
 # STANDARD_DELIVERY_PERCENTAGE = 10
-STRIPE_CURRENCY = 'usd'
-STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
-STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
+
+STRIPE_CURRENCY = "usd"
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", "")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")
+STRIPE_WH_SECRET = os.getenv("STRIPE_WH_SECRET", "")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

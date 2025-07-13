@@ -5,7 +5,7 @@ from .forms import NewsletterForm
 
 # This function is for the newsletter signup form at the bottom of the website.
 def subscribe_newsletter(request):
-    # If the form was submitted (the user clicked the button)
+    # If the form was submitted 
     if request.method == 'POST':
         form = NewsletterForm(request.POST)
         # Check if the information entered is correct
@@ -13,18 +13,18 @@ def subscribe_newsletter(request):
             form.save()  # Save the new subscriber
             # Show a thank you message to the user
             messages.success(
-                request, 
+                request,
                 "Thanks for subscribing to our newsletter!"
             )
         else:
-            # If something is wrong (like the email is already used), 
+            # If an email is already used
             # show an error
             messages.error(
-                request, 
+                request,
                 "This email is already subscribed or invalid."
             )
         # After submitting, send the user back to the page they were on
         return redirect(request.META.get('HTTP_REFERER', '/'))
-    
-    # If the user didn't submit the form, just send them to the home page
+
+    # If the user didn't submit the form, send them to the home page
     return redirect('home')

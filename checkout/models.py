@@ -3,12 +3,13 @@ from django.contrib.auth.models import User
 
 
 class Order(models.Model):
-    order_number = models.CharField(
-        max_length=32, null=False, editable=False
-    )
+    order_number = models.CharField(max_length=32, null=False, editable=False)
     user = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True, 
-        related_name='orders'
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="orders",
     )
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
@@ -26,22 +27,24 @@ class Order(models.Model):
     grand_total = models.DecimalField(
         max_digits=10, decimal_places=2, null=False, default=0
     )
-    original_cart = models.TextField(null=False, blank=False, default='')
+    original_cart = models.TextField(null=False, blank=False, default="")
     stripe_pid = models.CharField(
-        max_length=254, null=False, blank=False, default=''
+        max_length=254, null=False, blank=False, default=""
     )
 
     def _generate_order_number(self):
-        """Generate a random, unique order number using timestamp and 
+        """Generate a random, unique order number using timestamp and
         random characters"""
         import uuid
         from datetime import datetime
-        
+
         # Get current timestamp and format it
-        timestamp = datetime.now().strftime('%y%m%d')
+
+        timestamp = datetime.now().strftime("%y%m%d")
         # Get first 4 characters of a UUID
+
         unique_id = uuid.uuid4().hex[:4].upper()
-        
+
         return f"{timestamp}-{unique_id}"
 
     def update_total(self):
@@ -64,32 +67,36 @@ class Order(models.Model):
 
 class OrderLineItem(models.Model):
     order = models.ForeignKey(
-        Order, null=False, blank=False, on_delete=models.CASCADE,
-        related_name='lineitems'
+        Order,
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="lineitems",
     )
     product = models.ForeignKey(
-        'products.DigitalProduct', null=False, blank=False, 
-        on_delete=models.CASCADE
+        "products.DigitalProduct",
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
     )
     quantity = models.IntegerField(null=False, blank=False, default=0)
     lineitem_total = models.DecimalField(
-        max_digits=6, decimal_places=2, null=False, blank=False,
-        editable=False
+        max_digits=6, decimal_places=2, null=False, blank=False, editable=False
     )
     license_type = models.CharField(
-        max_length=20, null=False, blank=False, default='personal'
+        max_length=20, null=False, blank=False, default="personal"
     )
 
     def save(self, *args, **kwargs):
         """Override the original save method to set the lineitem total"""
         self.lineitem_total = (
-            self.product.get_price_for_license(self.license_type) * 
-            self.quantity
+            self.product.get_price_for_license(self.license_type)
+            * self.quantity
         )
         super().save(*args, **kwargs)
 
     def __str__(self):
         return (
-            f'License {self.product.model_number} on order '
-            f'{self.order.order_number}'
+            f"License {self.product.model_number} on order "
+            f"{self.order.order_number}"
         )

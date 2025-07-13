@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 class Command(BaseCommand):
-    help = 'Check current email settings'
+    help = "Check current email settings"
 
     def handle(self, *args, **options):
         self.stdout.write("Current Email Settings:")
@@ -27,9 +27,11 @@ class Command(BaseCommand):
         self.stdout.write(
             f"EMAIL_USE_TLS: {getattr(settings, 'EMAIL_USE_TLS', 'Not set')}"
         )
-        
+
         # Check environment variables
+
         import os
+
         self.stdout.write("\nEnvironment Variables:")
         self.stdout.write(
             f"EMAIL_HOST_USER (env): "
@@ -38,4 +40,4 @@ class Command(BaseCommand):
         self.stdout.write(
             f"EMAIL_HOST_PASSWORD (env): "
             f"{'Set' if os.environ.get('EMAIL_HOST_PASSWORD') else 'Not set'}"
-        ) 
+        )
