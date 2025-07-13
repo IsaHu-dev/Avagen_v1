@@ -2,67 +2,65 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+    <link href="{% static 'profiles/css/profile.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block page_header %}
 <div class="container header-container">
-    <div class="row">
-        <div class="col">
-        </div>
-    </div>
+<div class="row">
+<div class="col">
+</div>
+</div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="overlay"></div>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <hr>
-            <h2 class="logo-font mb-4">My Account</h2>
-            <hr>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- Profile Image and Info Section -->
-        <div class="col-12 col-lg-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <div class="profile-image-container mb-3">
+<div class="row">
+<div class="col">
+<hr/>
+<h2 class="logo-font mb-4">My Account</h2>
+<hr/>
+</div>
+</div>
+<div class="row">
+<!-- Profile Image and Info Section -->
+<div class="col-12 col-lg-4 mb-4">
+<div class="card shadow-sm">
+<div class="card-body text-center">
+<div class="profile-image-container mb-3">
                         {% if profile.profile_image %}
-                            <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="profile-image">
+                            <img alt="Profile Image" class="profile-image" src="{{ profile.profile_image.url }}"/>
                         {% else %}
                             <div class="profile-image-placeholder">
-                                <i class="fas fa-user"></i>
-                            </div>
+<i class="fas fa-user"></i>
+</div>
                         {% endif %}
                     </div>
-                    <h5 class="card-title">{{ profile.display_name|default:user.username }}</h5>
+<h5 class="card-title">{{ profile.display_name|default:user.username }}</h5>
                     {% if profile.bio %}
                         <p class="card-text text-muted">{{ profile.bio }}</p>
                     {% endif %}
                     <div class="profile-stats">
-                        <small class="text-muted">
-                            <i class="fas fa-shopping-bag"></i> {{ orders.count }} orders
+<small class="text-muted">
+<i class="fas fa-shopping-bag"></i> {{ orders.count }} orders
                         </small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Profile Update Section -->
-        <div class="col-12 col-lg-8 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h6 class="mb-0">Profile & Address Information</h6>
-                </div>
-                <div class="card-body">
-                    <!-- Display form errors -->
+</div>
+</div>
+</div>
+</div>
+<!-- Profile Update Section -->
+<div class="col-12 col-lg-8 mb-4">
+<div class="card shadow-sm">
+<div class="card-header">
+<h6 class="mb-0">Profile &amp; Address Information</h6>
+</div>
+<div class="card-body">
+<!-- Display form errors -->
                     {% if user_form.errors or profile_form.errors %}
                         <div class="alert alert-danger">
-                            <h6>Please correct the following errors:</h6>
+<h6>Please correct the following errors:</h6>
                             {% if user_form.errors %}
                                 <strong>User Information Errors:</strong>
                                 {{ user_form.errors }}
@@ -74,13 +72,13 @@
                         </div>
                     {% endif %}
 
-                    <form method="POST" enctype="multipart/form-data" class="mt-3" id="profile-form">
+                    <form class="mt-3" enctype="multipart/form-data" id="profile-form" method="POST">
                         {% csrf_token %}
                         
                         <!-- Profile Image Upload Section -->
-                        <div class="form-group">
-                            <label for="{{ profile_form.profile_image.id_for_label }}">Profile Image</label>
-                            <div class="custom-file-upload">
+<div class="form-group">
+<label for="{{ profile_form.profile_image.id_for_label }}">Profile Image</label>
+<div class="custom-file-upload">
                                 {{ profile_form.profile_image }}
                                 <small class="form-text text-muted">Upload a profile picture (JPG, PNG, GIF up to 5MB)</small>
                                 {% if profile_form.profile_image.errors %}
@@ -89,187 +87,181 @@
                                     </div>
                                 {% endif %}
                             </div>
-                        </div>
-
-                        <!-- User Information -->
-                        <div class="row">
-                            <div class="col-md-6">
+</div>
+<!-- User Information -->
+<div class="row">
+<div class="col-md-6">
                                 {{ user_form.first_name|as_crispy_field }}
                             </div>
-                            <div class="col-md-6">
+<div class="col-md-6">
                                 {{ user_form.last_name|as_crispy_field }}
                             </div>
-                        </div>
+</div>
                         {{ user_form.email|as_crispy_field }}
                         
                         <!-- Profile Information -->
-                        <div class="row">
-                            <div class="col-md-6">
+<div class="row">
+<div class="col-md-6">
                                 {{ profile_form.display_name|as_crispy_field }}
                             </div>
-                        </div>
+</div>
                         {{ profile_form.bio|as_crispy_field }}
                         
                         <!-- Address Information -->
-                        <hr class="my-4">
-                        <h6 class="text-muted mb-3">Address Information</h6>
+<hr class="my-4"/>
+<h6 class="text-muted mb-3">Address Information</h6>
                         {{ profile_form.address_line_1|as_crispy_field }}
                         {{ profile_form.address_line_2|as_crispy_field }}
                         
                         <div class="row">
-                            <div class="col-md-6">
+<div class="col-md-6">
                                 {{ profile_form.city|as_crispy_field }}
                             </div>
-                            <div class="col-md-6">
+<div class="col-md-6">
                                 {{ profile_form.region|as_crispy_field }}
                             </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
+</div>
+<div class="row">
+<div class="col-md-6">
                                 {{ profile_form.postal_code|as_crispy_field }}
                             </div>
-                            <div class="col-md-6">
+<div class="col-md-6">
                                 {{ profile_form.country|as_crispy_field }}
                             </div>
-                        </div>
-                        
-                        <button class="btn btn-dark text-uppercase float-right mt-3">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Password Reset Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h6 class="mb-0">Security Settings</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Password Management</h6>
-                            <p class="text-muted small">Update your password to keep your account secure.</p>
-                            <a href="{% url 'account_change_password' %}" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-key"></i> Change Password
+</div>
+<button class="btn btn-dark text-uppercase float-right mt-3">Save Changes</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Password Reset Section -->
+<div class="row mb-4">
+<div class="col-12">
+<div class="card shadow-sm">
+<div class="card-header">
+<h6 class="mb-0">Security Settings</h6>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-md-6">
+<h6>Password Management</h6>
+<p class="text-muted small">Update your password to keep your account secure.</p>
+<a class="btn btn-outline-primary btn-sm" href="{% url 'account_change_password' %}">
+<i class="fas fa-key"></i> Change Password
                             </a>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Account Deletion</h6>
-                            <p class="text-muted small">Permanently delete your account.</p>
-                            <a href="{% url 'delete_account' %}" class="btn btn-outline-danger btn-sm">
-                                <i class="fas fa-trash"></i> Delete Account
+</div>
+<div class="col-md-6">
+<h6>Account Deletion</h6>
+<p class="text-muted small">Permanently delete your account.</p>
+<a class="btn btn-outline-danger btn-sm" href="{% url 'delete_account' %}">
+<i class="fas fa-trash"></i> Delete Account
                             </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Order History Section -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h6 class="mb-0">Order History</h6>
-                </div>
-                <div class="card-body">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Order #</th>
-                                <th>Date</th>
-                                <th>Items</th>
-                                <th>Model #</th>
-                                <th>License Level</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Order History Section -->
+<div class="row">
+<div class="col-12">
+<div class="card shadow-sm">
+<div class="card-header">
+<h6 class="mb-0">Order History</h6>
+</div>
+<div class="card-body">
+<table class="table table-sm">
+<thead>
+<tr>
+<th>Order #</th>
+<th>Date</th>
+<th>Items</th>
+<th>Model #</th>
+<th>License Level</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
                             {% for order in orders %}
                                 <tr>
-                                    <td>
-                                        <a href="{% url 'checkout_success' order.order_number %}" class="text-decoration-none">
+<td>
+<a class="text-decoration-none" href="{% url 'checkout_success' order.order_number %}">
                                             {{ order.order_number|truncatechars:8 }}
                                         </a>
-                                    </td>
-                                    <td>{{ order.date|date:"M d, Y" }}</td>
-                                    <td>
-                                        <ul class="list-unstyled small mb-0">
+</td>
+<td>{{ order.date|date:"M d, Y" }}</td>
+<td>
+<ul class="list-unstyled small mb-0">
                                             {% for item in order.lineitems.all %}
                                                 <li>
                                                     {{ item.product.name }} ×{{ item.quantity }}
                                                     <!-- Check if this product has a digital download file available -->
                                                     {% if item.product.digital_download %}
                                                         <!-- Display download link for digital products -->
-                                                        <a href="{{ item.product.digital_download.file.url }}" class="btn btn-sm btn-outline-success ml-2" download>
-                                                            <i class="fas fa-download"></i> Download
+<a class="btn btn-sm btn-outline-success ml-2" download="" href="{{ item.product.digital_download.file.url }}">
+<i class="fas fa-download"></i> Download
                                                         </a>
                                                     {% endif %}
                                                 </li>
                                             {% endfor %}
                                         </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="list-unstyled small mb-0">
+</td>
+<td>
+<ul class="list-unstyled small mb-0">
                                             {% for item in order.lineitems.all %}
                                                 <li>{{ item.product.model_number|default:'—' }}</li>
                                             {% endfor %}
                                         </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="list-unstyled small mb-0">
+</td>
+<td>
+<ul class="list-unstyled small mb-0">
                                             {% for item in order.lineitems.all %}
                                                 <li>{{ item.license_type|title }}</li>
                                             {% endfor %}
                                         </ul>
-                                    </td>
-                                    <td>${{ order.grand_total }}</td>
-                                </tr>
+</td>
+<td>${{ order.grand_total }}</td>
+</tr>
                             {% empty %}
-                                <tr><td colspan="6" class="text-center">No orders found.</td></tr>
+                                <tr><td class="text-center" colspan="6">No orders found.</td></tr>
                             {% endfor %}
                         </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Digital Downloads Section -->
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Digital Downloads Section -->
     {% if purchased_products %}
     <div class="row mt-4">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h6 class="mb-0">Your Digital Downloads</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
+<div class="col-12">
+<div class="card shadow-sm">
+<div class="card-header">
+<h6 class="mb-0">Your Digital Downloads</h6>
+</div>
+<div class="card-body">
+<div class="row">
                         {% for item in purchased_products %}
                             <div class="col-md-6 col-lg-4 mb-3">
-                                <div class="download-item p-3 border rounded">
-                                    <h6 class="mb-2">{{ item.product.name }}</h6>
-                                    <p class="small text-muted mb-2">
-                                        <strong>License:</strong> {{ item.license_type|title }}<br>
-                                        <strong>Order:</strong> {{ item.order_number|truncatechars:8 }}<br>
-                                        <strong>Date:</strong> {{ item.order_date|date:"M d, Y" }}
+<div class="download-item p-3 border rounded">
+<h6 class="mb-2">{{ item.product.name }}</h6>
+<p class="small text-muted mb-2">
+<strong>License:</strong> {{ item.license_type|title }}<br/>
+<strong>Order:</strong> {{ item.order_number|truncatechars:8 }}<br/>
+<strong>Date:</strong> {{ item.order_date|date:"M d, Y" }}
                                     </p>
-                                    <a href="{{ item.download.file.url }}" class="btn btn-sm btn-outline-success" download>
-                                        <i class="fas fa-download"></i> Download File
+<a class="btn btn-sm btn-outline-success" download="" href="{{ item.download.file.url }}">
+<i class="fas fa-download"></i> Download File
                                     </a>
-                                </div>
-                            </div>
+</div>
+</div>
                         {% endfor %}
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
+</div>
+</div>
+</div>
     {% endif %}
 </div>
 {% endblock %}

@@ -1,58 +1,51 @@
 {% load static %}
 
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
 
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Primary Meta Tags -->
-  <meta name="title" content="{% block meta_title %}Avagen - Avatar Collection{% endblock %}">
-  <meta name="description" content="{% block meta_description %}Discover premium avatars and digital art at Avagen. Shop our curated collection of high-quality avatars for gaming, social media, and digital identity.{% endblock %}">
-  <meta name="keywords" content="{% block meta_keywords %}digitally crafted avatars, custom avatars, gaming avatars, profile pictures, digital art, virtual identity, social media avatars, professional avatars, personalized avatars, avatar design, digital portraits, online avatars, gaming profile pictures, social media profile pictures, virtual world avatars, digital character design, avatar marketplace, premium digital art, unique avatars, creative avatars, artistic avatars, modern avatars, trendy avatars, avatar collection, digital identity, virtual self, online persona{% endblock %}">
-  <meta name="author" content="Avagen">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ request.build_absolute_uri }}">
-  <meta property="og:title" content="{% block og_title %}Avagen - Digitally Crafted Avatar Collection{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Discover digitally crafted avatars and digital art at Avagen. Shop our curated collection of high-quality avatars for gaming, social media, and digital identity.{% endblock %}">
-  <meta property="og:image" content="{% block og_image %}{{ MEDIA_URL }}avagen_logo_text.png{% endblock %}">
-  <meta property="og:site_name" content="Avagen">
-  
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="{{ request.build_absolute_uri }}">
-  <meta property="twitter:title" content="{% block twitter_title %}Avagen - Digitally Crafted Avatar Collection{% endblock %}">
-  <meta property="twitter:description" content="{% block twitter_description %}Discover digitally crafted avatars and digital art at Avagen. Shop our curated collection of high-quality avatars for gaming, social media, and digital identity.{% endblock %}">
-  <meta property="twitter:image" content="{% block twitter_image %}{{ MEDIA_URL }}avagen_logo_text.png{% endblock %}">
-  
-  <!-- Additional SEO Meta Tags -->
-  <meta name="theme-color" content="#000000">
-  <meta name="msapplication-TileColor" content="#000000">
-  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Primary Meta Tags -->
+<meta content="{% block meta_title %}Avagen - Avatar Collection{% endblock %}" name="title"/>
+<meta content="{% block meta_description %}Discover premium avatars and digital art at Avagen. Shop our curated collection of high-quality avatars for gaming, social media, and digital identity.{% endblock %}" name="description"/>
+<meta content="{% block meta_keywords %}digitally crafted avatars, custom avatars, gaming avatars, profile pictures, digital art, virtual identity, social media avatars, professional avatars, personalized avatars, avatar design, digital portraits, online avatars, gaming profile pictures, social media profile pictures, virtual world avatars, digital character design, avatar marketplace, premium digital art, unique avatars, creative avatars, artistic avatars, modern avatars, trendy avatars, avatar collection, digital identity, virtual self, online persona{% endblock %}" name="keywords"/>
+<meta content="Avagen" name="author"/>
+<meta content="index, follow" name="robots"/>
+<!-- Open Graph / Facebook -->
+<meta content="website" property="og:type"/>
+<meta content="{{ request.build_absolute_uri }}" property="og:url"/>
+<meta content="{% block og_title %}Avagen - Digitally Crafted Avatar Collection{% endblock %}" property="og:title"/>
+<meta content="{% block og_description %}Discover digitally crafted avatars and digital art at Avagen. Shop our curated collection of high-quality avatars for gaming, social media, and digital identity.{% endblock %}" property="og:description"/>
+<meta content="{% block og_image %}{{ MEDIA_URL }}avagen_logo_text.png{% endblock %}" property="og:image"/>
+<meta content="Avagen" property="og:site_name"/>
+<!-- Twitter -->
+<meta content="summary_large_image" property="twitter:card"/>
+<meta content="{{ request.build_absolute_uri }}" property="twitter:url"/>
+<meta content="{% block twitter_title %}Avagen - Digitally Crafted Avatar Collection{% endblock %}" property="twitter:title"/>
+<meta content="{% block twitter_description %}Discover digitally crafted avatars and digital art at Avagen. Shop our curated collection of high-quality avatars for gaming, social media, and digital identity.{% endblock %}" property="twitter:description"/>
+<meta content="{% block twitter_image %}{{ MEDIA_URL }}avagen_logo_text.png{% endblock %}" property="twitter:image"/>
+<!-- Additional SEO Meta Tags -->
+<meta content="#000000" name="theme-color"/>
+<meta content="#000000" name="msapplication-TileColor"/>
+<link href="{{ request.build_absolute_uri }}" rel="canonical"/>
 
   {% block corecss %}
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap">
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="{% static 'css/base.css' %}" rel="stylesheet"/>
+<link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet"/>
   {% endblock %}
 
   {% block extra_css %}
   {% endblock %}
 
   {% block corejs %}
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    crossorigin="anonymous"></script>
-  <script src="https://js.stripe.com/v3/"></script>
+  <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
   {% endblock %}
 
   {% block extra_js %}
@@ -60,117 +53,106 @@
 
   <title>Avagen - A house collection of Avatars {% block extra_title %}{% endblock %}</title>
 </head>
-
 <body>
-  <header class="container-fluid fixed-top bg-white">
-    <!-- Header top navigation with logo on the left and controls on the right -->
-    <div id="topnav" class="d-none d-lg-flex align-items-center justify-content-between px-3 py-2 bg-white">
-            <!-- Left: Avagen logo -->
-      <div class="d-flex align-items-center">
-        <a href="{% url 'home' %}" class="nav-link main-logo-link">
-          <img src="{{ MEDIA_URL }}avagen_logo_text.webp" alt="Avagen - Digitally Crafted Avatar Collection Logo" class="logo-img">
-        </a>
-      </div>
-            <!-- Right: Search bar, cart icon, and user account -->
-      <div class="d-flex align-items-center ml-auto justify-content-end w-100">
-        
-        <form method="GET" action="{% url 'products' %}" class="mr-3">
+<header class="container-fluid fixed-top bg-white">
+<!-- Header top navigation with logo on the left and controls on the right -->
+<div class="d-none d-lg-flex align-items-center justify-content-between px-3 py-2 bg-white" id="topnav">
+<!-- Left: Avagen logo -->
+<div class="d-flex align-items-center">
+<a class="nav-link main-logo-link" href="{% url 'home' %}">
+<img alt="Avagen - Digitally Crafted Avatar Collection Logo" class="logo-img" src="{{ MEDIA_URL }}avagen_logo_text.webp"/>
+</a>
+</div>
+<!-- Right: Search bar, cart icon, and user account -->
+<div class="d-flex align-items-center ml-auto justify-content-end w-100">
+<form action="{% url 'products' %}" class="mr-3" method="GET">
           {% csrf_token %}
           <div class="input-group">
-            <input class="form-control rounded-pill border border-black" type="text" name="q" placeholder="Search our site">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary rounded-pill border-0" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
-
-        <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link mx-2" href="{% url 'view_cart' %}">
-          <i class="fas fa-shopping-cart fa-lg"></i>
-        </a>
-
-        <a class="nav-link text-black mx-2" href="#" id="user-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user fa-lg"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="user-options">
+<input class="form-control rounded-pill border border-black" name="q" placeholder="Search our site" type="text"/>
+<div class="input-group-append">
+<button class="btn btn-outline-secondary rounded-pill border-0" type="submit">
+<i class="fas fa-search"></i>
+</button>
+</div>
+</div>
+</form>
+<a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link mx-2" href="{% url 'view_cart' %}">
+<i class="fas fa-shopping-cart fa-lg"></i>
+</a>
+<a aria-expanded="false" aria-haspopup="true" class="nav-link text-black mx-2" data-toggle="dropdown" href="#" id="user-options">
+<i class="fas fa-user fa-lg"></i>
+</a>
+<div aria-labelledby="user-options" class="dropdown-menu dropdown-menu-right border-0">
           {% if request.user.is_authenticated %}
             {% if request.user.is_superuser %}
-              <a href="{% url 'add_product' %}" class="dropdown-item">Manage Products</a>
+              <a class="dropdown-item" href="{% url 'add_product' %}">Manage Products</a>
             {% endif %}
-            <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
-            <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+            <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+<a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
           {% else %}
-            <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
-            <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+            <a class="dropdown-item" href="{% url 'account_signup' %}">Register</a>
+<a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
           {% endif %}
         </div>
-      </div>
-    </div>
-
-    <div class="row" style="background-color: #e0e0e0;">
-      <nav class="navbar navbar-expand-lg navbar-light w-100">
-        <!-- Mobile header with logo, search, cart, and user -->
-        <div class="d-lg-none d-flex align-items-center justify-content-between w-100 px-2 px-sm-3 py-2 bg-white">
-          <!-- Mobile logo -->
-          <a href="{% url 'home' %}" class="nav-link main-logo-link">
-            <img src="{{ MEDIA_URL }}avagen_logo_text.webp" alt="Avagen - Digitally Crafted Avatar Collection Logo" class="img-fluid" style="max-height: 40px; width: auto;">
-          </a>
-          
-          <!-- Mobile search, cart, and user icons -->
-          <div class="d-flex align-items-center">
-            <!-- Mobile search button -->
-            <button class="btn btn-link text-black p-1 p-sm-2 mr-1 mr-sm-2" type="button" data-toggle="collapse" data-target="#mobile-search" aria-expanded="false" aria-controls="mobile-search">
-              <i class="fas fa-search fa-sm fa-lg-sm"></i>
-            </button>
-            
-            <!-- Mobile cart icon -->
-            <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link p-1 p-sm-2 mr-1 mr-sm-2" href="{% url 'view_cart' %}">
-              <i class="fas fa-shopping-cart fa-sm fa-lg-sm"></i>
-            </a>
-            
-            <!-- Mobile user icon -->
-            <a class="nav-link text-black p-1 p-sm-2" href="#" id="mobile-user-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-user fa-sm fa-lg-sm"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="mobile-user-options">
+</div>
+</div>
+<div class="row" style="background-color: #e0e0e0;">
+<nav class="navbar navbar-expand-lg navbar-light w-100">
+<!-- Mobile header with logo, search, cart, and user -->
+<div class="d-lg-none d-flex align-items-center justify-content-between w-100 px-2 px-sm-3 py-2 bg-white">
+<!-- Mobile logo -->
+<a class="nav-link main-logo-link" href="{% url 'home' %}">
+<img alt="Avagen - Digitally Crafted Avatar Collection Logo" class="img-fluid" src="{{ MEDIA_URL }}avagen_logo_text.webp" style="max-height: 40px; width: auto;"/>
+</a>
+<!-- Mobile search, cart, and user icons -->
+<div class="d-flex align-items-center">
+<!-- Mobile search button -->
+<button aria-controls="mobile-search" aria-expanded="false" class="btn btn-link text-black p-1 p-sm-2 mr-1 mr-sm-2" data-target="#mobile-search" data-toggle="collapse" type="button">
+<i class="fas fa-search fa-sm fa-lg-sm"></i>
+</button>
+<!-- Mobile cart icon -->
+<a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %} nav-link p-1 p-sm-2 mr-1 mr-sm-2" href="{% url 'view_cart' %}">
+<i class="fas fa-shopping-cart fa-sm fa-lg-sm"></i>
+</a>
+<!-- Mobile user icon -->
+<a aria-expanded="false" aria-haspopup="true" class="nav-link text-black p-1 p-sm-2" data-toggle="dropdown" href="#" id="mobile-user-options">
+<i class="fas fa-user fa-sm fa-lg-sm"></i>
+</a>
+<div aria-labelledby="mobile-user-options" class="dropdown-menu dropdown-menu-right border-0">
               {% if request.user.is_authenticated %}
                 {% if request.user.is_superuser %}
-                  <a href="{% url 'add_product' %}" class="dropdown-item">Manage Products</a>
+                  <a class="dropdown-item" href="{% url 'add_product' %}">Manage Products</a>
                 {% endif %}
-                <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
-                <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+<a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
               {% else %}
-                <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
-                <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+                <a class="dropdown-item" href="{% url 'account_signup' %}">Register</a>
+<a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
               {% endif %}
             </div>
-          </div>
-        </div>
-        
-        <!-- Mobile search bar -->
-        <div class="collapse w-100 px-2 px-sm-3 pb-2" id="mobile-search">
-          <form method="GET" action="{% url 'products' %}">
+</div>
+</div>
+<!-- Mobile search bar -->
+<div class="collapse w-100 px-2 px-sm-3 pb-2" id="mobile-search">
+<form action="{% url 'products' %}" method="GET">
             {% csrf_token %}
             <div class="input-group input-group-sm">
-              <input class="form-control rounded-pill border border-black" type="text" name="q" placeholder="Search our site">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary rounded-pill border-0" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-        
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
-          aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+<input class="form-control rounded-pill border border-black" name="q" placeholder="Search our site" type="text"/>
+<div class="input-group-append">
+<button class="btn btn-outline-secondary rounded-pill border-0" type="submit">
+<i class="fas fa-search"></i>
+</button>
+</div>
+</div>
+</form>
+</div>
+<button aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#main-nav" data-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
         {% include 'includes/navbar.html' %}
       </nav>
-    </div>
-  </header>
+</div>
+</header>
 
   {% if messages %}
   <div class="message-container">
@@ -212,67 +194,29 @@
   {% endblock %}
 
   <footer class="footer mt-5 py-5 bg-light">
-    <div class="container">
-      <div class="row text-left">
-        <div class="col-md-3">
-          <h5 class="footer-link">CONTACT</h5>
-          <p class="footer-link">Mail : <a href="mailto:info@avagen.co.uk">info@avagen.co.uk</a></p>
-          <p class="footer-link"><a href="https://wa.me/447704107974">Whatsapp</a></p>
-          <p class="footer-link"><a href="#">Avagen</a></p>
-          <a href="#" class="me-4"><i class="fab fa-instagram fa-2x"></i></a>
-          &nbsp;  &nbsp;
+<div class="container">
+<div class="row text-left">
+<div class="col-md-3">
+<h5 class="footer-link">CONTACT</h5>
+<p class="footer-link">Mail : <a href="mailto:info@avagen.co.uk">info@avagen.co.uk</a></p>
+<p class="footer-link"><a href="https://wa.me/447704107974">Whatsapp</a></p>
+<p class="footer-link"><a href="#">Avagen</a></p>
+<a class="me-4" href="#"><i class="fab fa-instagram fa-2x"></i></a>
+              
           <a href="https://www.facebook.com/profile.php?id=61577925191207"><i class="fab fa-facebook fa-2x"></i></a>
-        </div>
-     
-        <div class="col-md-3">
-          <h5 class="footer-link">AVAGEN INFO</h5>
-          <p class="footer-link"><a href="{% url 'faq_list' %}">FAQs</a></p>
-          <p class="footer-link"><a href="mailto:info@avagen.co.uk">Contact</a></p>
-        </div>
-  
-        <div class="col-md-3">
+</div>
+<div class="col-md-3">
+<h5 class="footer-link">AVAGEN INFO</h5>
+<p class="footer-link"><a href="{% url 'faq_list' %}">FAQs</a></p>
+<p class="footer-link"><a href="mailto:info@avagen.co.uk">Contact</a></p>
+</div>
+<div class="col-md-3">
           {% include 'newsletter/includes/subscribe_form.html' %}
         </div>
-      </div>
-  
-      <div class="text-center mt-4">
-        <small>&copy; 2025 Avagen - Allrights Reserved</small>
-      </div>
-    </div>
-  </footer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+<div class="text-center mt-4">
+<small>© 2025 Avagen - Allrights Reserved</small>
+</div>
+</div>
+</footer>
+</body></html>

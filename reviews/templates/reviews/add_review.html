@@ -3,101 +3,97 @@
 
 {% block page_header %}
 <div class="container header-container">
-    <div class="row">
-        <div class="col"></div>
-    </div>
+<div class="row">
+<div class="col"></div>
+</div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="overlay"></div>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-md-6 col-lg-4 offset-lg-2">
-            <div class="image-container my-5">
+<div class="row">
+<div class="col-12 col-md-6 col-lg-4 offset-lg-2">
+<div class="image-container my-5">
                 {% if product.image_url %}
                     <a href="{{ product.image_url }}" target="_blank">
-                        <img class="product-detail-img" src="{{ product.image_url }}" alt="{{ product.name }} - Digitally Crafted Avatar for Review">
-                    </a>
+<img alt="{{ product.name }} - Digitally Crafted Avatar for Review" class="product-detail-img" src="{{ product.image_url }}"/>
+</a>
                 {% elif product.image %}
                     <a href="{{ product.image.url }}" target="_blank">
-                        <img class="product-detail-img" src="{{ product.image.url }}" alt="{{ product.name }} - Digitally Crafted Avatar for Review">
-                    </a>
+<img alt="{{ product.name }} - Digitally Crafted Avatar for Review" class="product-detail-img" src="{{ product.image.url }}"/>
+</a>
                 {% else %}
                     <a href="#">
-                        <img class="product-detail-img" src="{{ MEDIA_URL }}noimage.webp" alt="No image available for {{ product.name }} - Digitally Crafted Avatar">
-                    </a>
+<img alt="No image available for {{ product.name }} - Digitally Crafted Avatar" class="product-detail-img" src="{{ MEDIA_URL }}noimage.webp"/>
+</a>
                 {% endif %}
             </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="product-details-container mb-5 mt-md-5">
-                <p class="mb-0">{{ product.name }}</p>
-                <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
+</div>
+<div class="col-12 col-md-6 col-lg-4">
+<div class="product-details-container mb-5 mt-md-5">
+<p class="mb-0">{{ product.name }}</p>
+<p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
                 {% if product.category %}
                 <p class="small mt-1 mb-0">
-                    <a class="text-muted" href="{% url 'products' %}?category={{ product.category.name }}">
-                        <i class="fas fa-tag mr-1"></i>{{ product.category.friendly_name }}
+<a class="text-muted" href="{% url 'products' %}?category={{ product.category.name }}">
+<i class="fas fa-tag mr-1"></i>{{ product.category.friendly_name }}
                     </a>
-                </p>
+</p>
                 {% endif %}
                 {% if product.model_number %}
                 <p class="small mt-1 mb-0">
-                    <i class="fas fa-barcode mr-1"></i>Model #: {{ product.model_number }}
+<i class="fas fa-barcode mr-1"></i>Model #: {{ product.model_number }}
                 </p>
                 {% endif %}
                 <p class="mt-3">{{ product.description }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-1">
-        <div class="col-12 col-lg-8 offset-lg-2">
-            <h4 class="mt-5">Leave a Review</h4>
+</div>
+</div>
+</div>
+<div class="row mt-1">
+<div class="col-12 col-lg-8 offset-lg-2">
+<h4 class="mt-5">Leave a Review</h4>
 
             {% if form.errors %}
                 <div class="alert alert-danger">
-                    <ul>
+<ul>
                         {% for field in form %}
                             {% for error in field.errors %}
                                 <li>{{ error }}</li>
                             {% endfor %}
                         {% endfor %}
                     </ul>
-                </div>
+</div>
             {% endif %}
 
-            <form method="POST" action="{% url 'add_review' product.id %}">
+            <form action="{% url 'add_review' product.id %}" method="POST">
                 {% csrf_token %}
 
                 <div class="form-group">
                     {{ form.name.label_tag }}
                     {{ form.name }}
                 </div>
-
-                <div class="form-group">
+<div class="form-group">
                     {{ form.comment.label_tag }}
                     {{ form.comment }}
                 </div>
-
-                <div class="form-group">
-                    <label for="star-rating"><strong>Rate this product:</strong></label><br>
-                    <div id="star-rating" class="star-rating">
+<div class="form-group">
+<label for="star-rating"><strong>Rate this product:</strong></label><br/>
+<div class="star-rating" id="star-rating">
                         {% for i in "12345" %}
                             <i class="far fa-star" data-value="{{ forloop.counter }}"></i>
                         {% endfor %}
                     </div>
-                    <input type="hidden" name="rating" id="rating" value="">
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-outline-warning text-dark border-4">
+<input id="rating" name="rating" type="hidden" value=""/>
+</div>
+<div class="d-flex justify-content-center">
+<button class="btn btn-outline-warning text-dark border-4" type="submit">
                         Submit Review
                     </button>
-                </div>
-            </form>
-        </div>
-    </div>
+</div>
+</form>
+</div>
+</div>
 </div>
 {% endblock %}
 

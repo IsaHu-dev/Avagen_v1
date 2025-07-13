@@ -1,67 +1,67 @@
 <div class="collapse navbar-collapse" id="main-nav">
     <ul class="navbar-nav w-auto mx-auto">
-        <li class="nav-item dropdown">
-            <a class="logo-font nav-link text-black mr-5" href="#" id="avatar-themes-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Avatar Themes
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="avatar-themes-link">
-                <a href="{% url 'products' %}?category=personalized" class="dropdown-item">Personalized</a>
-                <a href="{% url 'products' %}?category=themed" class="dropdown-item">Artistic</a>
-                <a href="{% url 'products' %}?category=seasonal" class="dropdown-item">Seasonal</a>
-                <a href="{% url 'products' %}?category=special_events" class="dropdown-item">Special Events</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="logo-font nav-link text-black mr-5" href="#" id="sector-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sector
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="sector-link">
-                <a href="{% url 'products' %}?category=professional" class="dropdown-item">Professional</a>
-                <a href="{% url 'products' %}?category=social" class="dropdown-item">Social</a>
-                <a href="{% url 'products' %}?category=formal" class="dropdown-item">Formal Events</a>
-                <a href="{% url 'products' %}?category=fitness" class="dropdown-item">Fitness</a>
-                <a href="{% url 'products' %}?category=games" class="dropdown-item">Games</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="logo-font nav-link text-black mr-5" href="#" id="specials-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Special Offers
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="specials-link">
-                <a href="{% url 'products' %}?category=new_arrivals" class="dropdown-item">New Arrivals</a>
-                <a href="{% url 'products' %}?category=box_sets" class="dropdown-item">Box Sets</a>
-                <a href="{% url 'products' %}?category=sales" class="dropdown-item">Sales</a>
-                <a href="{% url 'products' %}?category=contact" class="dropdown-item">Contact Us</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="logo-font nav-link text-black mr-5" href="#" id="all-avatars-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                All Avatars
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="all-avatars-link">
-                <a href="{% url 'products' %}?sort=price&direction=asc" class="dropdown-item">By Price</a>
-                <a href="{% url 'products' %}?sort=rating&direction=desc" class="dropdown-item">By Rating</a>
-                <a href="{% url 'products' %}?sort=category&direction=asc" class="dropdown-item">By Category</a>
-                <a href="{% url 'products' %}" class="dropdown-item">All Avatars</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="logo-font nav-link text-black mr-5 font-weight-bold" href="#" id="category-creator-link"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                New Releases
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="category-creator-link">
-                {% for category in categories %}
-                    {% if category.is_creator %}
-                        <a href="{% url 'products' %}?category={{ category.name }}" class="dropdown-item">
-                            {{ category.get_friendly_name|default:category.name }}
-                        </a>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="logo-font nav-link text-black mr-5 font-weight-bold" id="faq-link" href="{% url 'faq_list' %}">FAQ</a>
-        </li>
+    <li class="nav-item dropdown">
+    <a aria-expanded="false" aria-haspopup="true" class="logo-font nav-link text-black mr-5" data-toggle="dropdown" href="#" id="avatar-themes-link">
+                    Avatar Themes
+                </a>
+    <div aria-labelledby="avatar-themes-link" class="dropdown-menu border-0">
+    <a class="dropdown-item" href="{% url 'products' %}?category=personalized">Personalized</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=themed">Artistic</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=seasonal">Seasonal</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=special_events">Special Events</a>
+    </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a aria-expanded="false" aria-haspopup="true" class="logo-font nav-link text-black mr-5" data-toggle="dropdown" href="#" id="sector-link">
+                    Sector
+                </a>
+    <div aria-labelledby="sector-link" class="dropdown-menu border-0">
+    <a class="dropdown-item" href="{% url 'products' %}?category=professional">Professional</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=social">Social</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=formal">Formal Events</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=fitness">Fitness</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=games">Games</a>
+    </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a aria-expanded="false" aria-haspopup="true" class="logo-font nav-link text-black mr-5" data-toggle="dropdown" href="#" id="specials-link">
+                    Special Offers
+                </a>
+    <div aria-labelledby="specials-link" class="dropdown-menu border-0">
+    <a class="dropdown-item" href="{% url 'products' %}?category=new_arrivals">New Arrivals</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=box_sets">Box Sets</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=sales">Sales</a>
+    <a class="dropdown-item" href="{% url 'products' %}?category=contact">Contact Us</a>
+    </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a aria-expanded="false" aria-haspopup="true" class="logo-font nav-link text-black mr-5" data-toggle="dropdown" href="#" id="all-avatars-link">
+                    All Avatars
+                </a>
+    <div aria-labelledby="all-avatars-link" class="dropdown-menu border-0">
+    <a class="dropdown-item" href="{% url 'products' %}?sort=price_asc">Lowest Price</a>
+    <a class="dropdown-item" href="{% url 'products' %}?sort=price_desc">Highest Price</a>
+    <a class="dropdown-item" href="{% url 'products' %}?sort=rating_high">Top Rated</a>
+    <a class="dropdown-item" href="{% url 'products' %}">All Avatars</a>
+    </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a aria-expanded="false" aria-haspopup="true" class="logo-font nav-link text-black mr-5 font-weight-bold" data-toggle="dropdown" href="#" id="category-creator-link">
+                    New Releases
+                </a>
+    <div aria-labelledby="category-creator-link" class="dropdown-menu border-0">
+                    {% for category in categories %}
+                        {% if category.is_creator %}
+                            <a class="dropdown-item" href="{% url 'products' %}?category={{ category.name }}">
+                                {{ category.get_friendly_name|default:category.name }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+    </li>
+    <li class="nav-item">
+    <a class="logo-font nav-link text-black mr-5 font-weight-bold" href="{% url 'faq_list' %}" id="faq-link">FAQ</a>
+    </li>
     </ul>
-</div>
+    </div>
+    
