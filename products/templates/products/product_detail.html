@@ -67,7 +67,7 @@
                         {% if request.user.is_superuser %}
                         <small class="ml-3">
 <a href="{% url 'edit_product' product.id %}">Edit</a> |
-                            <a class="text-danger" href="{% url 'delete_product' product.id %}">Delete</a>
+                            <a class="text-danger delete-product-link" href="{% url 'delete_product' product.id %}" data-product-name="{{ product.name }}">Delete</a>
 </small>
                         {% endif %}
                     </div>
@@ -121,18 +121,5 @@
 {% block postloadjs %}
 {{ block.super }}
 {% include 'products/includes/record_quantity.html' %}
-
-<script>
-  const priceMap = {
-    'personal': parseFloat("{{ product.personal_price }}"),
-    'indie': parseFloat("{{ product.indie_price }}"),
-    'professional': parseFloat("{{ product.professional_price }}"),
-  };
-
-  document.getElementById("license").addEventListener("change", function () {
-    const selected = this.value;
-    const newPrice = priceMap[selected].toFixed(2);
-    document.getElementById("price-display").innerText = "£" + newPrice;
-  });
-</script>
+<script src="{% static 'js/product_detail.js' %}"></script>
 {% endblock %}
