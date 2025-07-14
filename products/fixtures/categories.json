@@ -9,6 +9,5 @@
     { "pk": 8, "model": "products.category", "fields": { "name": "special_events", "friendly_name": "Special Events" } },
     { "pk": 9, "model": "products.category", "fields": { "name": "new_arrivals", "friendly_name": "New Arrivals" } },
     { "pk": 10, "model": "products.category", "fields": { "name": "box_sets", "friendly_name": "Box Sets" } },
-    { "pk": 11, "model": "products.category", "fields": { "name": "sales", "friendly_name": "Sales" } },
-    { "pk": 12, "model": "products.category", "fields": { "name": "contact", "friendly_name": "Contact Us" } }
+    { "pk": 11, "model": "products.category", "fields": { "name": "sales", "friendly_name": "Sales" } }
 ] 
