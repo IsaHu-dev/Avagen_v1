@@ -497,10 +497,10 @@ python manage.py runserver
 ### Testing Status
 
 
-* **Manual Testing**: ✅ Comprehensive manual testing completed
-* **Python**: Passed CI Python Linter
-* **HTML/CSS**: Passed W3C validators
-* **Javascript**: Passed the Jshint validator
+* **Manual Testing**: ✅ Comprehensive manual testing completed.
+* **Python**: Passed CI Python Linter.
+* **HTML/CSS**: Passed W3C validators - "Congratulations! No Error Found."
+* **Javascript**: Passed Jshint validator.
 * **Lighthouse (Google Chrome DevTools)**: High score on Lighthouse for Performance, Accessibility & SEO.
 
 ![Lighthouse Testing Results](media/readme/lighthouse.webp)

@@ -80,15 +80,15 @@
 <div class="card h-100 border-0">
                                 {% if product.image_url %}
                                     <a href="{% url 'product_detail' product.id %}">
-<img alt="{{ product.name }} - Digitally Crafted Avatar by Avagen" class="card-img-top img-fluid" src="{{ product.image_url }}"/>
+<img alt="{{ product.name }} - Digitally Crafted Avatar by Avagen" class="card-img-top img-fluid" src="{{ product.image_url }}">
 </a>
                                 {% elif product.image %}
                                     <a href="{% url 'product_detail' product.id %}">
-<img alt="{{ product.name }} - Digitally Crafted Avatar by Avagen" class="card-img-top img-fluid" src="{{ product.image.url }}"/>
+<img alt="{{ product.name }} - Digitally Crafted Avatar by Avagen" class="card-img-top img-fluid" src="{{ product.image.url }}">
 </a>
                                 {% else %}
                                     <a href="{% url 'product_detail' product.id %}">
-<img alt="No image available for {{ product.name }} - Digitally Crafted Avatar" class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.webp"/>
+<img alt="No image available for {{ product.name }} - Digitally Crafted Avatar" class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.webp">
 </a>
                                 {% endif %}
                                 <div class="card-body pb-0">
@@ -151,7 +151,7 @@
 </div>
 </div>
                         {% if forloop.counter|divisibleby:4 %}
-                            <div class="col-12 mb-5"><hr/></div>
+                            <div class="col-12 mb-5"><hr></div>
                         {% endif %}
                     {% endfor %}
                 </div>
