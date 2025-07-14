@@ -1,4 +1,4 @@
-## Avagen - Digitally Crafted Avatar Collection
+## Avagen 
 
 
 <a href="https://avagen-502553ff2610.herokuapp.com/" target="_blank">**Avagen – Live Site**</a> 
