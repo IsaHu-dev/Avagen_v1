@@ -3,6 +3,8 @@
 
 <a href="https://avagen-502553ff2610.herokuapp.com/" target="_blank">**Avagen – Live Site**</a> 
 
+![Avagen](media/readme/responsive.webp)
+
 ## About
 
 **Avagen** is a digital concept store for the next generation of online creators, gamers and explorers. It lets you **browse, purchase and immediately download** high‑quality, digitally crafted avatars to represent your online identity across games, social platforms and virtual worlds.
@@ -23,7 +25,7 @@ The platform is built with **Django 5**, **PostgreSQL** and **Stripe** to prov
 | ------------------------- | ----------------------------------------------------- |
 | **Gamers & streamers**    | Original in‑game skins & digital profile                                          |
 | **All users**             | Anyone aged 16+ or older, of any gender, who loves social media and gaming.        |
-| **Influencers & VTubers** | A recognizable digital persona that travels with them        |
+| **Influencers & VTubers** | A recognisable digital persona that travels with them        |
 | **Everyday web users**    | Anonymity & security without sacrificing style               |
 | **Hobbyists**             | Users using avatars to add to their profiles for recreation  |
 ---
@@ -43,10 +45,10 @@ The platform is built with **Django 5**, **PostgreSQL** and **Stripe** to prov
 
 ### Features
 
-Avagen is a full-stack Django web application designed for selling digital products. Built with Python, Django, HTML, CSS, and JavaScript, it emphasizes responsive design, secure digital delivery, and user-friendly interfaces. The platform includes admin tools, SEO optimization, and Stripe integration for a seamless checkout experiences.
+Avagen is a full-stack Django web application designed for selling digital products. Built with Python, Django, HTML, CSS, and JavaScript, it emphasizes responsive design, secure digital delivery, and user-friendly interfaces. The platform includes admin tools, SEO optimisation, and Stripe integration for a seamless checkout experiences.
 
 - **Catalogue**
-  - Responsive product grid layout optimized for all screen sizes.
+  - Responsive product grid layout optimised for all screen sizes.
   - Displays high-quality product thumbnails.
   - Filter products by theme or price range.
 
@@ -64,7 +66,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
 
 - **Cart & Checkout**
   - Add products (with chosen licence) to cart and adjust quantities inline.
-  - Optimized for mobile and desktop devices.
+  - Optimised for mobile and desktop devices.
   - Verified Stripe webhooks finalise orders.
   - Fully responsive checkout pages optimised for mobile and desktop.
   - Users can sign in directly from the cart page.
@@ -126,11 +128,11 @@ Avagen is a full-stack Django web application designed for selling digital produ
    - Instant, keyword-based search.
    - Helps users quickly find products by name, model, or relevant terms.
 
-- **SEO Optimization**
-  - Custom, SEO-optimized meta tags implemented on essential pages.
+- **SEO Optimisation**
+  - Custom, SEO-optimised meta tags implemented on essential pages.
   - Clean, readable URLs.
   - Custom 404 error page for better user experience and site crawlability.
-  - Optimized meta tags applied to key pages for enhanced search engine indexing.
+  - Optimised meta tags applied to key pages for enhanced search engine indexing.
   
   **Performance** 
   - WhiteNoise serves compressed static assets; Cloudinary transforms images on‑the‑fly for smaller payloads.
@@ -140,7 +142,7 @@ Avagen is a full-stack Django web application designed for selling digital produ
 
 1. **Register** – click *Sign‑up*, enter your email address username and password.
 2. **Login** - Login with your username or email and input your password.
-2. **Explore avatars** – filter by theme (Personalized, Artistic, Seasonal or Special Events, etc.) or sort by price / rating.
+2. **Explore avatars** – filter by theme (Personalised, Artistic, Seasonal or Special Events, etc.) or sort by price / rating.
 3. **Add to cart** – adjust quantity or remove items directly from the mini‑cart.
 4. **Click on cart symbol to see a cart total** - adjust quantity or remove from the cart page and checkout. 
 5. **Checkout** – sign in from the cart page. Then fill in billing info and pay securely via Stripe.
@@ -165,7 +167,7 @@ The logo communicates that Avagen is a forward-thinking brand centered on empowe
 
 ![Colour Palette](media/colourpalette.webp)
 
-The Avagen site uses a clean, minimal layout with a palette of soft neutral colors for backgrounds and sections. Bold, vibrant colors like blue (#007BFF), yellow (#FFC107), and raspberry (#D72660) are used for buttons and key actions, making them stand out and easy to find. This approach keeps the interface simple and readable while clearly guiding users to important features.
+The Avagen site uses a clean, minimal layout with a palette of soft neutral colours for backgrounds and sections. Bold, vibrant colors like blue (#007BFF), yellow (#FFC107), and raspberry (#D72660) are used for buttons and key actions, making them stand out and easy to find. This approach keeps the interface simple and readable while clearly guiding users to important features.
 Typography is modern and easy to read, with Inter for body text and Space Grotesk for headings. The design stays consistent and clear on all screen sizes, creating a smooth and enjoyable user experience.
 
 ## Agile Process
@@ -209,7 +211,7 @@ Check the User Stories on Github here: [GitHub Kanban Board](https://github.com/
 | Site Visitor           | Sort the list of available products                                     | Identify best rated, best priced, or category-specific items                   |
 | Shopper (category)     | Reorder items by price, popularity, or name                             | Prioritize what's most relevant to me                                          |
 | Site User              | Apply sorting across different categories                               | Compare options across the whole catalog                                       |
-| Online Shopper         | Organize product listings by rating, price, or category                 | Easily compare and choose the right one                                        |
+| Online Shopper         | Organise product listings by rating, price, or category                 | Easily compare and choose the right one                                        |
 | Site User              | Search for specific items using keywords                                | Locate exactly what I have in mind without browsing endlessly                  |
 
 ---
@@ -335,7 +337,7 @@ user = models.ForeignKey(
 - Includes a `slug` field for SEO-friendly URLs.
 - `base_price` Contains methods for dynamic pricing that is incremental from the base price. Returns price for `Personal`, `Indie`, or `Professional` licenses.
 - `is_live` controls products storefront visibility (draft or published).
-- Cloudinary used for optimized media storage.
+- Cloudinary used for optimised media storage.
 
 **Category**
 - Self-referencing `parent` field for hierarchical structure.
@@ -405,7 +407,7 @@ class Product(models.Model):
 
   7. Connect to GitHub Repository.
       -  In the Deploy tab, under Deployment Method, select GitHub.
-      -  Follow the steps to authorize and connect your GitHub account.
+      -  Follow the steps to authorise and connect your GitHub account.
       -  Search for the repository and click Connect.
   8.  Deploy the Application.   
       -  Select manual deployment
@@ -514,7 +516,7 @@ python manage.py runserver
 ## Resources
 
 - Stack Overflow - Reference for Code Snippets. 
-- Code Institute - Boutique Ado served as a starting point for learning and planning, but all logic, views, and components in Avagen have been developed independently. The codebase has been fully rewritten and customized for this project.
+- Code Institute - Boutique Ado served as a starting point for learning and planning, but all logic, views, and components in Avagen have been developed independently. The codebase has been fully rewritten and customised for this project.
 - [Django Documentation](https://docs.djangoproject.com/en/3.2/)
 - [DjangoGirls Tutorial](https://tutorial.djangogirls.org/)
 - [How to Send Email in Django (Real Python)](https://realpython.com/django-send-email/)
@@ -526,7 +528,7 @@ python manage.py runserver
 | Resource                      | Usage                                   |
 | ----------------------------- | --------------------------------------- |
 | **Envato**                            | Base png elements for some sample avatar packs   |
-| **Stylized semi-3D character images** | Created by the owner of Avagen - Isa Hu      |                  
+| **Stylised semi-3D character images** | Created by the owner of Avagen - Isa Hu      |                  
 
 ---
 
