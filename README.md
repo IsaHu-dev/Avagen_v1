@@ -532,10 +532,11 @@ python manage.py runserver
 
 ---
 
-## Licence
+## Software License
 
-All code is released under the **[MIT Licence](https://opensource.org/licenses/MIT)**.
+All code is released under the **[MIT License](https://opensource.org/licenses/MIT)**.
 
+Copyright (c) 2025 Isa Hu 
 ---
 
 ## Acknowledgements
