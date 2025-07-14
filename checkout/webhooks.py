@@ -1,4 +1,6 @@
-# Webhooks is adapted from the Boutique-Ado project by Code Institute. It has been modified as unique code and orignal for the project.
+# Webhooks is adapted from the Boutique-Ado project by Code Institute.
+# It has been modified as unique code and original for the project.
+
 from django.http import HttpResponse
 from django.conf import settings
 from django.views.decorators.http import require_POST
@@ -19,7 +21,7 @@ def webhook(request):
 
     # Get the webhook data and verify its signature
     payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
     event = None
 
     try:
@@ -42,14 +44,14 @@ def webhook(request):
 
     # Map webhook events to relevant handler functions
     event_map = {
-        'payment_intent.succeeded':
+        "payment_intent.succeeded":
             handler.handle_payment_intent_succeeded,
-        'payment_intent.payment_failed':
+        "payment_intent.payment_failed":
             handler.handle_payment_intent_payment_failed,
     }
 
     # Get the webhook type from Stripe
-    event_type = event['type']
+    event_type = event["type"]
 
     # Get the appropriate handler or use default
     event_handler = event_map.get(event_type, handler.handle_event)

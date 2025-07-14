@@ -9,7 +9,7 @@ from products.models import DigitalProduct
 def add_review(request, product_id):
     """ Add a review to a product """
     product = get_object_or_404(DigitalProduct, pk=product_id)
-    
+
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -20,7 +20,7 @@ def add_review(request, product_id):
             return redirect('product_detail', product_id=product.id)
         else:
             messages.error(
-                request, 
+                request,
                 'Failed to add review. Please ensure the form is valid.'
             )
     else:

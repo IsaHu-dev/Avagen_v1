@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -20,30 +21,33 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
-    path('', include('home.urls')),
-    path('products/', include('products.urls')),
-    path('cart/', include('cart.urls')),
-    path('checkout/', include('checkout.urls')),
-    path('faq/', include('faq.urls')),
-    path('profile/', include('profiles.urls')),
-    path('reviews/', include('reviews.urls')),
-    path('catalogue/', include('catalogue.urls')),
-    path('newsletter/', include('newsletter.urls')),
-    
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
+    path("", include("home.urls")),
+    path("products/", include("products.urls")),
+    path("cart/", include("cart.urls")),
+    path("checkout/", include("checkout.urls")),
+    path("faq/", include("faq.urls")),
+    path("profile/", include("profiles.urls")),
+    path("reviews/", include("reviews.urls")),
+    path("catalogue/", include("catalogue.urls")),
+    path("newsletter/", include("newsletter.urls")),
     # Robots.txt
-    path('robots.txt', TemplateView.as_view(
-        template_name='robots.txt', 
-        content_type='text/plain'
-    )),
-    
+    path(
+        "robots.txt",
+        TemplateView.as_view(
+            template_name="robots.txt", content_type="text/plain"
+        ),
+    ),
     # Sitemap
-    path('sitemap.xml', TemplateView.as_view(
-        template_name='sitemap.xml', 
-        content_type='application/xml'
-    )),
+    path(
+        "sitemap.xml",
+        TemplateView.as_view(
+            template_name="sitemap.xml", content_type="application/xml"
+        ),
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Custom 404 handler
-handler404 = 'avagen.views.custom_404'
+
+handler404 = "avagen.views.custom_404"
