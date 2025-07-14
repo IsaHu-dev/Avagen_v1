@@ -20,15 +20,13 @@ import cloudinary
 import base64
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Import environment variables
-
 if os.path.exists(os.path.join(BASE_DIR, "env.py")):
     import env
-# Cloudinary configuration
 
+# Cloudinary configuration
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
@@ -36,7 +34,6 @@ cloudinary.config(
 )
 
 # Google Cloud Storage (Heroku-safe)
-
 GS_BUCKET_NAME = "avagen-downloads"
 
 if "GCS_KEY_BASE64" in os.environ:
@@ -52,9 +49,10 @@ elif "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
     )
 else:
     GS_CREDENTIALS = None  # Optional fallback for local development
-SECRET_KEY = os.environ.get("SECRET_KEY")
-# SECURITY WARNING: don't run with debug turned on in production!
 
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -64,8 +62,6 @@ ALLOWED_HOSTS = [
 ]
 
 # Application definition
-
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -122,8 +118,7 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
-                # required by allauth
-                "django.template.context_processors.request",
+                "django.template.context_processors.request",  # required by allauth
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.media",
@@ -141,20 +136,16 @@ TEMPLATES = [
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    "django.contrib.auth.backends.ModelBackend",
-    # `allauth` specific authentication methods, such as login by e-mail
-    "allauth.account.auth_backends.AuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend",  # Needed to login by username in Django admin
+    "allauth.account.auth_backends.AuthenticationBackend",  # `allauth` specific methods
 ]
 
 SITE_ID = 1
 
 # Site Domain for Email Verification
-
 SITE_DOMAIN = "avagen.co.uk"
 
 # Email Configuration
-
 EMAIL_BACKEND = "avagen.email_backend.CustomEmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
@@ -166,7 +157,6 @@ DEFAULT_FROM_EMAIL = "avagen.studio@gmail.com"
 EMAIL_SUBJECT_PREFIX = "[avagen.co.uk] "
 
 # Allauth Settings
-
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
@@ -175,8 +165,7 @@ ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 
-# Additional Allauth Settings for better error handling
-
+# Additional Allauth Settings
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
@@ -186,45 +175,34 @@ ACCOUNT_USERNAME_REQUIRED = True
 
 WSGI_APPLICATION = "avagen.wsgi.application"
 
-DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
+DATABASES = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
 
 # Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
-
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation."
-        "UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation."
-        "MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation."
-        "CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation."
-        "NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
-
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-
+# Static files
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
@@ -236,16 +214,13 @@ DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 DIGITAL_DOWNLOAD_STORAGE = "avagen.storage_backends.GoogleCloudZipStorage"
 
 # Stripe
-# FREE_DELIVERY_THRESHOLD = 50
-# STANDARD_DELIVERY_PERCENTAGE = 10
-
 STRIPE_CURRENCY = "usd"
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", "")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")
 STRIPE_WH_SECRET = os.getenv("STRIPE_WH_SECRET", "")
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Allow iframe embedding for external preview tools like ami.responsive
+X_FRAME_OPTIONS = "ALLOWALL"

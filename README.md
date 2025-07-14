@@ -1,7 +1,7 @@
 ## Avagen - Digitally Crafted Avatar Collection
 
 
-[**Avagen – Live Site**](https://avagen-502553ff2610.herokuapp.com/) 
+<a href="https://avagen-502553ff2610.herokuapp.com/" target="_blank">**Avagen – Live Site**</a> 
 
 ## About
 
@@ -32,7 +32,7 @@ The platform is built with **Django 5**, **PostgreSQL** and **Stripe** to prov
 
 - **Direct Avatar Sales**: Revenue is generated per avatar purchase, with prices tiered by license type (*Personal*, *Indie*, *Professional*).
 
-- **Tiered Licensing**: Customers pay more for broader usage rights (e.g., for commercial content, streaming, branding). Refer to [LICENSE.md](LICENSE.md) detailing the License Tiers.
+- **Tiered Licensing**: Customers pay more for broader usage rights (e.g., for commercial content, streaming, branding). Refer to <a href="LICENSE.md" target="_blank">LICENSE.md</a> detailing the License Tiers.
 
 - **Newsletter Promotions**: Sales and launches are marketed through an integrated newsletter system.
 
