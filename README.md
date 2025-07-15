@@ -528,7 +528,7 @@ python manage.py runserver
 | Resource                      | Usage                                   |
 | ----------------------------- | --------------------------------------- |
 | **Envato**                            | Base image elements for some sample avatar packs   |
-| **Stylised Character Avatar images**  | Created by the owner of Avagen - Isa Hu      |                  
+| **Isa Hu- Created by Owner of Avagen  |  **Stylised Character Avatar images**      |                  
 
 ---
 
