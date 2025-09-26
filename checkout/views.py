@@ -9,6 +9,9 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from products.models import DigitalProduct
 
 from .forms import OrderForm
@@ -181,6 +184,19 @@ def checkout_success(request, order_number):
             request, "You don't have permission to view this order."
         )
         return redirect("profile")
+
+    # --- Send confirmation email ---
+    subject = f"Order Confirmation - {order_number}"
+    message = render_to_string("checkout/confirmation_email.txt", {
+        "order": order,
+        "user": request.user,
+    })
+    recipient = order.email
+    try:
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient])
+    except Exception as e:
+        messages.warning(request, f"Order processed, but email could not be sent: {e}")
+
     messages.success(
         request,
         (
