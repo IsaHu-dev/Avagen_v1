@@ -225,9 +225,13 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-DEFAULT_FILE_STORAGE = (
-    "cloudinary_storage.storage.MediaCloudinaryStorage"
-)
+
+# Use Cloudinary storage only in production
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+else:
+    # Use local file storage in development
+    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 DIGITAL_DOWNLOAD_STORAGE = (
     "avagen.storage_backends.GoogleCloudZipStorage"
 )

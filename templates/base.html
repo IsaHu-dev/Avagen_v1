@@ -1,4 +1,5 @@
 {% load static %}
+{% load cloudinary %}
 
 <!DOCTYPE html>
 
@@ -17,14 +18,14 @@
 <meta content="{{ request.build_absolute_uri }}" property="og:url">
 <meta content="{% block og_title %}Avagen - Digitally Crafted Avatar Collection{% endblock %}" property="og:title">
 <meta content="{% block og_description %}Discover digitally crafted avatars and digital art at Avagen. Shop our curated collection of high-quality avatars for gaming, social media, and digital identity.{% endblock %}" property="og:description">
-<meta content="{% block og_image %}{{ MEDIA_URL }}avagen_logo_text.png{% endblock %}" property="og:image">
+<meta content="{% block og_image %}{% cloudinary_url 'avagen_logo_text.webp' %}{% endblock %}" property="og:image">
 <meta content="Avagen" property="og:site_name">
 <!-- Twitter -->
 <meta content="summary_large_image" property="twitter:card">
 <meta content="{{ request.build_absolute_uri }}" property="twitter:url">
 <meta content="{% block twitter_title %}Avagen - Digitally Crafted Avatar Collection{% endblock %}" property="twitter:title">
 <meta content="{% block twitter_description %}Discover digitally crafted avatars and digital art at Avagen. Shop our curated collection of high-quality avatars for gaming, social media, and digital identity.{% endblock %}" property="twitter:description">
-<meta content="{% block twitter_image %}{{ MEDIA_URL }}avagen_logo_text.png{% endblock %}" property="twitter:image">
+<meta content="{% block twitter_image %}{% cloudinary_url 'avagen_logo_text.webp' %}{% endblock %}" property="twitter:image">
 <!-- Additional SEO Meta Tags -->
 <meta content="#000000" name="theme-color">
 <meta content="#000000" name="msapplication-TileColor">
@@ -42,7 +43,7 @@
   {% block extra_css %}
   <style>
     :root {
-      --background-image: url('{% get_media_prefix %}avatar_intro.webp');
+      --background-image: url('{% cloudinary_url "avatar_intro.webp" %}');
     }
   </style>
   {% endblock %}
