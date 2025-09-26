@@ -50,13 +50,6 @@
 </form>
 </td>
 </tr>
-<tr class="item-subtotal-row">
-    <td></td>
-    <td colspan="2" class="text-right small text-muted">
-        Subtotal ({{ item.license_type|title }}): £{{ item|get_unit_price|calc_subtotal:item.quantity|floatformat:2 }}
-    </td>
-    <td></td>
-</tr>
 {% endfor %}
                 <tr>
 <td colspan="3"></td>
