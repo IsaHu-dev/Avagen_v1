@@ -40,6 +40,11 @@
   {% endblock %}
 
   {% block extra_css %}
+  <style>
+    :root {
+      --background-image: url('{% get_media_prefix %}avatar_intro.webp');
+    }
+  </style>
   {% endblock %}
 
   {% block corejs %}

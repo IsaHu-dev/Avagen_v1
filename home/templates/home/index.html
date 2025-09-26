@@ -39,7 +39,7 @@ This helps search engines understand the content and purpose of the page.
       "name": "Avagen",  // Name of your brand or business
       "description": "Digitally crafted avatar collection for gaming, social media, and digital identity",
       "url": "{{ request.build_absolute_uri }}",  // Brand URL
-      "logo": "{{ request.build_absolute_uri }}{% static 'media/avagen_logo_text.webp' %}",  // Logo image URL
+      "logo": "{{ request.build_absolute_uri }}{% get_media_prefix %}avagen_logo_text.webp",  // Logo image URL
       "sameAs": [ // Links to Avagen's official social media profiles
         "https://www.instagram.com/avagen",
         "https://www.facebook.com/avagen",
@@ -52,7 +52,7 @@ This helps search engines understand the content and purpose of the page.
       "name": "Avagen",
       "logo": {
         "@type": "ImageObject",
-        "url": "{{ request.build_absolute_uri }}{% static 'media/avagen_logo_text.webp' %}" // Publisher logo image
+        "url": "{{ request.build_absolute_uri }}{% get_media_prefix %}avagen_logo_text.webp" // Publisher logo image
       }
     },
   
