@@ -10,9 +10,10 @@ def get_cart_items(cart):
     subtotal = 0
     item_count = 0
 
-    for item_id, item_data in cart.items():
-        product = get_object_or_404(DigitalProduct, pk=item_id)
-        if isinstance(item_data, dict):
+    for cart_key, item_data in cart.items():
+        if isinstance(item_data, dict) and 'item_id' in item_data:
+            item_id = item_data["item_id"]
+            product = get_object_or_404(DigitalProduct, pk=item_id)
             quantity = item_data["quantity"]
             license_type = item_data["license_type"]
             item_total = quantity * product.get_price_for_license(license_type)
@@ -20,6 +21,7 @@ def get_cart_items(cart):
             cart_items.append(
                 {
                     "item_id": item_id,
+                    "cart_key": cart_key,
                     "quantity": quantity,
                     "product": product,
                     "license_type": license_type,

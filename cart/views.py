@@ -17,25 +17,23 @@ def add_to_cart(request, item_id):
     redirect_url = request.POST.get('redirect_url')
     cart = request.session.get('cart', {})
 
-    if item_id in cart:
-        if isinstance(cart[item_id], dict):
-            cart[item_id]['quantity'] = (
-                cart[item_id].get('quantity', 0) + quantity
-            )
-        else:
-            cart[item_id] = {
-                'quantity': quantity,
-                'license_type': license_type
-            }
+    # Create unique key combining product ID and license type
+    cart_key = f"{item_id}_{license_type}"
+
+    if cart_key in cart:
+        cart[cart_key]['quantity'] = (
+            cart[cart_key].get('quantity', 0) + quantity
+        )
     else:
-        cart[item_id] = {
+        cart[cart_key] = {
+            'item_id': item_id,
             'quantity': quantity,
             'license_type': license_type
         }
 
     messages.success(
         request,
-        f"Added {quantity} of {product.name} to your cart."
+        f"Added {quantity} of {product.name} ({license_type.title()}) to your cart."
     )
     request.session['cart'] = cart
     return redirect(redirect_url)
@@ -48,18 +46,22 @@ def adjust_cart(request, item_id):
     license_type = request.POST.get('license', 'personal')
     cart = request.session.get('cart', {})
 
+    # Create unique key combining product ID and license type
+    cart_key = f"{item_id}_{license_type}"
+
     if quantity > 0:
-        cart[item_id] = {
+        cart[cart_key] = {
+            'item_id': item_id,
             'quantity': quantity,
             'license_type': license_type
         }
         messages.success(
             request,
-            f"Updated {product.name} quantity to {quantity}."
+            f"Updated {product.name} ({license_type.title()}) quantity to {quantity}."
         )
     else:
-        cart.pop(item_id)
-        messages.success(request, f"Removed {product.name} from your cart.")
+        cart.pop(cart_key, None)
+        messages.success(request, f"Removed {product.name} ({license_type.title()}) from your cart.")
 
     request.session['cart'] = cart
     return redirect(reverse('view_cart'))
@@ -69,14 +71,19 @@ def remove_from_cart(request, item_id):
     """Remove a product from the cart."""
     try:
         product = get_object_or_404(DigitalProduct, pk=item_id)
+        license_type = request.POST.get('license', 'personal')
         cart = request.session.get('cart', {})
-        cart.pop(item_id, None)
+        
+        # Create unique key combining product ID and license type
+        cart_key = f"{item_id}_{license_type}"
+        cart.pop(cart_key, None)
+        
         messages.success(
             request,
-            f"{product.name} has been removed from your cart."
+            f"{product.name} ({license_type.title()}) has been removed from your cart."
         )
         request.session['cart'] = cart
-        return redirect(f'/products/{item_id}/')
+        return redirect(reverse('view_cart'))
     except Exception as error:
         messages.error(request, f"Could not remove item: {error}")
-        return redirect(f'/products/{item_id}/')
+        return redirect(reverse('view_cart'))
