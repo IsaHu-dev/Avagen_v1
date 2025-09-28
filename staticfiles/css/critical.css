@@ -1,6 +1,6 @@
 /* Critical CSS for above-the-fold content */
 html{height:100%}
-body{background:url('/media/avatar_intro.webp') no-repeat center center fixed;background-size:cover;height:calc(100vh - 164px);color:#555;font-family:'Poppins',sans-serif;font-weight:400}
+body{background:url('http://res.cloudinary.com/dalw18spe/image/upload/avatar_intro_pbnz1e') no-repeat center center fixed;background-size:cover;height:calc(100vh - 164px);color:#555;font-family:'Poppins',sans-serif;font-weight:400}
 .logo-font{font-weight:600;letter-spacing:.5px}
 .display-4.logo-font{font-size:24px}
 .text-uppercase{text-transform:uppercase}

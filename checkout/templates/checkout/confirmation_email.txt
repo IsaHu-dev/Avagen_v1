@@ -1,0 +1,10 @@
+Hi {{ user.username|default:order.full_name }},
+
+Thank you for your purchase!
+
+Order Number: {{ order.order_number }}
+Total: £{{ order.grand_total }}
+
+We’ll notify you if further updates are available.
+
+— The Avagen Team

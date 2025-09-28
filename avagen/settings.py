@@ -53,7 +53,7 @@ else:
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -124,7 +124,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.media",
                 "products.context_processors.categories_context",
-                "cart.inventory.cart_contents",
+                "cart.context_processors.cart_context",
             ],
             "builtins": [
                 "crispy_forms.templatetags.crispy_forms_tags",
@@ -225,9 +225,13 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-DEFAULT_FILE_STORAGE = (
-    "cloudinary_storage.storage.MediaCloudinaryStorage"
-)
+
+# Use Cloudinary storage only in production
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+else:
+    # Use local file storage in development
+    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 DIGITAL_DOWNLOAD_STORAGE = (
     "avagen.storage_backends.GoogleCloudZipStorage"
 )

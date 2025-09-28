@@ -25,30 +25,38 @@
 </thead>
                 {% for item in cart_items %}
                 <tr>
-<td class="p-3 w-25"><img alt="{{ item.product.name }} - Digitally Crafted Avatar in Cart" class="img-fluid rounded" src="{{ item.product.image.url }}"></td>
+<td class="p-3 w-25">
+    {% if item.product.image %}
+        <img alt="{{ item.product.name }} - Digitally Crafted Avatar in Cart" class="img-fluid rounded" src="{{ item.product.image.url }}">
+    {% else %}
+        <img alt="{{ item.product.name }} - Digitally Crafted Avatar in Cart" class="img-fluid rounded" src="{% static 'images/noimage.webp' %}">
+    {% endif %}
+</td>
 <td class="py-3">
 <p class="my-0"><strong>{{ item.product.name }}</strong></p>
 <p class="my-0 small text-muted">Model Number: {{ item.product.model_number|upper }}</p>
+<p class="my-0 small text-muted">License: {{ item.license_type|title }}</p>
 </td>
 <td class="py-3"><p class="my-0">£{{ item|get_unit_price }}</p></td>
 <td class="py-3 w-25">
-<form action="{% url 'adjust_cart' item.item_id %}" class="update-form" id="update-form-{{ item.item_id }}" method="POST">
+<form action="{% url 'adjust_cart' item.item_id %}" class="update-form" id="update-form-{{ item.cart_key }}" method="POST">
                             {% csrf_token %}
                             <input name="license" type="hidden" value="{{ item.license_type }}">
 <div class="input-group">
-<button class="btn btn-outline-secondary decrement-qty" data-item_id="{{ item.item_id }}">-</button>
-<input class="form-control qty_input" id="id_qty_{{ item.item_id }}" max="99" min="1" name="quantity" type="number" value="{{ item.quantity }}">
-<button class="btn btn-outline-secondary increment-qty" data-item_id="{{ item.item_id }}">+</button>
+<button class="btn btn-outline-secondary decrement-qty" data-item_id="{{ item.item_id }}" data-license="{{ item.license_type }}" data-cart_key="{{ item.cart_key }}">-</button>
+<input class="form-control qty_input" id="id_qty_{{ item.cart_key }}" max="99" min="1" name="quantity" type="number" value="{{ item.quantity }}">
+<button class="btn btn-outline-secondary increment-qty" data-item_id="{{ item.item_id }}" data-license="{{ item.license_type }}" data-cart_key="{{ item.cart_key }}">+</button>
 </div>
 </form>
-<a class="update-link text-info small" data-item_id="{{ item.item_id }}" href="#">Update</a> |
-                        <form action="{% url 'remove_from_cart' item.item_id %}" id="remove-form-{{ item.item_id }}" method="POST" style="display: inline;">
+<a class="update-link text-info small" data-item_id="{{ item.item_id }}" data-license="{{ item.license_type }}" data-cart_key="{{ item.cart_key }}" href="#">Update</a> |
+                        <form action="{% url 'remove_from_cart' item.item_id %}" id="remove-form-{{ item.cart_key }}" method="POST" style="display: inline;">
                             {% csrf_token %}
-                            <a class="remove-item text-danger small" data-item_id="{{ item.item_id }}" href="#">Remove</a>
+                            <input name="license" type="hidden" value="{{ item.license_type }}">
+                            <a class="remove-item text-danger small" data-item_id="{{ item.item_id }}" data-license="{{ item.license_type }}" data-cart_key="{{ item.cart_key }}" href="#">Remove</a>
 </form>
 </td>
 </tr>
-                {% endfor %}
+{% endfor %}
                 <tr>
 <td colspan="3"></td>
 <td class="text-right" colspan="2" style="vertical-align: middle;">

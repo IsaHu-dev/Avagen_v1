@@ -14,4 +14,10 @@ def get_unit_price(cart_item):
     """Get the unit price for a cart item based on its license type"""
     product = cart_item['product']
     license_type = cart_item['license_type']
+    return product.get_price_for_license(license_type)
+
+
+@register.filter(name='price_for')
+def price_for(product, license_type):
+    """Get the price for a specific license type"""
     return product.get_price_for_license(license_type) 

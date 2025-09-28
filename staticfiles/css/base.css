@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background: url('/media/avatar_intro.webp') no-repeat center center fixed;
+    background: url('http://res.cloudinary.com/dalw18spe/image/upload/avatar_intro_pbnz1e') no-repeat center center fixed;
     background-size: cover;
     height: calc(100vh - 164px);
     color: #555;
