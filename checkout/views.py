@@ -69,6 +69,7 @@ def checkout(request):
             if request.user.is_authenticated:
                 order.user = request.user
             order.save()
+            print(f"DEBUG: Created order {order.order_number} with stripe_pid: '{order.stripe_pid}'")
 
             for cart_key, item_data in cart.items():
                 try:

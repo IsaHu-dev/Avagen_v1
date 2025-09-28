@@ -59,10 +59,23 @@ class StripeWH_Handler:
         pid = intent.id
         cart = intent.metadata.cart
         save_info = intent.metadata.save_info
+        
+        print(f"DEBUG: Webhook received for payment intent {pid}")
+        print(f"DEBUG: Cart: {cart}")
 
         billing_details = intent.charges.data[0].billing_details
         shipping_details = intent.shipping
         grand_total = round(intent.charges.data[0].amount / 100, 2)
+        
+        print(f"DEBUG: Billing email: {billing_details.email}")
+        print(f"DEBUG: Grand total: {grand_total}")
+        print(f"DEBUG: Shipping name: {shipping_details.name}")
+        
+        # Check existing orders
+        existing_orders = Order.objects.filter(email__iexact=billing_details.email, stripe_pid="")
+        print(f"DEBUG: Found {existing_orders.count()} orders with email {billing_details.email} and empty stripe_pid")
+        for order in existing_orders:
+            print(f"DEBUG: Order {order.order_number} - Total: {order.grand_total}, Stripe PID: '{order.stripe_pid}'")
 
         for field, value in shipping_details.address.items():
             if value == "":
@@ -97,27 +110,47 @@ class StripeWH_Handler:
         attempt = 1
         while attempt <= 5:
             try:
-                order = Order.objects.get(
-                    full_name__iexact=shipping_details.name,
-                    email__iexact=billing_details.email,
-                    phone_number__iexact=shipping_details.phone,
-                    country__iexact=shipping_details.address.country,
-                    postcode__iexact=shipping_details.address.postal_code,
-                    town_or_city__iexact=shipping_details.address.city,
-                    street_address1__iexact=shipping_details.address.line1,
-                    street_address2__iexact=shipping_details.address.line2,
-                    county__iexact=shipping_details.address.state,
-                    grand_total=grand_total,
-                    original_cart=cart,
-                    stripe_pid=pid,
-                )
+                # First try to find order by stripe_pid
+                order = Order.objects.get(stripe_pid=pid)
                 order_exists = True
                 break
             except Order.DoesNotExist:
+                # If not found by stripe_pid, try to find by email and grand_total with empty stripe_pid
+                try:
+                    order = Order.objects.get(
+                        email__iexact=billing_details.email,
+                        grand_total=grand_total,
+                        stripe_pid="",  # Look for orders without stripe_pid
+                    )
+                    # Update the order with the stripe_pid
+                    order.stripe_pid = pid
+                    order.save()
+                    print(f"DEBUG: Updated existing order {order.order_number} with stripe_pid {pid}")
+                    print(f"DEBUG: Order stripe_pid after save: '{order.stripe_pid}'")
+                    order_exists = True
+                    break
+                except Order.DoesNotExist:
+                    # Try to find any order with the same email and grand_total, regardless of stripe_pid
+                    try:
+                        order = Order.objects.filter(
+                            email__iexact=billing_details.email,
+                            grand_total=grand_total,
+                        ).first()
+                        if order:
+                            order.stripe_pid = pid
+                            order.save()
+                            print(f"DEBUG: Updated any order {order.order_number} with stripe_pid {pid}")
+                            print(f"DEBUG: Order stripe_pid after save: '{order.stripe_pid}'")
+                            order_exists = True
+                            break
+                    except Exception as e:
+                        print(f"DEBUG: Error updating order: {e}")
+                        pass
                 attempt += 1
                 time.sleep(1)
 
         if order_exists:
+            print(f"DEBUG: Order found and updated: {order.order_number}")
             self._send_confirmation_email(order)
             return HttpResponse(
                 content=(

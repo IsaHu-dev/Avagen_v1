@@ -57,7 +57,6 @@ class OrderAdmin(admin.ModelAdmin):
         "full_name",
         "order_total",
         "grand_total",
-        "status_badge",
         "total_items",
     )
 
@@ -73,21 +72,12 @@ class OrderAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
     ordering = ("-date",)
 
-    def status_badge(self, obj):
-        """Display order status with a colored badge"""
-        if obj.stripe_pid:
-            return format_html(
-                '<span style="color: green; font-weight: bold;">✓ Paid</span>'
-            )
-        return format_html(
-            '<span style="color: red; font-weight: bold;">✗ Unpaid</span>'
-        )
-
-    status_badge.short_description = "Payment Status"
 
     def get_queryset(self, request):
         """Add total items count to queryset"""
         qs = super().get_queryset(request)
+        # Force refresh from database
+        qs = qs.select_related().prefetch_related()
         return qs.annotate(total_items=Sum("lineitems__quantity"))
 
     def total_items(self, obj):
@@ -107,6 +97,7 @@ class OrderAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         """Allow viewing but not editing orders"""
         return request.user.has_perm("checkout.view_order")
+    
 
     class Media:
         css = {"all": ("admin/css/order_admin.css",)}
