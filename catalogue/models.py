@@ -5,6 +5,14 @@ from products.models import DigitalProduct
 from django.utils import timezone
 
 
+def get_digital_download_storage():
+    """
+    Gradually load the storage backend defined in settings.DIGITAL_DOWNLOAD_STORAGE.
+    Prevents errors at import/migration time.
+    """
+    return get_storage_class(settings.DIGITAL_DOWNLOAD_STORAGE)()
+
+
 class DigitalDownload(models.Model):
     product = models.OneToOneField(
         DigitalProduct,
@@ -13,7 +21,7 @@ class DigitalDownload(models.Model):
     )
     file = models.FileField(
         upload_to="digital_downloads/",
-        storage=get_storage_class(settings.DIGITAL_DOWNLOAD_STORAGE)(),
+        storage=get_digital_download_storage,
         max_length=500,
     )
     uploaded_at = models.DateTimeField(default=timezone.now)
