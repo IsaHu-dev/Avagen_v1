@@ -540,8 +540,18 @@ All code is released under the **[MIT License](https://opensource.org/licenses/M
  
  - Thanks to the mentor programme at Code Institute with Moritz Wach.
 
+## Recent Updates 
 
+## New Features
 
+### Email Verification on Checkout
+- Users now receive an **email verification** when completing checkout.  
+
+###  Itemised Checkout with License Selection
+- Products in the checkout process are now **itemised** for clarity.  
+- Each product includes **plus/minus controls** to adjust quantities directly at checkout.  
+- Displays available license types that are purchased(**Personal**, **Indie**, **Professional**) during checkout.  
+- The purchase status field has been removed from the Django admin, as it was not included in the original app design.
 
 
 
