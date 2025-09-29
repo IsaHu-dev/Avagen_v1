@@ -39,8 +39,10 @@ def cache_checkout_data(request):
     except Exception as e:
         messages.error(
             request,
-            "Sorry, your payment cannot be processed right now. "
-            "Please try again later.",
+            (
+                "Sorry, your payment cannot be processed right now. "
+                "Please try again later."
+            ),
         )
         return HttpResponse(content=e, status=400)
 
@@ -69,11 +71,14 @@ def checkout(request):
             if request.user.is_authenticated:
                 order.user = request.user
             order.save()
-            print(f"DEBUG: Created order {order.order_number} with stripe_pid: '{order.stripe_pid}'")
+            print(
+                f"DEBUG: Created order {order.order_number} "
+                f"with stripe_pid: '{order.stripe_pid}'"
+            )
 
             for cart_key, item_data in cart.items():
                 try:
-                    if isinstance(item_data, dict) and 'item_id' in item_data:
+                    if isinstance(item_data, dict) and "item_id" in item_data:
                         product = DigitalProduct.objects.get(
                             id=item_data["item_id"]
                         )
@@ -87,21 +92,24 @@ def checkout(request):
                     else:
                         messages.error(
                             request,
-                            "There was an error with your cart. "
-                            "Please try again.",
+                            (
+                                "There was an error with your cart. "
+                                "Please try again."
+                            ),
                         )
                         order.delete()
                         return redirect(reverse("view_cart"))
                 except DigitalProduct.DoesNotExist:
                     messages.error(
                         request,
-                        "One of the products in your cart wasn't found in our "
-                        "database. Please call us for assistance!",
+                        (
+                            "One of the products in your cart wasn't found "
+                            "in our database. Please call us for assistance!"
+                        ),
                     )
                     order.delete()
                     return redirect(reverse("view_cart"))
             # Update the order total after all line items are created
-
             order.update_total()
 
             request.session["save_info"] = "save-info" in request.POST
@@ -111,8 +119,10 @@ def checkout(request):
         else:
             messages.error(
                 request,
-                "There was an error with your form. "
-                "Please double check your information.",
+                (
+                    "There was an error with your form. "
+                    "Please double check your information."
+                ),
             )
 
             current_cart = cart_contents(request)
@@ -158,8 +168,10 @@ def checkout(request):
         if not stripe_public_key:
             messages.warning(
                 request,
-                "Stripe public key is missing. "
-                "Did you forget to set it in your environment?",
+                (
+                    "Stripe public key is missing. "
+                    "Did you forget to set it in your environment?"
+                ),
             )
         template = "checkout/checkout.html"
         context = {
@@ -190,10 +202,13 @@ def checkout_success(request, order_number):
 
     # --- Send confirmation email ---
     subject = f"Order Confirmation - {order_number}"
-    message = render_to_string("checkout/confirmation_email.txt", {
-        "order": order,
-        "user": request.user,
-    })
+    message = render_to_string(
+        "checkout/confirmation_email.txt",
+        {
+            "order": order,
+            "user": request.user,
+        },
+    )
     recipient = order.email
     try:
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient])
