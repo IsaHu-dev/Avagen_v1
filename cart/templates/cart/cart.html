@@ -26,7 +26,9 @@
                 {% for item in cart_items %}
                 <tr>
 <td class="p-3 w-25">
-    {% if item.product.image %}
+    {% if item.product.image_url %}
+        <img alt="{{ item.product.name }} - Digitally Crafted Avatar in Cart" class="img-fluid rounded" src="{{ item.product.image_url }}">
+    {% elif item.product.image %}
         <img alt="{{ item.product.name }} - Digitally Crafted Avatar in Cart" class="img-fluid rounded" src="{{ item.product.image.url }}">
     {% else %}
         <img alt="{{ item.product.name }} - Digitally Crafted Avatar in Cart" class="img-fluid rounded" src="https://res.cloudinary.com/dalw18spe/image/upload/v1/media/avatars/default_xqnyjx">
