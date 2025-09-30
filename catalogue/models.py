@@ -6,11 +6,12 @@ from django.utils import timezone
 
 
 def get_digital_download_storage():
-    """
-    Gradually load the storage backend defined in settings.DIGITAL_DOWNLOAD_STORAGE.
-    Prevents errors at import/migration time.
-    """
-    return get_storage_class(settings.DIGITAL_DOWNLOAD_STORAGE)()
+    """Load storage backend with fallback to default storage"""
+    try:
+        return get_storage_class(settings.DIGITAL_DOWNLOAD_STORAGE)()
+    except Exception:
+        from django.core.files.storage import FileSystemStorage
+        return FileSystemStorage()
 
 
 class DigitalDownload(models.Model):
@@ -28,3 +29,13 @@ class DigitalDownload(models.Model):
 
     def __str__(self):
         return f"{self.product.name} ({self.product.model_number})"
+    
+    def is_file_accessible(self):
+        """Check if the file is accessible"""
+        if not self.file or not hasattr(self.file, 'url'):
+            return False
+        try:
+            import requests
+            return requests.head(self.file.url, timeout=5).status_code == 200
+        except Exception:
+            return False

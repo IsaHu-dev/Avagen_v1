@@ -22,30 +22,25 @@ def catalogue(request):
 
 @login_required
 def download_file(request, product_id):
-    """
-    View to handle digital file downloads - only for users who purchased
-    the product
-    """
-    product = get_object_or_404(DigitalProduct, id=product_id)
-
-    # Check if the product has a digital download
-
+    """Handle digital file downloads for purchased products"""
     try:
-        digital_download = DigitalDownload.objects.get(product=product)
-    except DigitalDownload.DoesNotExist:
-        raise Http404("No digital download found for this product")
-
-    user_orders = Order.objects.filter(
-        user=request.user,
-        stripe_pid__isnull=False,  # Only paid orders
-        lineitems__product=product,
-    ).exists()
-
-    if not user_orders:
-        messages.error(
-            request, "You need to purchase this product to download it."
-        )
+        product = get_object_or_404(DigitalProduct, id=product_id)
+        digital_download = get_object_or_404(DigitalDownload, product=product)
+        
+        # Check if user purchased this product
+        if not Order.objects.filter(
+            user=request.user, stripe_pid__isnull=False, lineitems__product=product
+        ).exists():
+            messages.error(request, "You need to purchase this product to download it.")
+            return redirect("products")
+        
+        # Check if file is accessible
+        if not digital_download.file or not digital_download.is_file_accessible():
+            messages.error(request, f"Download file for '{product.name}' is not available.")
+            return redirect("products")
+        
+        return FileResponse(digital_download.file, as_attachment=True)
+        
+    except Exception as e:
+        messages.error(request, "Download error. Please try again or contact support.")
         return redirect("products")
-    # Return the file for download
-
-    return FileResponse(digital_download.file, as_attachment=True)

@@ -199,9 +199,15 @@
                                                     <!-- Check if this product has a digital download file available -->
                                                     {% if item.product.digital_download %}
                                                         <!-- Display download link for digital products -->
-<a class="btn btn-sm btn-outline-success ml-2" download="" href="{{ item.product.digital_download.file.url }}">
-<i class="fas fa-download"></i> Download
-                                                        </a>
+                                                        {% if item.product.digital_download.file %}
+                                                            <a class="btn btn-sm btn-outline-success ml-2" download="" href="{{ item.product.digital_download.file.url }}">
+                                                                <i class="fas fa-download"></i> Download
+                                                            </a>
+                                                        {% else %}
+                                                            <span class="text-warning small ml-2">
+                                                                <i class="fas fa-exclamation-triangle"></i> Download not available
+                                                            </span>
+                                                        {% endif %}
                                                     {% endif %}
                                                 </li>
                                             {% endfor %}
@@ -251,9 +257,15 @@
 <strong>Order:</strong> {{ item.order_number|truncatechars:8 }}<br>
 <strong>Date:</strong> {{ item.order_date|date:"M d, Y" }}
                                     </p>
-<a class="btn btn-sm btn-outline-success" download="" href="{{ item.download.file.url }}">
-<i class="fas fa-download"></i> Download File
-                                    </a>
+{% if item.download.file %}
+                                        <a class="btn btn-sm btn-outline-success" download="" href="{{ item.download.file.url }}">
+                                            <i class="fas fa-download"></i> Download File
+                                        </a>
+                                    {% else %}
+                                        <span class="text-warning small">
+                                            <i class="fas fa-exclamation-triangle"></i> Download file not available
+                                        </span>
+                                    {% endif %}
 </div>
 </div>
                         {% endfor %}

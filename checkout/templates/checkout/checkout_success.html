@@ -185,12 +185,18 @@
 </a>
 
                         {% if item.product.digital_download %}
-                        <a class="btn btn-success rounded-0 btn-rounded my-2 ml-2" href="{% url 'catalogue:download_avatar' item.product.id %}" id="download-avatar-btn-{{ item.product.id }}">
-<span class="icon">
-<i class="fas fa-download"></i>
-</span>
-<span class="text-uppercase">Download Avatar</span>
-</a>
+                            {% if item.product.digital_download.file %}
+                                <a class="btn btn-success rounded-0 btn-rounded my-2 ml-2" href="{% url 'catalogue:download_avatar' item.product.id %}" id="download-avatar-btn-{{ item.product.id }}">
+                                    <span class="icon">
+                                        <i class="fas fa-download"></i>
+                                    </span>
+                                    <span class="text-uppercase">Download Avatar</span>
+                                </a>
+                            {% else %}
+                                <span class="text-warning small ml-2">
+                                    <i class="fas fa-exclamation-triangle"></i> Download not available yet
+                                </span>
+                            {% endif %}
                         {% endif %}
                     </div>
                 {% endfor %}
