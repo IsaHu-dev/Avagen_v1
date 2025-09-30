@@ -3,5 +3,5 @@
 {% block content %}{% endblock %}
 
 {% blocktrans %}Thank you for using Avagen!
-https://avagen-502553ff2610.herokuapp.com{% endblocktrans %}
+https://avagen.co.uk{% endblocktrans %}
 {% endautoescape %}

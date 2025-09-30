@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Welcome to Avagen - Please Confirm Your Email Address{% endblocktrans %}
+{% blocktrans %}[avagen.co.uk] Welcome to Avagen - Please Confirm Your Email Address{% endblocktrans %}
 {% endautoescape %}
