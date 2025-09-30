@@ -244,7 +244,8 @@
 <strong>Order:</strong> {{ item.order_number|truncatechars:8 }}<br>
 <strong>Date:</strong> {{ item.order_date|date:"M d, Y" }}
                                     </p>
-{% if item.download.file %}
+<div class="d-flex gap-2 flex-wrap">
+                                    {% if item.download.file %}
                                         <a class="btn btn-sm btn-outline-success" download="" href="{{ item.download.file.url }}">
                                             <i class="fas fa-download"></i> Download File
                                         </a>
@@ -253,6 +254,17 @@
                                             <i class="fas fa-exclamation-triangle"></i> Download file not available
                                         </span>
                                     {% endif %}
+                                    
+                                    {% if not item.has_reviewed %}
+                                        <a class="btn btn-sm btn-outline-warning" href="{% url 'add_review' item.product.id %}">
+                                            <i class="fas fa-star"></i> Leave Review
+                                        </a>
+                                    {% else %}
+                                        <span class="text-success small">
+                                            <i class="fas fa-check-circle"></i> Review submitted
+                                        </span>
+                                    {% endif %}
+                                </div>
 </div>
 </div>
                         {% endfor %}

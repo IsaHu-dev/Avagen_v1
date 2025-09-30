@@ -6,6 +6,8 @@ from django.contrib.auth import logout
 from .models import UserProfile
 from .forms import UserProfileForm, CustomUserUpdateForm
 from catalogue.models import DigitalDownload
+from reviews.models import Review
+
 
 
 @login_required
@@ -58,12 +60,38 @@ def profile(request):
         for line_item in order.lineitems.all():
             try:
                 digital_download = line_item.product.digital_download
+                
+                # Check if user has already reviewed this product
+                # Try multiple name variations to match existing reviews
+                possible_names = []
+                
+                # Add all possible name variations
+                if profile.display_name:
+                    possible_names.append(profile.display_name.strip())
+                if request.user.get_full_name():
+                    possible_names.append(request.user.get_full_name().strip())
+                if request.user.first_name and request.user.last_name:
+                    possible_names.append(f"{request.user.first_name} {request.user.last_name}".strip())
+                    possible_names.append(f"{request.user.last_name} {request.user.first_name}".strip())
+                possible_names.append(request.user.username.strip())
+                
+                # Check if any of these names match existing reviews
+                has_reviewed = False
+                for name in possible_names:
+                    if name and Review.objects.filter(
+                        product=line_item.product,
+                        name__iexact=name
+                    ).exists():
+                        has_reviewed = True
+                        break
+                
                 purchased_products.append({
                     "product": line_item.product,
                     "download": digital_download,
                     "license_type": line_item.license_type,
                     "order_date": order.date,
                     "order_number": order.order_number,
+                    "has_reviewed": has_reviewed,
                 })
             except DigitalDownload.DoesNotExist:
                 continue
