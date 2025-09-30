@@ -462,6 +462,8 @@ python manage.py runserver
 |                   | Fill address fields                      | Address details saved.                                                    | ✅     |
 |                   | Delete account                           | Data removed, user logged out                                             | ✅     |
 |                   | Order History displayed                  | Order number, date, item, model number, license level and total paid is displayed.                                              | ✅     |
+| **Profile page**  | Leave Review button                      | "Leave Review" button appears next to download button for products not yet reviewed | ✅     |
+| **Profile page**  | Review submitted indicator               | "Review submitted" message shows for products already reviewed by user     | ✅     |
 | **Mobile**        | Navigate on iPhone SE / Galaxy S8        | Layout responsive, navbar collapses correctly                             | ✅     |
 | **Accessibility** | Navigate with keyboard                   | All interactive elements are reachable                                    | ✅     |
 | **Admin**         | Upload ZIP file to product               | File is linked and downloadable post-purchase                             | ✅     |
