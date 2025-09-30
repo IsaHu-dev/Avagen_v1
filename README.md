@@ -542,8 +542,6 @@ All code is released under the **[MIT License](https://opensource.org/licenses/M
 
 ## Recent Updates 
 
-## New Features
-
 ### Email Verification on Checkout
 - Users now receive an **email verification** when completing checkout.  
 
