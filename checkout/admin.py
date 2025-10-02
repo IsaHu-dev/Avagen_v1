@@ -56,7 +56,7 @@ class OrderAdmin(admin.ModelAdmin):
         "order_number",
         "date",
         "full_name",
-        "payment_status",
+        "payment_status_colored",
         "order_total",
         "grand_total",
     )
@@ -85,6 +85,27 @@ class OrderAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         """Allow viewing but not editing orders"""
         return request.user.has_perm("checkout.view_order")
+    
+    def payment_status_colored(self, obj):
+        """Display payment status with color coding"""
+        colors = {
+            'pending': 'orange',
+            'processing': 'blue', 
+            'paid': 'green',
+            'failed': 'red',
+            'cancelled': 'gray'
+        }
+        
+        color = colors.get(obj.payment_status, 'black')
+        
+        return format_html(
+            '<span style="color: {}; font-weight: bold;">{}</span>',
+            color,
+            obj.get_payment_status_display()
+        )
+    
+    payment_status_colored.short_description = "Payment Status"
+    payment_status_colored.admin_order_field = "payment_status"
     
     actions = ['mark_as_paid', 'mark_as_failed']
     
