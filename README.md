@@ -552,7 +552,9 @@ All code is released under the **[MIT License](https://opensource.org/licenses/M
 - Each product includes plus/minus controls to adjust quantities directly at checkout.  
 - Displays available license types that are purchased(**Personal**, **Indie**, **Professional**) during checkout.  
 
-
+### Payment Status in Order Admin 
+- Implemented a payment-status track in the Orders Admin section.
+- Features include a colour coded admin interface with a visual status of paid or unpaid.
 
 
 
