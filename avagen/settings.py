@@ -14,10 +14,11 @@ import base64
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Import environment variables
+
 if os.path.exists(os.path.join(BASE_DIR, "env.py")):
     import env
-
 # Cloudinary configuration (for media/images only)
+
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
@@ -25,6 +26,7 @@ cloudinary.config(
 )
 
 # Google Cloud Storage (Heroku-safe)
+
 GS_BUCKET_NAME = "avagen-downloads"
 
 if "GCS_KEY_BASE64" in os.environ:
@@ -40,7 +42,6 @@ elif "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
     )
 else:
     GS_CREDENTIALS = None  # Optional fallback for local development
-
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
@@ -162,15 +163,22 @@ ACCOUNT_USERNAME_REQUIRED = True
 
 WSGI_APPLICATION = "avagen.wsgi.application"
 
-DATABASES = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
+DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation."
+        "UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation."
+        "CommonPasswordValidator"
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation."
+        "NumericPasswordValidator"
+    },
 ]
 
 LANGUAGE_CODE = "en-us"
@@ -191,20 +199,30 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 if not DEBUG:
     # Use Cloudinary for regular media/images
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+    DEFAULT_FILE_STORAGE = (
+        "cloudinary_storage.storage.MediaCloudinaryStorage"
+    )
 
     # Use GCS for digital downloads if available, otherwise local filesystem
     if GS_CREDENTIALS is not None:
-        DIGITAL_DOWNLOAD_STORAGE = "avagen.storage_backends.GoogleCloudZipStorage"
+        DIGITAL_DOWNLOAD_STORAGE = (
+            "avagen.storage_backends.GoogleCloudZipStorage"
+        )
     else:
-        DIGITAL_DOWNLOAD_STORAGE = "django.core.files.storage.FileSystemStorage"
-
+        DIGITAL_DOWNLOAD_STORAGE = (
+            "django.core.files.storage.FileSystemStorage"
+        )
 else:
     # Development: local file storage for everything
-    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-    DIGITAL_DOWNLOAD_STORAGE = "django.core.files.storage.FileSystemStorage"
+    DEFAULT_FILE_STORAGE = (
+        "django.core.files.storage.FileSystemStorage"
+    )
+    DIGITAL_DOWNLOAD_STORAGE = (
+        "django.core.files.storage.FileSystemStorage"
+    )
 
 # === STRIPE ===
+
 STRIPE_CURRENCY = "usd"
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", "")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")

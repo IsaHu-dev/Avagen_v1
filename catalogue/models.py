@@ -29,7 +29,7 @@ class DigitalDownload(models.Model):
 
     def __str__(self):
         return f"{self.product.name} ({self.product.model_number})"
-    
+
     def is_file_accessible(self):
         """Check if the file is accessible"""
         if not self.file or not hasattr(self.file, 'url'):
