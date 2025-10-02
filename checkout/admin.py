@@ -28,8 +28,8 @@ class OrderAdmin(admin.ModelAdmin):
         "date",
         "order_total",
         "grand_total",
-        "original_cart",
         "stripe_pid",
+        "payment_date",
     )
 
     fields = (
@@ -47,22 +47,23 @@ class OrderAdmin(admin.ModelAdmin):
         "county",
         "order_total",
         "grand_total",
-        "original_cart",
+        "payment_status",
         "stripe_pid",
+        "payment_date",
     )
 
     list_display = (
         "order_number",
         "date",
         "full_name",
+        "payment_status",
         "order_total",
         "grand_total",
-        "total_items",
     )
 
     list_filter = (
         "date",
-        "country",
+        "payment_status",
     )
     search_fields = (
         "order_number",
@@ -72,19 +73,6 @@ class OrderAdmin(admin.ModelAdmin):
     date_hierarchy = "date"
     ordering = ("-date",)
 
-
-    def get_queryset(self, request):
-        """Add total items count to queryset"""
-        qs = super().get_queryset(request)
-        # Force refresh from database
-        qs = qs.select_related().prefetch_related()
-        return qs.annotate(total_items=Sum("lineitems__quantity"))
-
-    def total_items(self, obj):
-        """Display total items in order"""
-        return obj.total_items
-
-    total_items.short_description = "Total Items"
 
     def has_delete_permission(self, request, obj=None):
         """Prevent deletion of orders"""
@@ -98,6 +86,19 @@ class OrderAdmin(admin.ModelAdmin):
         """Allow viewing but not editing orders"""
         return request.user.has_perm("checkout.view_order")
     
+    actions = ['mark_as_paid', 'mark_as_failed']
+    
+    def mark_as_paid(self, request, queryset):
+        """Mark selected orders as paid"""
+        updated = queryset.update(payment_status='paid')
+        self.message_user(request, f'{updated} orders marked as paid.')
+    mark_as_paid.short_description = "Mark selected orders as paid"
+    
+    def mark_as_failed(self, request, queryset):
+        """Mark selected orders as failed"""
+        updated = queryset.update(payment_status='failed')
+        self.message_user(request, f'{updated} orders marked as failed.')
+    mark_as_failed.short_description = "Mark selected orders as failed"
 
     class Media:
         css = {"all": ("admin/css/order_admin.css",)}

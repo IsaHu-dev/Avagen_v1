@@ -71,6 +71,11 @@ def checkout(request):
             if request.user.is_authenticated:
                 order.user = request.user
             order.save()
+            
+            # For testing: mark as paid immediately
+            # In production, this would be 'processing' and updated by webhook
+            order.update_payment_status('paid')
+            
             print(
                 f"DEBUG: Created order {order.order_number} "
                 f"with stripe_pid: '{order.stripe_pid}'"

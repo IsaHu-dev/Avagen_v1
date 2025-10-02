@@ -3,6 +3,15 @@ from django.contrib.auth.models import User
 
 
 class Order(models.Model):
+    # Payment status choices
+    PAYMENT_STATUS_CHOICES = [
+        ('pending', 'Pending Payment'),
+        ('processing', 'Processing'),
+        ('paid', 'Paid'),
+        ('failed', 'Payment Failed'),
+        ('cancelled', 'Cancelled'),
+    ]
+    
     order_number = models.CharField(max_length=32, null=False, editable=False)
     user = models.ForeignKey(
         User,
@@ -30,6 +39,17 @@ class Order(models.Model):
     original_cart = models.TextField(null=False, blank=False, default="")
     stripe_pid = models.CharField(
         max_length=254, null=False, blank=False, default=""
+    )
+    payment_status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS_CHOICES,
+        default='pending',
+        help_text="Current payment status of the order"
+    )
+    payment_date = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Date and time when payment was completed"
     )
 
     def _generate_order_number(self):
@@ -63,6 +83,21 @@ class Order(models.Model):
 
     def __str__(self):
         return self.order_number
+    
+    def is_paid(self):
+        """Check if the order has been paid"""
+        return self.payment_status == 'paid'
+    
+    def update_payment_status(self, status):
+        """Update payment status"""
+        from django.utils import timezone
+        
+        self.payment_status = status
+        
+        if status == 'paid':
+            self.payment_date = timezone.now()
+        
+        self.save()
 
 
 class OrderLineItem(models.Model):
