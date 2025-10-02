@@ -75,19 +75,21 @@ class OrderAdmin(admin.ModelAdmin):
 
 
     def has_delete_permission(self, request, obj=None):
-        """Prevent deletion of orders"""
-        return False
+        """Allow superusers to delete orders"""
+        # Superusers can delete orders for administrative purposes
+        # This allows cleanup of test orders or unwanted transactions
+        return request.user.is_superuser
 
     def has_add_permission(self, request):
         """Prevent manual order creation"""
         return False
 
     def has_change_permission(self, request, obj=None):
-        """Allow viewing but not editing orders"""
-        return request.user.has_perm("checkout.view_order")
+        """Allow superusers to edit orders"""
+        return request.user.is_superuser
     
     def payment_status_colored(self, obj):
-        """Display payment status with color coding"""
+        """Display payment status with colour coding"""
         colors = {
             'pending': 'orange',
             'processing': 'blue', 
@@ -107,7 +109,14 @@ class OrderAdmin(admin.ModelAdmin):
     payment_status_colored.short_description = "Payment Status"
     payment_status_colored.admin_order_field = "payment_status"
     
-    actions = ['mark_as_paid', 'mark_as_failed']
+    actions = ['mark_as_paid', 'mark_as_failed', 'delete_orders']
+    
+    def get_actions(self, request):
+        """Remove built-in delete_selected to avoid duplicates"""
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
     
     def mark_as_paid(self, request, queryset):
         """Mark selected orders as paid"""
@@ -120,6 +129,17 @@ class OrderAdmin(admin.ModelAdmin):
         updated = queryset.update(payment_status='failed')
         self.message_user(request, f'{updated} orders marked as failed.')
     mark_as_failed.short_description = "Mark selected orders as failed"
+    
+    def delete_orders(self, request, queryset):
+        """Delete selected orders"""
+        if not request.user.is_superuser:
+            self.message_user(request, 'Only superusers can delete orders.', level='ERROR')
+            return
+        
+        count = queryset.count()
+        queryset.delete()
+        self.message_user(request, f'{count} orders deleted successfully.')
+    delete_orders.short_description = "Delete selected orders"
 
     class Media:
         css = {"all": ("admin/css/order_admin.css",)}
