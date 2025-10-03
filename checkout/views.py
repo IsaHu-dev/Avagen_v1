@@ -71,11 +71,9 @@ def checkout(request):
             if request.user.is_authenticated:
                 order.user = request.user
             order.save()
-            
-            # For testing: mark as paid immediately
-            # In production, this would be 'processing' and updated by webhook
-            order.update_payment_status('paid')
-            
+
+            order.update_payment_status("paid")
+
             print(
                 f"DEBUG: Created order {order.order_number} "
                 f"with stripe_pid: '{order.stripe_pid}'"
@@ -115,6 +113,7 @@ def checkout(request):
                     order.delete()
                     return redirect(reverse("view_cart"))
             # Update the order total after all line items are created
+
             order.update_total()
 
             request.session["save_info"] = "save-info" in request.POST
@@ -204,8 +203,8 @@ def checkout_success(request, order_number):
             request, "You don't have permission to view this order."
         )
         return redirect("profile")
-
     # --- Send confirmation email ---
+
     subject = f"Order Confirmation - {order_number}"
     message = render_to_string(
         "checkout/confirmation_email.txt",
@@ -221,7 +220,6 @@ def checkout_success(request, order_number):
         messages.warning(
             request, f"Order processed, but email could not be sent: {e}"
         )
-
     messages.success(
         request,
         (

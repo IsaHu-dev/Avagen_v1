@@ -13,7 +13,10 @@ class DigitalDownloadAdmin(admin.ModelAdmin):
     def download_link(self, obj):
         if obj.file and obj.is_file_accessible():
             return format_html(
-                '<a href="{}" target="_blank" download class="btn btn-sm btn-success">Download</a>',
+                (
+                    '<a href="{}" target="_blank" download '
+                    'class="btn btn-sm btn-success">Download</a>'
+                ),
                 obj.file.url,
             )
         return format_html('<span class="text-danger">Not available</span>')

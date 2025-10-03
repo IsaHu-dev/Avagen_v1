@@ -1,181 +1,239 @@
-from django.contrib import admin
-from django.utils.html import format_html
-from django.urls import reverse
-from django.db.models import Sum
+from django.shortcuts import (
+    render,
+    redirect,
+    reverse,
+    get_object_or_404,
+    HttpResponse,
+)
+from django.views.decorators.http import require_POST
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from products.models import DigitalProduct
+
+from .forms import OrderForm
 from .models import Order, OrderLineItem
+from cart.inventory import cart_contents
+
+import stripe
+import json
 
 
-class OrderLineItemAdminInline(admin.TabularInline):
-    """Inline admin for OrderLineItem model"""
-
-    model = OrderLineItem
-    readonly_fields = ("lineitem_total",)
-    extra = 0
-    can_delete = False
-
-    def has_add_permission(self, request, obj=None):
-        return False
-
-
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    """Admin interface for Order model"""
-
-    inlines = (OrderLineItemAdminInline,)
-
-    readonly_fields = (
-        "order_number",
-        "date",
-        "order_total",
-        "grand_total",
-        "stripe_pid",
-        "payment_date",
-    )
-
-    fields = (
-        "order_number",
-        "user",
-        "date",
-        "full_name",
-        "email",
-        "phone_number",
-        "country",
-        "postcode",
-        "town_or_city",
-        "street_address1",
-        "street_address2",
-        "county",
-        "order_total",
-        "grand_total",
-        "payment_status",
-        "stripe_pid",
-        "payment_date",
-    )
-
-    list_display = (
-        "order_number",
-        "date",
-        "full_name",
-        "payment_status_colored",
-        "order_total",
-        "grand_total",
-    )
-
-    list_filter = (
-        "date",
-        "payment_status",
-    )
-    search_fields = (
-        "order_number",
-        "full_name",
-        "email",
-    )
-    date_hierarchy = "date"
-    ordering = ("-date",)
+@require_POST
+def cache_checkout_data(request):
+    try:
+        pid = request.POST.get("client_secret").split("_secret")[0]
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(
+            pid,
+            metadata={
+                "cart": json.dumps(request.session.get("cart", {})),
+                "save_info": request.POST.get("save_info"),
+                "username": request.user,
+            },
+        )
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.error(
+            request,
+            (
+                "Sorry, your payment cannot be processed right now. "
+                "Please try again later."
+            ),
+        )
+        return HttpResponse(content=e, status=400)
 
 
-    def has_delete_permission(self, request, obj=None):
-        """Allow superusers to delete orders"""
-        # Superusers can delete orders for administrative purposes
-        # This allows cleanup of test orders or unwanted transactions
-        return request.user.is_superuser
+def checkout(request):
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
 
-    def has_add_permission(self, request):
-        """Prevent manual order creation"""
-        return False
+    if request.method == "POST":
+        cart = request.session.get("cart", {})
 
-    def has_change_permission(self, request, obj=None):
-        """Allow superusers to edit orders"""
-        return request.user.is_superuser
-    
-    def payment_status_colored(self, obj):
-        """Display payment status with colour coding"""
-        colors = {
-            'pending': 'orange',
-            'processing': 'blue', 
-            'paid': 'green',
-            'failed': 'red',
-            'cancelled': 'gray'
+        form_data = {
+            "full_name": request.POST["full_name"],
+            "email": request.POST["email"],
+            "phone_number": request.POST["phone_number"],
+            "country": request.POST["country"],
+            "postcode": request.POST["postcode"],
+            "town_or_city": request.POST["town_or_city"],
+            "street_address1": request.POST["street_address1"],
+            "street_address2": request.POST["street_address2"],
+            "county": request.POST["county"],
         }
-        
-        color = colors.get(obj.payment_status, 'black')
-        
-        return format_html(
-            '<span style="color: {}; font-weight: bold;">{}</span>',
-            color,
-            obj.get_payment_status_display()
+        order_form = OrderForm(form_data)
+        if order_form.is_valid():
+            order = order_form.save(commit=False)
+            if request.user.is_authenticated:
+                order.user = request.user
+            order.save()
+
+            order.update_payment_status("paid")
+
+            print(
+                f"DEBUG: Created order {order.order_number} "
+                f"with stripe_pid: '{order.stripe_pid}'"
+            )
+
+            for cart_key, item_data in cart.items():
+                try:
+                    if isinstance(item_data, dict) and "item_id" in item_data:
+                        product = DigitalProduct.objects.get(
+                            id=item_data["item_id"]
+                        )
+                        order_line_item = OrderLineItem(
+                            order=order,
+                            product=product,
+                            quantity=item_data["quantity"],
+                            license_type=item_data["license_type"],
+                        )
+                        order_line_item.save()
+                    else:
+                        messages.error(
+                            request,
+                            (
+                                "There was an error with your cart. "
+                                "Please try again."
+                            ),
+                        )
+                        order.delete()
+                        return redirect(reverse("view_cart"))
+                except DigitalProduct.DoesNotExist:
+                    messages.error(
+                        request,
+                        (
+                            "One of the products in your cart wasn't found "
+                            "in our database. Please call us for assistance!"
+                        ),
+                    )
+                    order.delete()
+                    return redirect(reverse("view_cart"))
+            # Update the order total after all line items are created
+
+            order.update_total()
+
+            request.session["save_info"] = "save-info" in request.POST
+            return redirect(
+                reverse("checkout_success", args=[order.order_number])
+            )
+        else:
+            messages.error(
+                request,
+                (
+                    "There was an error with your form. "
+                    "Please double check your information."
+                ),
+            )
+
+            current_cart = cart_contents(request)
+            total = current_cart["grand_total"]
+            stripe_total = round(total * 100)
+            stripe.api_key = stripe_secret_key
+            intent = stripe.PaymentIntent.create(
+                amount=stripe_total,
+                currency=settings.STRIPE_CURRENCY,
+            )
+
+            return render(
+                request,
+                "checkout/checkout.html",
+                {
+                    "order_form": order_form,
+                    "stripe_public_key": stripe_public_key,
+                    "client_secret": intent.client_secret,
+                    "cart_items": current_cart["cart_items"],
+                    "total": current_cart["subtotal"],
+                    "grand_total": current_cart["grand_total"],
+                    "product_count": current_cart["item_count"],
+                },
+            )
+    else:
+        cart = request.session.get("cart", {})
+        if not cart:
+            messages.error(
+                request, "There's nothing in your cart at the moment"
+            )
+            return redirect(reverse("products"))
+        current_cart = cart_contents(request)
+        total = current_cart["grand_total"]
+        stripe_total = round(total * 100)
+        stripe.api_key = stripe_secret_key
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY,
         )
-    
-    payment_status_colored.short_description = "Payment Status"
-    payment_status_colored.admin_order_field = "payment_status"
-    
-    actions = ['mark_as_paid', 'mark_as_failed', 'delete_orders']
-    
-    def get_actions(self, request):
-        """Remove built-in delete_selected to avoid duplicates"""
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
-    
-    def mark_as_paid(self, request, queryset):
-        """Mark selected orders as paid"""
-        updated = queryset.update(payment_status='paid')
-        self.message_user(request, f'{updated} orders marked as paid.')
-    mark_as_paid.short_description = "Mark selected orders as paid"
-    
-    def mark_as_failed(self, request, queryset):
-        """Mark selected orders as failed"""
-        updated = queryset.update(payment_status='failed')
-        self.message_user(request, f'{updated} orders marked as failed.')
-    mark_as_failed.short_description = "Mark selected orders as failed"
-    
-    def delete_orders(self, request, queryset):
-        """Delete selected orders"""
-        if not request.user.is_superuser:
-            self.message_user(request, 'Only superusers can delete orders.', level='ERROR')
-            return
-        
-        count = queryset.count()
-        queryset.delete()
-        self.message_user(request, f'{count} orders deleted successfully.')
-    delete_orders.short_description = "Delete selected orders"
 
-    class Media:
-        css = {"all": ("admin/css/order_admin.css",)}
+        order_form = OrderForm()
+
+        if not stripe_public_key:
+            messages.warning(
+                request,
+                (
+                    "Stripe public key is missing. "
+                    "Did you forget to set it in your environment?"
+                ),
+            )
+        template = "checkout/checkout.html"
+        context = {
+            "order_form": order_form,
+            "stripe_public_key": stripe_public_key,
+            "client_secret": intent.client_secret,
+            "cart_items": current_cart["cart_items"],
+            "total": current_cart["subtotal"],
+            "grand_total": current_cart["grand_total"],
+            "product_count": current_cart["item_count"],
+        }
+
+        return render(request, template, context)
 
 
-@admin.register(OrderLineItem)
-class OrderLineItemAdmin(admin.ModelAdmin):
-    """Admin interface for OrderLineItem model"""
+@login_required
+def checkout_success(request, order_number):
+    """
+    Handle successful checkouts - only for the user who made the order
+    """
+    order = get_object_or_404(Order, order_number=order_number)
 
-    list_display = ("order_link", "product_link", "quantity", "lineitem_total")
-    list_filter = ("order__date",)
-    search_fields = (
-        "order__order_number",
-        "product__name",
-        "product__license_number",
+    if order.user != request.user:
+        messages.error(
+            request, "You don't have permission to view this order."
+        )
+        return redirect("profile")
+    # --- Send confirmation email ---
+
+    subject = f"Order Confirmation - {order_number}"
+    message = render_to_string(
+        "checkout/confirmation_email.txt",
+        {
+            "order": order,
+            "user": request.user,
+        },
     )
-    readonly_fields = ("lineitem_total",)
-
-    def order_link(self, obj):
-        """Create a link to the order"""
-        url = reverse("admin:checkout_order_change", args=[obj.order.id])
-        return format_html('<a href="{}">{}</a>', url, obj.order.order_number)
-
-    order_link.short_description = "Order"
-
-    def product_link(self, obj):
-        """Create a link to the product"""
-        url = reverse(
-            "admin:products_digitalproduct_change", args=[obj.product.id]
+    recipient = order.email
+    try:
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient])
+    except Exception as e:
+        messages.warning(
+            request, f"Order processed, but email could not be sent: {e}"
         )
-        return format_html('<a href="{}">{}</a>', url, obj.product.name)
+    messages.success(
+        request,
+        (
+            f"Order successfully processed! Your order number is "
+            f"{order_number}. "
+            f"A confirmation email will be sent to {order.email}."
+        ),
+    )
 
-    product_link.short_description = "Product"
+    if "cart" in request.session:
+        del request.session["cart"]
+    template = "checkout/checkout_success.html"
+    context = {
+        "order": order,
+    }
 
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
+    return render(request, template, context)
