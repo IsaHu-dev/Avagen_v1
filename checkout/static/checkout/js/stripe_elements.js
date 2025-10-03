@@ -67,14 +67,17 @@ const form = document.getElementById('payment-form');
 form.addEventListener('submit', function (ev) {
     ev.preventDefault(); // Stop normal form submission
 
-    // Validate UK postcode input manually
+    // Validate postcode input (optional - not required for all countries)
     const postcodeInput = document.getElementById('manual-postcode');
     const postcode = $.trim(postcodeInput.value);
-    const postcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
-
-    if (!postcodeRegex.test(postcode)) {
-        showError('Enter a valid UK postcode (e.g. W1A 1AA).');
-        return;
+    
+    // Only validate UK postcode format if postcode is provided and looks like UK format
+    if (postcode && postcode.length > 0) {
+        const postcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
+        if (!postcodeRegex.test(postcode)) {
+            showError('Enter a valid postcode format.');
+            return;
+        }
     }
 
     // Disable input fields and button to prevent duplicate submissions
