@@ -41,14 +41,14 @@ elif "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
         creds_dict
     )
 else:
-    GS_CREDENTIALS = None  # Optional fallback for local development
+    GS_CREDENTIALS = None  
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "localhost",  # listen for stripe webhooks
+    "localhost",  
     ".herokuapp.com",
 ]
 
