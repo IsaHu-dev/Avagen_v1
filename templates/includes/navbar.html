@@ -51,7 +51,7 @@
     <div aria-labelledby="category-creator-link" class="dropdown-menu border-0">
                     {% for category in categories %}
                         {% if category.is_creator %}
-                            <a class="dropdown-item" href="{% url 'products' %}?category={{ category.name }}">
+                            <a class="dropdown-item" href="{% url 'products' %}?category={{ category.name|urlencode }}">
                                 {{ category.get_friendly_name|default:category.name }}
                             </a>
                         {% endif %}
