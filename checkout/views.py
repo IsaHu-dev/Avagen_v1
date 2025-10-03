@@ -27,12 +27,24 @@ def cache_checkout_data(request):
     try:
         pid = request.POST.get("client_secret").split("_secret")[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
+        
+        # Get cart data
+        cart = request.session.get("cart", {})
+        
+        # Create a simplified cart summary for Stripe metadata
+        # Stripe has a 500 character limit for metadata values
+        cart_summary = {
+            "item_count": len(cart),
+            "total_items": sum(item.get("quantity", 1) for item in cart.values() if isinstance(item, dict)),
+        }
+        
+        # Only store essential cart info in Stripe metadata
         stripe.PaymentIntent.modify(
             pid,
             metadata={
-                "cart": json.dumps(request.session.get("cart", {})),
+                "cart_summary": json.dumps(cart_summary),
                 "save_info": request.POST.get("save_info"),
-                "username": request.user,
+                "username": str(request.user),
             },
         )
         return HttpResponse(status=200)
@@ -158,6 +170,14 @@ def checkout(request):
                 request, "There's nothing in your cart at the moment"
             )
             return redirect(reverse("products"))
+        
+        # Check for large cart size
+        if len(cart) > 20:
+            messages.warning(
+                request, 
+                "Large cart detected. Processing may take longer. Please be patient."
+            )
+        
         current_cart = cart_contents(request)
         total = current_cart["grand_total"]
         stripe_total = round(total * 100)
