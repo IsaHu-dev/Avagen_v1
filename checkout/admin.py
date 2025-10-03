@@ -4,6 +4,15 @@ from django.utils import timezone
 from django.utils.html import format_html
 from .models import Order, OrderLineItem
 
+# Unregister social account models from admin
+from allauth.socialaccount.models import SocialApp, SocialAccount, SocialToken
+from allauth.account.models import EmailAddress
+
+admin.site.unregister(SocialApp)
+admin.site.unregister(SocialAccount)
+admin.site.unregister(SocialToken)
+admin.site.unregister(EmailAddress)
+
 
 class OrderLineItemAdminInline(admin.TabularInline):
     """Inline admin for OrderLineItem"""
@@ -110,7 +119,7 @@ class OrderAdmin(admin.ModelAdmin):
 
         if paid_orders.exists() and request.user.is_superuser:
             self.message_user(
-                request,
+        request,
                 f"WARNING: Deleting {paid_orders.count()} paid order(s). "
                 f"This action cannot be undone!",
                 messages.WARNING
