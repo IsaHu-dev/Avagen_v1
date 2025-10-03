@@ -1,239 +1,147 @@
-from django.shortcuts import (
-    render,
-    redirect,
-    reverse,
-    get_object_or_404,
-    HttpResponse,
-)
-from django.views.decorators.http import require_POST
+from django.contrib import admin
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.conf import settings
-
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from products.models import DigitalProduct
-
-from .forms import OrderForm
+from django.utils import timezone
 from .models import Order, OrderLineItem
-from cart.inventory import cart_contents
-
-import stripe
-import json
 
 
-@require_POST
-def cache_checkout_data(request):
-    try:
-        pid = request.POST.get("client_secret").split("_secret")[0]
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        stripe.PaymentIntent.modify(
-            pid,
-            metadata={
-                "cart": json.dumps(request.session.get("cart", {})),
-                "save_info": request.POST.get("save_info"),
-                "username": request.user,
-            },
+class OrderLineItemAdminInline(admin.TabularInline):
+    """Inline admin for OrderLineItem"""
+    model = OrderLineItem
+    readonly_fields = ('lineitem_total',)
+    extra = 0
+    fields = ('product', 'quantity', 'license_type', 'lineitem_total')
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    """Admin configuration for Order model"""
+
+    inlines = (OrderLineItemAdminInline,)
+
+    readonly_fields = (
+        'order_number',
+        'date',
+        'order_total',
+        'grand_total',
+        'original_cart',
+        'stripe_pid',
+        'payment_date'
+    )
+
+    list_display = (
+        'order_number',
+        'full_name',
+        'email',
+        'payment_status',
+        'grand_total',
+        'date'
+    )
+
+    list_filter = (
+        'payment_status',
+        'date',
+        'country'
+    )
+
+    search_fields = (
+        'order_number',
+        'full_name',
+        'email'
+    )
+
+    ordering = ('-date',)
+    list_per_page = 25
+
+    actions = ['mark_as_paid', 'mark_as_failed', 'delete_selected']
+
+    def mark_as_paid(self, request, queryset):
+        """Mark selected orders as paid"""
+        updated = queryset.update(
+            payment_status='paid',
+            payment_date=timezone.now()
         )
-        return HttpResponse(status=200)
-    except Exception as e:
-        messages.error(
+        self.message_user(
             request,
-            (
-                "Sorry, your payment cannot be processed right now. "
-                "Please try again later."
-            ),
+            f'{updated} order(s) marked as paid.',
+            messages.SUCCESS
         )
-        return HttpResponse(content=e, status=400)
+    mark_as_paid.short_description = "Mark as PAID"
 
+    def mark_as_failed(self, request, queryset):
+        """Mark selected orders as failed"""
+        updated = queryset.update(payment_status='failed')
+        self.message_user(
+            request,
+            f'{updated} order(s) marked as failed.',
+            messages.WARNING
+        )
+    mark_as_failed.short_description = "Mark as FAILED"
 
-def checkout(request):
-    stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    stripe_secret_key = settings.STRIPE_SECRET_KEY
-
-    if request.method == "POST":
-        cart = request.session.get("cart", {})
-
-        form_data = {
-            "full_name": request.POST["full_name"],
-            "email": request.POST["email"],
-            "phone_number": request.POST["phone_number"],
-            "country": request.POST["country"],
-            "postcode": request.POST["postcode"],
-            "town_or_city": request.POST["town_or_city"],
-            "street_address1": request.POST["street_address1"],
-            "street_address2": request.POST["street_address2"],
-            "county": request.POST["county"],
-        }
-        order_form = OrderForm(form_data)
-        if order_form.is_valid():
-            order = order_form.save(commit=False)
-            if request.user.is_authenticated:
-                order.user = request.user
-            order.save()
-
-            order.update_payment_status("paid")
-
-            print(
-                f"DEBUG: Created order {order.order_number} "
-                f"with stripe_pid: '{order.stripe_pid}'"
-            )
-
-            for cart_key, item_data in cart.items():
-                try:
-                    if isinstance(item_data, dict) and "item_id" in item_data:
-                        product = DigitalProduct.objects.get(
-                            id=item_data["item_id"]
-                        )
-                        order_line_item = OrderLineItem(
-                            order=order,
-                            product=product,
-                            quantity=item_data["quantity"],
-                            license_type=item_data["license_type"],
-                        )
-                        order_line_item.save()
-                    else:
-                        messages.error(
-                            request,
-                            (
-                                "There was an error with your cart. "
-                                "Please try again."
-                            ),
-                        )
-                        order.delete()
-                        return redirect(reverse("view_cart"))
-                except DigitalProduct.DoesNotExist:
-                    messages.error(
-                        request,
-                        (
-                            "One of the products in your cart wasn't found "
-                            "in our database. Please call us for assistance!"
-                        ),
-                    )
-                    order.delete()
-                    return redirect(reverse("view_cart"))
-            # Update the order total after all line items are created
-
-            order.update_total()
-
-            request.session["save_info"] = "save-info" in request.POST
-            return redirect(
-                reverse("checkout_success", args=[order.order_number])
-            )
-        else:
-            messages.error(
+    def delete_selected(self, request, queryset):
+        """Custom delete action with warning for paid orders"""
+        paid_orders = queryset.filter(payment_status='paid')
+        if paid_orders.exists() and not request.user.is_superuser:
+            self.message_user(
                 request,
-                (
-                    "There was an error with your form. "
-                    "Please double check your information."
-                ),
+                f"Cannot delete {paid_orders.count()} paid order(s). "
+                f"Only superusers can delete paid orders.",
+                messages.ERROR
             )
+            return
 
-            current_cart = cart_contents(request)
-            total = current_cart["grand_total"]
-            stripe_total = round(total * 100)
-            stripe.api_key = stripe_secret_key
-            intent = stripe.PaymentIntent.create(
-                amount=stripe_total,
-                currency=settings.STRIPE_CURRENCY,
-            )
-
-            return render(
+        if paid_orders.exists() and request.user.is_superuser:
+            self.message_user(
                 request,
-                "checkout/checkout.html",
-                {
-                    "order_form": order_form,
-                    "stripe_public_key": stripe_public_key,
-                    "client_secret": intent.client_secret,
-                    "cart_items": current_cart["cart_items"],
-                    "total": current_cart["subtotal"],
-                    "grand_total": current_cart["grand_total"],
-                    "product_count": current_cart["item_count"],
-                },
+                f"WARNING: Deleting {paid_orders.count()} paid order(s). "
+                f"This action cannot be undone!",
+                messages.WARNING
             )
-    else:
-        cart = request.session.get("cart", {})
-        if not cart:
-            messages.error(
-                request, "There's nothing in your cart at the moment"
-            )
-            return redirect(reverse("products"))
-        current_cart = cart_contents(request)
-        total = current_cart["grand_total"]
-        stripe_total = round(total * 100)
-        stripe.api_key = stripe_secret_key
-        intent = stripe.PaymentIntent.create(
-            amount=stripe_total,
-            currency=settings.STRIPE_CURRENCY,
+        
+        deleted_count = queryset.count()
+        queryset.delete()
+        self.message_user(
+            request,
+            f'{deleted_count} order(s) deleted successfully.',
+            messages.SUCCESS
         )
+    delete_selected.short_description = "Delete selected orders"
 
-        order_form = OrderForm()
-
-        if not stripe_public_key:
-            messages.warning(
-                request,
-                (
-                    "Stripe public key is missing. "
-                    "Did you forget to set it in your environment?"
-                ),
-            )
-        template = "checkout/checkout.html"
-        context = {
-            "order_form": order_form,
-            "stripe_public_key": stripe_public_key,
-            "client_secret": intent.client_secret,
-            "cart_items": current_cart["cart_items"],
-            "total": current_cart["subtotal"],
-            "grand_total": current_cart["grand_total"],
-            "product_count": current_cart["item_count"],
-        }
-
-        return render(request, template, context)
+    def has_delete_permission(self, request, obj=None):
+        """Allow superusers to delete any order, prevent deletion of paid 
+        orders for regular users"""
+        if request.user.is_superuser:
+            return True
+        if obj and obj.payment_status == 'paid':
+            return False
+        return super().has_delete_permission(request, obj)
 
 
-@login_required
-def checkout_success(request, order_number):
-    """
-    Handle successful checkouts - only for the user who made the order
-    """
-    order = get_object_or_404(Order, order_number=order_number)
+@admin.register(OrderLineItem)
+class OrderLineItemAdmin(admin.ModelAdmin):
+    """Admin configuration for OrderLineItem model"""
 
-    if order.user != request.user:
-        messages.error(
-            request, "You don't have permission to view this order."
-        )
-        return redirect("profile")
-    # --- Send confirmation email ---
-
-    subject = f"Order Confirmation - {order_number}"
-    message = render_to_string(
-        "checkout/confirmation_email.txt",
-        {
-            "order": order,
-            "user": request.user,
-        },
-    )
-    recipient = order.email
-    try:
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient])
-    except Exception as e:
-        messages.warning(
-            request, f"Order processed, but email could not be sent: {e}"
-        )
-    messages.success(
-        request,
-        (
-            f"Order successfully processed! Your order number is "
-            f"{order_number}. "
-            f"A confirmation email will be sent to {order.email}."
-        ),
+    list_display = (
+        'order',
+        'product',
+        'quantity',
+        'license_type',
+        'lineitem_total'
     )
 
-    if "cart" in request.session:
-        del request.session["cart"]
-    template = "checkout/checkout_success.html"
-    context = {
-        "order": order,
-    }
+    list_filter = (
+        'license_type',
+        'order__payment_status'
+    )
 
-    return render(request, template, context)
+    search_fields = (
+        'order__order_number',
+        'product__name'
+    )
+
+    readonly_fields = ('lineitem_total',)
+
+
+# Customize admin site headers
+admin.site.site_header = "Avagen Admin"
+admin.site.site_title = "Avagen Admin Portal"
+admin.site.index_title = "Welcome to Avagen Administration"
