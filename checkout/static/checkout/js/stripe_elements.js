@@ -1,9 +1,6 @@
-/*
-    Stripe integration with separated card inputs (no embedded ZIP field)
-*/
 /* jshint esversion: 6 */
-/* global $ */
-// Get Stripe public key and client secret from hidden HTML elements
+/* global $, Stripe */
+
 const stripePublicKey = JSON.parse(document.getElementById('id_stripe_public_key').textContent);
 const clientSecret = JSON.parse(document.getElementById('id_client_secret').textContent);
 
