@@ -1,5 +1,8 @@
 from django.core.mail.backends.smtp import EmailBackend as SMTPBackend
 import ssl
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CustomEmailBackend(SMTPBackend):
@@ -21,3 +24,15 @@ class CustomEmailBackend(SMTPBackend):
         if self.username:
             self.connection.login(self.username, self.password)
         return True
+
+    def send_messages(self, email_messages):
+        """Override send_messages to add logging"""
+        if not email_messages:
+            return 0
+        try:
+            result = super().send_messages(email_messages)
+            logger.info(f"Successfully sent {result} email(s)")
+            return result
+        except Exception as e:
+            logger.error(f"Failed to send email: {str(e)}")
+            raise
