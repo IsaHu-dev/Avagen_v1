@@ -15,9 +15,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Import environment variables
 
+
 if os.path.exists(os.path.join(BASE_DIR, "env.py")):
     import env
 # Cloudinary configuration (for media/images only)
+
 
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
@@ -26,6 +28,7 @@ cloudinary.config(
 )
 
 # Google Cloud Storage (Heroku-safe)
+
 
 GS_BUCKET_NAME = "avagen-downloads"
 
@@ -41,14 +44,14 @@ elif "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
         creds_dict
     )
 else:
-    GS_CREDENTIALS = None  
+    GS_CREDENTIALS = None
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "localhost",  
+    "localhost",
     ".herokuapp.com",
 ]
 
@@ -197,13 +200,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # === FILE STORAGE CONFIG ===
 
+
 if not DEBUG:
     # Use Cloudinary for regular media/images
-    DEFAULT_FILE_STORAGE = (
-        "cloudinary_storage.storage.MediaCloudinaryStorage"
-    )
+
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
     # Use GCS for digital downloads if available, otherwise local filesystem
+
     if GS_CREDENTIALS is not None:
         DIGITAL_DOWNLOAD_STORAGE = (
             "avagen.storage_backends.GoogleCloudZipStorage"
@@ -214,14 +218,11 @@ if not DEBUG:
         )
 else:
     # Development: local file storage for everything
-    DEFAULT_FILE_STORAGE = (
-        "django.core.files.storage.FileSystemStorage"
-    )
-    DIGITAL_DOWNLOAD_STORAGE = (
-        "django.core.files.storage.FileSystemStorage"
-    )
 
+    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+    DIGITAL_DOWNLOAD_STORAGE = "django.core.files.storage.FileSystemStorage"
 # === STRIPE ===
+
 
 STRIPE_CURRENCY = "usd"
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", "")

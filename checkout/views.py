@@ -27,17 +27,20 @@ def cache_checkout_data(request):
     try:
         pid = request.POST.get("client_secret").split("_secret")[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        
-        # Get cart data
+
         cart = request.session.get("cart", {})
-        
+
         # Create a simplified cart summary for Stripe metadata
         # Stripe has a 500 character limit for metadata values
         cart_summary = {
             "item_count": len(cart),
-            "total_items": sum(item.get("quantity", 1) for item in cart.values() if isinstance(item, dict)),
+            "total_items": sum(
+                item.get("quantity", 1)
+                for item in cart.values()
+                if isinstance(item, dict)
+            ),
         }
-        
+
         # Only store essential cart info in Stripe metadata
         stripe.PaymentIntent.modify(
             pid,
@@ -124,8 +127,8 @@ def checkout(request):
                     )
                     order.delete()
                     return redirect(reverse("view_cart"))
-            # Update the order total after all line items are created
 
+            # Update the order total after all line items are created
             order.update_total()
 
             request.session["save_info"] = "save-info" in request.POST
@@ -170,14 +173,17 @@ def checkout(request):
                 request, "There's nothing in your cart at the moment"
             )
             return redirect(reverse("products"))
-        
+
         # Check for large cart size
         if len(cart) > 20:
             messages.warning(
-                request, 
-                "Large cart detected. Processing may take longer. Please be patient."
+                request,
+                (
+                    "Large cart detected. Processing may take longer. "
+                    "Please be patient."
+                ),
             )
-        
+
         current_cart = cart_contents(request)
         total = current_cart["grand_total"]
         stripe_total = round(total * 100)
@@ -197,6 +203,7 @@ def checkout(request):
                     "Did you forget to set it in your environment?"
                 ),
             )
+
         template = "checkout/checkout.html"
         context = {
             "order_form": order_form,
@@ -223,8 +230,8 @@ def checkout_success(request, order_number):
             request, "You don't have permission to view this order."
         )
         return redirect("profile")
-    # --- Send confirmation email ---
 
+    # --- Send confirmation email ---
     subject = f"Order Confirmation - {order_number}"
     message = render_to_string(
         "checkout/confirmation_email.txt",
@@ -238,19 +245,22 @@ def checkout_success(request, order_number):
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient])
     except Exception as e:
         messages.warning(
-            request, f"Order processed, but email could not be sent: {e}"
+            request,
+            f"Order processed, but email could not be sent: {e}",
         )
+
     messages.success(
         request,
         (
             f"Order successfully processed! Your order number is "
-            f"{order_number}. "
-            f"A confirmation email will be sent to {order.email}."
+            f"{order_number}. A confirmation email will be sent to "
+            f"{order.email}."
         ),
     )
 
     if "cart" in request.session:
         del request.session["cart"]
+
     template = "checkout/checkout_success.html"
     context = {
         "order": order,
