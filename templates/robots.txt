@@ -27,8 +27,8 @@ Allow: /media/avagen_logo_text.png
 # Crawl delay (optional - be respectful to server)
 Crawl-delay: 1
 
-# Sitemap location (if you have one)
-# Sitemap: https://avagen-502553ff2610.herokuapp.com/sitemap.xml
+# Sitemap location
+Sitemap: https://avagen-502553ff2610.herokuapp.com/sitemap.xml
 
 # Specific rules for major search engines
 User-agent: Googlebot
@@ -67,4 +67,4 @@ User-agent: ImageScraper
 Disallow: /
 
 User-agent: ImageScraperBot
-Disallow: / 
+Disallow: /
