@@ -1,219 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- Avagen Digital Products Sitemap - Last Updated: 2025-01-27 -->
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+  http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-<!-- Main Pages -->
-<url>
-  <loc>{{ request.build_absolute_uri }}/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>1.0</priority>
-</url>
+  <!-- Avagen Digital Products Sitemap - Updated: 2025-10-05 -->
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>daily</changefreq>
-  <priority>0.9</priority>
-</url>
+  <!-- Main Pages -->
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/catalogue/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/faq/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.7</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/catalogue/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-<!-- User Account Pages -->
-<url>
-  <loc>{{ request.build_absolute_uri }}/accounts/login/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>yearly</changefreq>
-  <priority>0.6</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/faq/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/accounts/signup/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>yearly</changefreq>
-  <priority>0.6</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/newsletter/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/accounts/password/reset/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>yearly</changefreq>
-  <priority>0.5</priority>
-</url>
+  <!-- Product Category Pages (clean paths, no query params) -->
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/category/personalized/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/profile/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.6</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/category/seasonal/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-<!-- Shopping Pages -->
-<url>
-  <loc>{{ request.build_absolute_uri }}/cart/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.7</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/category/special-events/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/checkout/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.6</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/category/professional/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
-<!-- Newsletter -->
-<url>
-  <loc>{{ request.build_absolute_uri }}/newsletter/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.5</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/category/new-arrivals/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
 
-<!-- Product Category Pages -->
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=personalized</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/category/sales/</loc>
+    <lastmod>2025-10-05T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=themed</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
+  <!-- Example Product Pages (replace with dynamic URLs from DB) -->
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/1/</loc>
+    <lastmod>2025-09-25T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=seasonal</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/2/</loc>
+    <lastmod>2025-09-25T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=special_events</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=professional</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=social</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=formal</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=fitness</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=games</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=new_arrivals</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>daily</changefreq>
-  <priority>0.9</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=box_sets</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?category=sales</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>daily</changefreq>
-  <priority>0.9</priority>
-</url>
-
-<!-- Product Sorting Pages -->
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?sort=price&amp;direction=asc</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.6</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?sort=rating&amp;direction=desc</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.6</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/?sort=category&amp;direction=asc</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.6</priority>
-</url>
-
-<!-- Individual Product Pages -->
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/1/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.7</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/2/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.7</priority>
-</url>
-
-<url>
-  <loc>{{ request.build_absolute_uri }}/products/3/</loc>
-  <lastmod>2025-01-27T10:00:00+00:00</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.7</priority>
-</url>
+  <url>
+    <loc>https://avagen-502553ff2610.herokuapp.com/products/3/</loc>
+    <lastmod>2025-09-25T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
 </urlset>
