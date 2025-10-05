@@ -1,20 +1,53 @@
-/* Admin Orders Payment Status Styling */
+/* Admin Order Status Styling */
 .payment-status-paid {
-    color: #28a745;
+    color: #28a745 !important;
     font-weight: bold;
+    background-color: #d4edda;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid #c3e6cb;
 }
 
 .payment-status-failed {
-    color: #dc3545;
+    color: #dc3545 !important;
     font-weight: bold;
-}
-
-.payment-status-pending {
-    color: #ffc107;
-    font-weight: bold;
+    background-color: #f8d7da;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid #f5c6cb;
 }
 
 .payment-status-other {
-    color: #6c757d;
+    color: #6c757d !important;
     font-weight: bold;
+    background-color: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid #dee2e6;
+}
+
+/* Stripe ID styling */
+.stripe-id-display {
+    font-family: monospace;
+    font-size: 0.9em;
+    color: #495057;
+}
+
+/* Admin table improvements */
+.admin-orders-table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.admin-orders-table td {
+    vertical-align: middle;
+}
+
+/* Action buttons styling */
+.admin-actions {
+    margin-bottom: 10px;
+}
+
+.admin-actions select {
+    margin-right: 10px;
 }
