@@ -2,6 +2,6 @@
 
 {% block content %}{% endblock %}
 
-{% blocktrans %}Thank you for using Avagen!
-https://avagen.co.uk{% endblocktrans %}
+{% blocktrans %}Thanks,
+The Avagen Team{% endblocktrans %}
 {% endautoescape %}

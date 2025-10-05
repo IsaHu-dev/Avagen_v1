@@ -14,9 +14,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Import environment variables
 if os.path.exists(os.path.join(BASE_DIR, "env.py")):
-    import env
-# Cloudinary configuration (for media/images only)
+    import env  # noqa: F401
 
+# --------------------------------------------------------------------
+# CLOUDINARY CONFIGURATION
+# --------------------------------------------------------------------
 
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
@@ -24,8 +26,9 @@ cloudinary.config(
     api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
 )
 
-# Google Cloud Storage (Heroku-safe)
-
+# --------------------------------------------------------------------
+# GOOGLE CLOUD STORAGE (Heroku-safe)
+# --------------------------------------------------------------------
 
 GS_BUCKET_NAME = "avagen-downloads"
 
@@ -36,12 +39,15 @@ if "GCS_KEY_BASE64" in os.environ:
         creds_dict
     )
 elif "GOOGLE_APPLICATION_CREDENTIALS_JSON" in os.environ:
-    creds_dict = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+    creds_dict = json.loads(
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
+    )
     GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
         creds_dict
     )
 else:
     GS_CREDENTIALS = None
+
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
@@ -51,6 +57,10 @@ ALLOWED_HOSTS = [
     "localhost",
     ".herokuapp.com",
 ]
+
+# --------------------------------------------------------------------
+# INSTALLED APPS
+# --------------------------------------------------------------------
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -81,6 +91,10 @@ INSTALLED_APPS = [
     "useraccount",
 ]
 
+# --------------------------------------------------------------------
+# MIDDLEWARE
+# --------------------------------------------------------------------
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -96,6 +110,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = "avagen.urls"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+# --------------------------------------------------------------------
+# TEMPLATES
+# --------------------------------------------------------------------
 
 TEMPLATES = [
     {
@@ -132,18 +150,38 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-
 SITE_DOMAIN = "avagen.co.uk"
 
-EMAIL_BACKEND = "avagen.email_backend.CustomEmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = "avagen.studio@gmail.com"
-EMAIL_HOST_PASSWORD = "wjnq hcnr itwb sspf"
-DEFAULT_FROM_EMAIL = "avagen.studio@gmail.com"
+# --------------------------------------------------------------------
+# EMAIL CONFIGURATION
+# --------------------------------------------------------------------
+
+if DEBUG:
+    # Development – print emails to console instead of sending
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    DEFAULT_FROM_EMAIL = "webmaster@localhost"
+else:
+    # Production – use custom Gmail SMTP backend
+    EMAIL_BACKEND = "avagen.email_backend.CustomEmailBackend"
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
+    EMAIL_HOST_USER = os.environ.get(
+        "EMAIL_HOST_USER", "avagen.studio@gmail.com"
+    )
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 EMAIL_SUBJECT_PREFIX = "[avagen.co.uk] "
+EMAIL_TIMEOUT = 30
+EMAIL_USE_LOCALTIME = True
+EMAIL_SUBJECT_PREFIX = "[Avagen] "
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+# --------------------------------------------------------------------
+# DJANGO-ALLAUTH SETTINGS
+# --------------------------------------------------------------------
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
@@ -161,58 +199,72 @@ ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_USERNAME_REQUIRED = True
 
-# Additional allauth settings for password reset
-
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 180
 ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "/accounts/login/"
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/profile/"
 
-# Password reset settings
-
 ACCOUNT_PASSWORD_RESET_TIMEOUT = 3600  # 1 hour
 ACCOUNT_PASSWORD_RESET_TOKEN_GENERATOR = (
     "allauth.account.utils.default_token_generator"
 )
-
-# Additional settings for better password reset experience
+ACCOUNT_PASSWORD_RESET_USE_SITES_DOMAIN = True
+ACCOUNT_PASSWORD_RESET_REDIRECT_URL = "/accounts/login/"
 
 ACCOUNT_LOGIN_BY_EMAIL_ENABLED = True
 ACCOUNT_LOGIN_BY_USERNAME_ENABLED = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_SIGNUP_REDIRECT_URL = "/profile/"
 
-# Email settings for better delivery
-
-EMAIL_TIMEOUT = 30
-EMAIL_USE_LOCALTIME = True
+# --------------------------------------------------------------------
+# DATABASE
+# --------------------------------------------------------------------
 
 WSGI_APPLICATION = "avagen.wsgi.application"
-
 DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
+
+# --------------------------------------------------------------------
+# PASSWORD VALIDATION
+# --------------------------------------------------------------------
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation."
-        "UserAttributeSimilarityValidator"
-    },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {
-        "NAME": "django.contrib.auth.password_validation."
-        "CommonPasswordValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        ),
     },
     {
-        "NAME": "django.contrib.auth.password_validation."
-        "NumericPasswordValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation.MinimumLengthValidator"
+        )
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation.CommonPasswordValidator"
+        )
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation.NumericPasswordValidator"
+        )
     },
 ]
+
+# --------------------------------------------------------------------
+# INTERNATIONALIZATION
+# --------------------------------------------------------------------
 
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+# --------------------------------------------------------------------
+# STATIC & MEDIA FILES
+# --------------------------------------------------------------------
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -222,16 +274,15 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# === FILE STORAGE CONFIG ===
-
+# --------------------------------------------------------------------
+# FILE STORAGE
+# --------------------------------------------------------------------
 
 if not DEBUG:
     # Use Cloudinary for regular media/images
-
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-    # Use GCS for digital downloads if available, otherwise local filesystem
-
+    # Use GCS for digital downloads if available
     if GS_CREDENTIALS is not None:
         DIGITAL_DOWNLOAD_STORAGE = (
             "avagen.storage_backends.GoogleCloudZipStorage"
@@ -241,12 +292,13 @@ if not DEBUG:
             "django.core.files.storage.FileSystemStorage"
         )
 else:
-    # Development: local file storage for everything
-
+    # Development: use local file storage
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
     DIGITAL_DOWNLOAD_STORAGE = "django.core.files.storage.FileSystemStorage"
-# === STRIPE ===
 
+# --------------------------------------------------------------------
+# STRIPE SETTINGS
+# --------------------------------------------------------------------
 
 STRIPE_CURRENCY = "usd"
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", "")
