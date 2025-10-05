@@ -25,10 +25,18 @@ def download_file(request, product_id):
     """Handle digital file downloads for purchased products"""
     try:
         product = get_object_or_404(DigitalProduct, id=product_id)
-        digital_download = get_object_or_404(DigitalDownload, product=product)
+
+        # Check if digital download exists
+        try:
+            digital_download = DigitalDownload.objects.get(product=product)
+        except DigitalDownload.DoesNotExist:
+            messages.error(
+                request,
+                f"Download file for '{product.name}' is not available.",
+            )
+            return redirect("products")
 
         # Check if user purchased this product
-
         if not Order.objects.filter(
             user=request.user,
             stripe_pid__isnull=False,
@@ -38,8 +46,8 @@ def download_file(request, product_id):
                 request, "You need to purchase this product to download it."
             )
             return redirect("products")
-        # Check if file is accessible
 
+        # Check if file is accessible
         if (
             not digital_download.file
             or not digital_download.is_file_accessible()
@@ -49,8 +57,21 @@ def download_file(request, product_id):
                 f"Download file for '{product.name}' is not available.",
             )
             return redirect("products")
-        return FileResponse(digital_download.file, as_attachment=True)
-    except Exception as e:
+
+        # Generate filename for download
+        filename = f"{product.name}_{product.model_number}.zip"
+        
+        return FileResponse(
+            digital_download.file,
+            as_attachment=True,
+            filename=filename
+        )
+    except Http404:
+        messages.error(
+            request, "Product not found."
+        )
+        return redirect("products")
+    except Exception:
         messages.error(
             request, "Download error. Please try again or contact support."
         )

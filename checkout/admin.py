@@ -4,15 +4,6 @@ from django.utils import timezone
 from django.utils.html import format_html
 from .models import Order, OrderLineItem
 
-# Unregister social account models from admin
-
-from allauth.socialaccount.models import SocialApp, SocialAccount, SocialToken
-from allauth.account.models import EmailAddress
-
-admin.site.unregister(SocialApp)
-admin.site.unregister(SocialAccount)
-admin.site.unregister(SocialToken)
-admin.site.unregister(EmailAddress)
 
 
 class OrderLineItemAdminInline(admin.TabularInline):
@@ -47,11 +38,12 @@ class OrderAdmin(admin.ModelAdmin):
         "payment_status_colored",
         "grand_total",
         "date",
+        "stripe_pid",
     )
 
     list_filter = ("payment_status", "date", "country")
 
-    search_fields = ("order_number", "full_name", "email")
+    search_fields = ("order_number", "full_name", "email", "stripe_pid")
 
     ordering = ("-date",)
     list_per_page = 25

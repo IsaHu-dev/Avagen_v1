@@ -85,8 +85,17 @@ def checkout(request):
             order = order_form.save(commit=False)
             if request.user.is_authenticated:
                 order.user = request.user
-            order.save()
+            pass
 
+            # Store Stripe PaymentIntent id on the order
+            try:
+                pid = request.POST.get("client_secret", "").split("_secret")[0]
+            except Exception:
+                pid = ""
+            if pid:
+                order.stripe_pid = pid
+            # Save after setting stripe_pid/user
+            order.save()
             order.update_payment_status("paid")
 
             print(

@@ -5,7 +5,6 @@ Django settings for avagen project.
 import os
 import dj_database_url
 from pathlib import Path
-import google.auth
 import json
 from google.oauth2 import service_account
 import cloudinary
@@ -14,8 +13,6 @@ import base64
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Import environment variables
-
-
 if os.path.exists(os.path.join(BASE_DIR, "env.py")):
     import env
 # Cloudinary configuration (for media/images only)

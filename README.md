@@ -555,13 +555,7 @@ All code is released under the **[MIT License](https://opensource.org/licenses/M
 ### Payment Status in Order Admin 
 - Added payment status tracking to the Orders section in the Admin dashboard.
 - Features include a colour coded admin interface with a visual status of paid (green) or payment failed (red).
-
-
-
-
-
-
-
+- Stripe Payment Intent ID (PID) tracking - Full Stripe transaction reference.
 
 
 

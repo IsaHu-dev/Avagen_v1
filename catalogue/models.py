@@ -32,10 +32,10 @@ class DigitalDownload(models.Model):
 
     def is_file_accessible(self):
         """Check if the file is accessible"""
-        if not self.file or not hasattr(self.file, 'url'):
+        if not self.file:
             return False
         try:
-            import requests
-            return requests.head(self.file.url, timeout=5).status_code == 200
+            # Check if file exists in storage
+            return self.file.storage.exists(self.file.name)
         except Exception:
             return False
