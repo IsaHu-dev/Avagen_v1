@@ -5,7 +5,6 @@ from django.utils.html import format_html
 from .models import Order, OrderLineItem
 
 
-
 class OrderLineItemAdminInline(admin.TabularInline):
     """Inline admin for OrderLineItem"""
 
@@ -130,6 +129,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 # Customize admin site headers
+
 
 admin.site.site_header = "Avagen Admin"
 admin.site.site_title = "Avagen Admin Portal"

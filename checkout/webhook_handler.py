@@ -43,18 +43,14 @@ class StripeWH_Handler:
         send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [cust_email])
 
     def handle_event(self, event):
-        """
-        Handle unexpected or unknown webhook events from Stripe
-        """
+        """Handle unexpected or unknown webhook events from Stripe"""
         return HttpResponse(
             content=f'Unhandled webhook received: {event["type"]}',
             status=200,
         )
 
     def handle_payment_intent_succeeded(self, event):
-        """
-        Handle successful payment_intent.succeeded events from Stripe
-        """
+        """Handle successful payment_intent.succeeded events from Stripe"""
         intent = event.data.object
         pid = intent.id
         cart = intent.metadata.cart
@@ -136,7 +132,7 @@ class StripeWH_Handler:
                         stripe_pid="",  # Look for empty stripe_pid
                     )
                     order.stripe_pid = pid
-                    order.update_payment_status('paid')
+                    order.update_payment_status("paid")
                     print(
                         f"DEBUG: Updated existing order {order.order_number} "
                         f"with stripe_pid {pid} - Status set to PAID"
@@ -156,10 +152,11 @@ class StripeWH_Handler:
                         ).first()
                         if order:
                             order.stripe_pid = pid
-                            order.update_payment_status('paid')
+                            order.update_payment_status("paid")
                             print(
                                 f"DEBUG: Updated any order "
-                                f"{order.order_number} with stripe_pid {pid} - Status set to PAID"
+                                f"{order.order_number} with stripe_pid {pid} "
+                                "- Status set to PAID"
                             )
                             print(
                                 f"DEBUG: Order stripe_pid after save: "
@@ -202,9 +199,12 @@ class StripeWH_Handler:
                     original_cart=cart,
                     stripe_pid=pid,
                 )
-                
-                order.update_payment_status('paid')
-                print(f"DEBUG: New order {order.order_number} created with PAID status")
+
+                order.update_payment_status("paid")
+                print(
+                    f"DEBUG: New order {order.order_number} "
+                    "created with PAID status"
+                )
 
                 for item_id, item_data in json.loads(cart).items():
                     product = DigitalProduct.objects.get(id=item_id)
@@ -227,9 +227,7 @@ class StripeWH_Handler:
                 if order:
                     order.delete()
                 return HttpResponse(
-                    content=(
-                        f'Webhook received: {event["type"]} | ERROR: {e}'
-                    ),
+                    content=f'Webhook received: {event["type"]} | ERROR: {e}',
                     status=500,
                 )
 
@@ -243,15 +241,13 @@ class StripeWH_Handler:
         )
 
     def handle_payment_intent_payment_failed(self, event):
-        """
-        Handle failed payments from Stripe
-        """
+        """Handle failed payments from Stripe"""
         intent = event.data.object
         pid = intent.id
-        
+
         # Find orders with this payment intent and mark as failed
-        Order.objects.filter(stripe_pid=pid).update(payment_status='failed')
-        
+        Order.objects.filter(stripe_pid=pid).update(payment_status="failed")
+
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
             status=200,

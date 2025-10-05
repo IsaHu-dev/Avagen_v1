@@ -1,5 +1,4 @@
 """
-This code here was adapted from the boutique-ado project.
 Handles signals for order updates when line items are created,
 updated, or deleted.
 """
