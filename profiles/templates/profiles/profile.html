@@ -244,7 +244,7 @@
 <strong>Order:</strong> {{ item.order_number|truncatechars:8 }}<br>
 <strong>Date:</strong> {{ item.order_date|date:"M d, Y" }}
                                     </p>
-<div class="d-flex gap-2 flex-wrap">
+                                <div class="d-flex gap-3 flex-wrap">
                                     {% if item.download.file %}
                                         <a class="btn btn-sm btn-outline-success" download="" href="{{ item.download.file.url }}">
                                             <i class="fas fa-download"></i> Download File

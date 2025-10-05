@@ -52,6 +52,20 @@
     font-weight: 600;
 }
 
+/* Download and Review Button Spacing */
+.download-item .d-flex {
+    gap: 0.25rem !important;
+}
+
+.download-item .btn {
+    margin-right: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.download-item .btn:last-child {
+    margin-right: 0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .profile-image,
@@ -68,5 +82,10 @@
     .card .btn-outline-danger {
         width: 100%;
         margin-bottom: 0.5rem;
+    }
+    
+    .download-item .btn {
+        width: 100%;
+        margin-bottom: 0.75rem;
     }
 } 
