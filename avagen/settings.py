@@ -14,21 +14,17 @@ from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load env.py locally if present
+
 if os.path.exists(os.path.join(BASE_DIR, "env.py")):
-    import env  # noqa: F401
+    import env  
 
 # --------------------------------------------------------------------
 # CORE / SECURITY
 # --------------------------------------------------------------------
 
-DEBUG = os.getenv("DEBUG", "True").lower() in ("1", "true", "yes")
+DEBUG = False
 
-SECRET_KEY = os.getenv("SECRET_KEY") or (
-    get_random_secret_key() if DEBUG else None
-)
-if not SECRET_KEY:
-    raise RuntimeError("SECRET_KEY is required in production")
+SECRET_KEY = os.getenv("SECRET_KEY") 
 
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
@@ -36,12 +32,11 @@ if DEBUG:
         "http://localhost",
         "http://127.0.0.1",
         "http://0.0.0.0",
-        "https://localhost",
-        "https://127.0.0.1",
+        
     ]
 else:
     ALLOWED_HOSTS = os.getenv(
-        "ALLOWED_HOSTS", "127.0.0.1,localhost,.herokuapp.com"
+        "ALLOWED_HOSTS", "127.0.0.1,localhost,.herokuapp.com,.avagen.co.uk"
     ).split(",")
     ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS if h.strip()]
     CSRF_TRUSTED_ORIGINS = [
@@ -49,14 +44,15 @@ else:
     ]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-SECURE_SSL_REDIRECT = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = False  # Disabled for local development
+SESSION_COOKIE_SECURE = False  # Disabled for local development
+CSRF_COOKIE_SECURE = False  # Disabled for local development
 SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
 
-X_FRAME_OPTIONS = "ALLOWALL"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"  # Use HTTP for local development
+X_FRAME_OPTIONS = "DENY"
 
 # --------------------------------------------------------------------
 # CLOUDINARY
@@ -182,19 +178,15 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = int(os.getenv("SITE_ID", "1"))
 SITE_DOMAIN = os.getenv("SITE_DOMAIN", "avagen.co.uk")
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https" if not DEBUG else "http"
 
 # --------------------------------------------------------------------
 # EMAIL (Works on Heroku + Local Development)
 # --------------------------------------------------------------------
 
 if DEBUG:
-    # Local development: print emails to console
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     DEFAULT_FROM_EMAIL = "webmaster@localhost"
-
 else:
-    # Production (Heroku): send via Gmail SMTP
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = "smtp.gmail.com"
     EMAIL_PORT = 587
@@ -241,24 +233,15 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 180
 ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = (
-    "/accounts/login/"
-)
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = (
-    "/profile/"
-)
-
-ACCOUNT_PASSWORD_RESET_TIMEOUT = 3600  # 1 hour
-ACCOUNT_PASSWORD_RESET_TOKEN_GENERATOR = (
-    "allauth.account.utils.default_token_generator"
-)
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "/accounts/login/"
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/profile/"
+ACCOUNT_PASSWORD_RESET_TIMEOUT = 3600
+ACCOUNT_PASSWORD_RESET_TOKEN_GENERATOR = "allauth.account.utils.default_token_generator"
 ACCOUNT_PASSWORD_RESET_USE_SITES_DOMAIN = True
 ACCOUNT_PASSWORD_RESET_REDIRECT_URL = "/accounts/login/"
-
 ACCOUNT_PASSWORD_RESET_SEND_EMAIL = True
 ACCOUNT_PASSWORD_RESET_CONFIRM = True
 ACCOUNT_PASSWORD_RESET_CONFIRM_RETYPE = True
-
 ACCOUNT_LOGIN_BY_EMAIL_ENABLED = True
 ACCOUNT_LOGIN_BY_USERNAME_ENABLED = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
@@ -276,34 +259,14 @@ DATABASES = {
 }
 
 # --------------------------------------------------------------------
-# PASSWORDS
+# PASSWORD VALIDATORS
 # --------------------------------------------------------------------
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": (
-            "django.contrib.auth.password_validation."
-            "UserAttributeSimilarityValidator"
-        )
-    },
-    {
-        "NAME": (
-            "django.contrib.auth.password_validation."
-            "MinimumLengthValidator"
-        )
-    },
-    {
-        "NAME": (
-            "django.contrib.auth.password_validation."
-            "CommonPasswordValidator"
-        )
-    },
-    {
-        "NAME": (
-            "django.contrib.auth.password_validation."
-            "NumericPasswordValidator"
-        )
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 # --------------------------------------------------------------------
@@ -331,19 +294,15 @@ MEDIA_ROOT = BASE_DIR / "media"
 # FILE STORAGE
 # --------------------------------------------------------------------
 
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    if GS_CREDENTIALS:
-        DIGITAL_DOWNLOAD_STORAGE = (
-            "avagen.storage_backends.GoogleCloudZipStorage"
-        )
-    else:
-        DIGITAL_DOWNLOAD_STORAGE = (
-            "django.core.files.storage.FileSystemStorage"
-        )
-else:
+if DEBUG:
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
     DIGITAL_DOWNLOAD_STORAGE = "django.core.files.storage.FileSystemStorage"
+else:
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+    if GS_CREDENTIALS:
+        DIGITAL_DOWNLOAD_STORAGE = "avagen.storage_backends.GoogleCloudZipStorage"
+    else:
+        DIGITAL_DOWNLOAD_STORAGE = "django.core.files.storage.FileSystemStorage"
 
 # --------------------------------------------------------------------
 # STRIPE
