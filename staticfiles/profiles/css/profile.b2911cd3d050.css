@@ -1,0 +1,91 @@
+/* Profile Image Styles */
+.profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+.profile-image-placeholder {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image-placeholder i {
+    font-size: 5rem;
+    color: #6c757d;
+}
+
+/* Security Settings Buttons */
+.card .btn-outline-primary,
+.card .btn-outline-danger {
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.card .btn-outline-primary:hover,
+.card .btn-outline-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Table Improvements */
+.table th {
+    background-color: #f8f9fa;
+    border-top: none;
+    font-weight: 600;
+}
+
+/* Download and Review Button Spacing */
+.download-item .d-flex {
+    gap: 0.25rem !important;
+}
+
+.download-item .btn {
+    margin-right: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.download-item .btn:last-child {
+    margin-right: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-image,
+    .profile-image-placeholder {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .profile-image-placeholder i {
+        font-size: 3rem;
+    }
+    
+    .card .btn-outline-primary,
+    .card .btn-outline-danger {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .download-item .btn {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+} 
