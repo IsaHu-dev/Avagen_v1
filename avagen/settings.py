@@ -188,30 +188,36 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https" if not DEBUG else "http"
 # EMAIL
 # --------------------------------------------------------------------
 
-EMAIL_BACKEND = "avagen.email_backend.CustomEmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.environ.get(
-    "EMAIL_HOST_USER",
-    "avagen.studio@gmail.com",
-)
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-if not EMAIL_HOST_PASSWORD:
+# Email configuration for both development and production (Heroku)
+if DEBUG:
+    # Development - use console backend for testing
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     DEFAULT_FROM_EMAIL = "webmaster@localhost"
+else:
+    # Production (Heroku) - use SMTP backend for real email sending
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "avagen.studio@gmail.com")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 EMAIL_SUBJECT_PREFIX = "[Avagen] "
 EMAIL_TIMEOUT = 30
 EMAIL_USE_LOCALTIME = True
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_PORT = 587
+# Heroku-specific email settings
+if not DEBUG:
+    # Ensure proper email configuration for Heroku
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
+    EMAIL_HOST_PORT = 587
+    EMAIL_CONNECTION_TIMEOUT = 30
+    EMAIL_TIMEOUT = 30
+
 
 EMAIL_BACKEND_FALLBACK = "django.core.mail.backends.console.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
