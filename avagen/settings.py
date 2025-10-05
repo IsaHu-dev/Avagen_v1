@@ -16,15 +16,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 if os.path.exists(os.path.join(BASE_DIR, "env.py")):
-    import env  
-
+    import env
 # --------------------------------------------------------------------
 # CORE / SECURITY
 # --------------------------------------------------------------------
 
+
 DEBUG = False
 
-SECRET_KEY = os.getenv("SECRET_KEY") 
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
@@ -32,17 +32,16 @@ if DEBUG:
         "http://localhost",
         "http://127.0.0.1",
         "http://0.0.0.0",
-        
     ]
 else:
     ALLOWED_HOSTS = os.getenv(
-        "ALLOWED_HOSTS", "127.0.0.1,localhost,.herokuapp.com,.avagen.co.uk"
+        "ALLOWED_HOSTS",
+        "127.0.0.1,localhost,.herokuapp.com,.avagen.co.uk",
     ).split(",")
     ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS if h.strip()]
     CSRF_TRUSTED_ORIGINS = [
         f"https://{h.lstrip('.')}" for h in ALLOWED_HOSTS if h
     ]
-
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = False  # Disabled for local development
 SESSION_COOKIE_SECURE = False  # Disabled for local development
@@ -58,6 +57,7 @@ X_FRAME_OPTIONS = "DENY"
 # CLOUDINARY
 # --------------------------------------------------------------------
 
+
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
@@ -67,6 +67,7 @@ cloudinary.config(
 # --------------------------------------------------------------------
 # GOOGLE CLOUD STORAGE (Heroku-safe)
 # --------------------------------------------------------------------
+
 
 GS_BUCKET_NAME = os.getenv("GS_BUCKET_NAME", "avagen-downloads")
 GS_CREDENTIALS = None
@@ -84,6 +85,7 @@ elif os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON"):
 # --------------------------------------------------------------------
 # APPS
 # --------------------------------------------------------------------
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -117,6 +119,7 @@ INSTALLED_APPS = [
 # MIDDLEWARE
 # --------------------------------------------------------------------
 
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -136,12 +139,14 @@ WSGI_APPLICATION = "avagen.wsgi.application"
 # CRISPY FORMS
 # --------------------------------------------------------------------
 
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # --------------------------------------------------------------------
 # TEMPLATES
 # --------------------------------------------------------------------
+
 
 TEMPLATES = [
     {
@@ -183,6 +188,7 @@ SITE_DOMAIN = os.getenv("SITE_DOMAIN", "avagen.co.uk")
 # EMAIL (Works on Heroku + Local Development)
 # --------------------------------------------------------------------
 
+
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     DEFAULT_FROM_EMAIL = "webmaster@localhost"
@@ -197,10 +203,9 @@ else:
 
     if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
         raise RuntimeError(
-            "⚠️ EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set in Heroku "
-            "config vars for password reset emails to work."
+            "⚠️ EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set in "
+            "Heroku config vars for password reset emails to work."
         )
-
     DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
     SERVER_EMAIL = EMAIL_HOST_USER
     EMAIL_TIMEOUT = 30
@@ -213,6 +218,7 @@ EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 # --------------------------------------------------------------------
 # ALLAUTH
 # --------------------------------------------------------------------
+
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
@@ -236,7 +242,9 @@ ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "/accounts/login/"
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/profile/"
 ACCOUNT_PASSWORD_RESET_TIMEOUT = 3600
-ACCOUNT_PASSWORD_RESET_TOKEN_GENERATOR = "allauth.account.utils.default_token_generator"
+ACCOUNT_PASSWORD_RESET_TOKEN_GENERATOR = (
+    "allauth.account.utils.default_token_generator"
+)
 ACCOUNT_PASSWORD_RESET_USE_SITES_DOMAIN = True
 ACCOUNT_PASSWORD_RESET_REDIRECT_URL = "/accounts/login/"
 ACCOUNT_PASSWORD_RESET_SEND_EMAIL = True
@@ -251,6 +259,7 @@ ACCOUNT_SIGNUP_REDIRECT_URL = "/profile/"
 # DATABASE
 # --------------------------------------------------------------------
 
+
 DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
@@ -262,16 +271,24 @@ DATABASES = {
 # PASSWORD VALIDATORS
 # --------------------------------------------------------------------
 
+
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation."
+        "UserAttributeSimilarityValidator"
+    },
+    {"NAME": "django.contrib.auth.password_validation."
+             "MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation."
+             "CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation."
+             "NumericPasswordValidator"},
 ]
 
 # --------------------------------------------------------------------
 # I18N / TZ
 # --------------------------------------------------------------------
+
 
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
@@ -281,6 +298,7 @@ USE_TZ = True
 # --------------------------------------------------------------------
 # STATIC & MEDIA
 # --------------------------------------------------------------------
+
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -294,23 +312,35 @@ MEDIA_ROOT = BASE_DIR / "media"
 # FILE STORAGE
 # --------------------------------------------------------------------
 
+
 if DEBUG:
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
     DIGITAL_DOWNLOAD_STORAGE = "django.core.files.storage.FileSystemStorage"
 else:
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
     if GS_CREDENTIALS:
-        DIGITAL_DOWNLOAD_STORAGE = "avagen.storage_backends.GoogleCloudZipStorage"
+        DIGITAL_DOWNLOAD_STORAGE = (
+            "avagen.storage_backends.GoogleCloudZipStorage"
+        )
     else:
-        DIGITAL_DOWNLOAD_STORAGE = "django.core.files.storage.FileSystemStorage"
+        DIGITAL_DOWNLOAD_STORAGE = (
+            "django.core.files.storage.FileSystemStorage"
+        )
 
 # --------------------------------------------------------------------
 # STRIPE
 # --------------------------------------------------------------------
 
+
 STRIPE_CURRENCY = os.getenv("STRIPE_CURRENCY", "usd")
-STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", "")
-STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")
-STRIPE_WH_SECRET = os.getenv("STRIPE_WH_SECRET", "")
+STRIPE_PUBLIC_KEY = os.getenv(
+    "STRIPE_PUBLIC_KEY", ""
+)
+STRIPE_SECRET_KEY = os.getenv(
+    "STRIPE_SECRET_KEY", ""
+)
+STRIPE_WH_SECRET = os.getenv(
+    "STRIPE_WH_SECRET", ""
+)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
