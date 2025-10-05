@@ -185,39 +185,35 @@ SITE_DOMAIN = os.getenv("SITE_DOMAIN", "avagen.co.uk")
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https" if not DEBUG else "http"
 
 # --------------------------------------------------------------------
-# EMAIL
+# EMAIL (Works on Heroku + Local Development)
 # --------------------------------------------------------------------
 
-# Email configuration for both development and production (Heroku)
 if DEBUG:
-    # Development - use console backend for testing
+    # Local development: print emails to console
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     DEFAULT_FROM_EMAIL = "webmaster@localhost"
+
 else:
-    # Production (Heroku) - use SMTP backend for real email sending
+    # Production (Heroku): send via Gmail SMTP
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = "smtp.gmail.com"
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
     EMAIL_USE_SSL = False
-    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "avagen.studio@gmail.com")
-    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+    if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
+        raise RuntimeError(
+            "⚠️ EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set in Heroku "
+            "config vars for password reset emails to work."
+        )
+
     DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-EMAIL_SUBJECT_PREFIX = "[Avagen] "
-EMAIL_TIMEOUT = 30
-EMAIL_USE_LOCALTIME = True
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
-
-# Heroku-specific email settings
-if not DEBUG:
-    # Ensure proper email configuration for Heroku
-    EMAIL_USE_TLS = True
-    EMAIL_USE_SSL = False
-    EMAIL_HOST_PORT = 587
-    EMAIL_CONNECTION_TIMEOUT = 30
+    SERVER_EMAIL = EMAIL_HOST_USER
     EMAIL_TIMEOUT = 30
-
+    EMAIL_USE_LOCALTIME = True
+    EMAIL_SUBJECT_PREFIX = "[Avagen] "
 
 EMAIL_BACKEND_FALLBACK = "django.core.mail.backends.console.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
