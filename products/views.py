@@ -109,7 +109,7 @@ def add_product(request):
         messages.error(request, "Sorry, only store owners can do that.")
         return redirect(reverse("home"))
     if request.method == "POST":
-        form = ProductForm(request.POST, request.FILES)
+        form = ProductForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             product = form.save()
             messages.success(request, "Successfully added product!")
@@ -120,7 +120,7 @@ def add_product(request):
                 "Failed to add product. Please ensure the form is valid.",
             )
     else:
-        form = ProductForm()
+        form = ProductForm(user=request.user)
     template = "products/add_product.html"
     context = {
         "form": form,
@@ -134,7 +134,7 @@ def edit_product(request, product_id):
     """Edit a product in the store"""
     product = get_object_or_404(DigitalProduct, pk=product_id)
     if request.method == "POST":
-        form = ProductForm(request.POST, request.FILES, instance=product)
+        form = ProductForm(request.POST, request.FILES, instance=product, user=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, "Successfully updated product!")
@@ -145,7 +145,7 @@ def edit_product(request, product_id):
                 "Failed to update product. Please ensure the form is valid.",
             )
     else:
-        form = ProductForm(instance=product)
+        form = ProductForm(instance=product, user=request.user)
         messages.info(request, f"You are editing {product.name}")
     template = "products/edit_product.html"
     context = {
