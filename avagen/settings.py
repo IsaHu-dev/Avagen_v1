@@ -36,7 +36,7 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = os.getenv(
         "ALLOWED_HOSTS",
-        "127.0.0.1,localhost,.herokuapp.com,.avagen.co.uk",
+        "127.0.0.1,localhost,.herokuapp.com",
     ).split(",")
     ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS if h.strip()]
     CSRF_TRUSTED_ORIGINS = [
@@ -182,7 +182,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = int(os.getenv("SITE_ID", "1"))
-SITE_DOMAIN = os.getenv("SITE_DOMAIN", "avagen.co.uk")
+SITE_DOMAIN = os.getenv("SITE_DOMAIN", "avagen-502553ff2610.herokuapp.com")
 
 # --------------------------------------------------------------------
 # EMAIL (Works on Heroku + Local Development)
