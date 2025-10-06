@@ -134,7 +134,9 @@ def edit_product(request, product_id):
     """Edit a product in the store"""
     product = get_object_or_404(DigitalProduct, pk=product_id)
     if request.method == "POST":
-        form = ProductForm(request.POST, request.FILES, instance=product, user=request.user)
+        form = ProductForm(
+            request.POST, request.FILES, instance=product, user=request.user
+        )
         if form.is_valid():
             form.save()
             messages.success(request, "Successfully updated product!")
